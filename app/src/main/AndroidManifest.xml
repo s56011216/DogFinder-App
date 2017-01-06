@@ -76,6 +76,10 @@
         <activity
             android:name=".MyDogDetail"
             android:label="@string/title_activity_my_dog_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SameDogActivity"
+            android:label="@string/title_activity_same_dog"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

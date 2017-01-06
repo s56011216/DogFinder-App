@@ -24,7 +24,7 @@ public class MyDogFragment extends Fragment {
         final String[] items = new String[] { "Nancy", "ThongDee", "Boo",
                 "Carrot" };
 
-        ListView list = (ListView)myView.findViewById(R.id.listView1);
+        ListView list = (ListView)myView.findViewById(R.id.dogListView);
         CustomAdapterDog cus = new CustomAdapterDog(getActivity(),items);
         list.setAdapter(cus);
 
@@ -47,9 +47,5 @@ public class MyDogFragment extends Fragment {
 
         return myView;
 
-
     }
-
-
-
 }
