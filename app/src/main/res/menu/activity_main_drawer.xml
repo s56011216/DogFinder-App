@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_dog"
+            android:icon="@drawable/user"
+            android:title="My Dog Account" />
+        <item
+            android:id="@+id/nav_lost"
+            android:icon="@drawable/losticon"
+            android:title="Lost Post" />
+        <item
+            android:id="@+id/nav_found"
+            android:icon="@drawable/foundicon"
+            android:title="Found Post" />
+        <item
+            android:id="@+id/nav_find"
+            android:icon="@drawable/findicon"
+            android:title="Find My Dog" />
+        <item
+            android:id="@+id/nav_adopt"
+            android:icon="@drawable/adopticon"
+            android:title="Adopt" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/locationicon"
+            android:title="Map" />
+
+    </group>
+
+    <item android:title="Information">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/info"
+                android:title="About Us" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/info"
+                android:title="Foundation" />
+        </menu>
+    </item>
+
+</menu>
