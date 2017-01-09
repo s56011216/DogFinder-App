@@ -13,6 +13,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ListViewStyle.Light" parent="android:style/Widget.ListView">
+        <item name="background">@color/cardview_dark_background</item>
+        <item name="android:divider">@color/wallet_holo_blue_light</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:listSelector">@drawable/dogpins</item>
+        <item name="android:drawSelectorOnTop">false</item>
+        <item name="android:cacheColorHint">#00000000</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
