@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * Created by siriporn on 26/12/2559.
@@ -34,13 +35,11 @@ public class FoundFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
                 // TODO Auto-generated method stub
-                Log.v("TAG", "CLICKED row number: " + arg2);
-
+                Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
                 //Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
-                //myIntent.putExtra("welkerij", arg2);
                 //startActivity(myIntent);
 
             }

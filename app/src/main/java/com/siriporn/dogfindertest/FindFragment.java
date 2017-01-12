@@ -1,6 +1,7 @@
 package com.siriporn.dogfindertest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by siriporn on 26/12/2559.
@@ -30,15 +35,12 @@ public class FindFragment extends Fragment {
         list.setAdapter(cus);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
                 // TODO Auto-generated method stub
-                Log.v("TAG", "CLICKED row number: " + arg2);
+                Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
 
                 Intent myIntent = new Intent(getActivity(), SameDogActivity.class);
-                //myIntent.putExtra("welkerij", arg2);
                 startActivity(myIntent);
 
             }
@@ -47,4 +49,5 @@ public class FindFragment extends Fragment {
 
         return myView;
     }
+
 }

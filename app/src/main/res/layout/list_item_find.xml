@@ -35,6 +35,7 @@
         android:layout_marginRight="23dp"
         android:layout_marginEnd="23dp"
         android:id="@+id/alertButton"
+        android:onClick="myClickHandler"
         android:background="@color/cast_expanded_controller_seek_bar_progress_background_tint_color" />
 
 </RelativeLayout>
