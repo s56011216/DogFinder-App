@@ -239,5 +239,8 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this,MapsActivity.class);
         startActivity(intent);
     }
-
+    public void AddFoundPostClicked(View view){
+        Intent intent = new Intent(this,FoundPostActivity.class);
+        startActivity(intent);
+    }
 }

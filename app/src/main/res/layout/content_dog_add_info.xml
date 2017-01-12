@@ -25,14 +25,8 @@
             android:layout_height="148dp"
             app:srcCompat="@drawable/camera2"
             android:id="@+id/captureView"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp" />
+            tools:layout_editor_absoluteY="16dp"
+            tools:layout_editor_absoluteX="84dp" />
 
         <ImageButton
             android:layout_width="64dp"

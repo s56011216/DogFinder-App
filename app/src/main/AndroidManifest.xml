@@ -80,6 +80,10 @@
         <activity
             android:name=".SameDogActivity"
             android:label="@string/title_activity_same_dog"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FoundPostActivity"
+            android:label="@string/title_activity_found_post"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

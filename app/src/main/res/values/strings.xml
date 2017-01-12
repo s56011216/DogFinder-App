@@ -18,4 +18,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_my_dog_detail">MyDogDetail</string>
     <string name="title_activity_same_dog">SameDogActivity</string>
+    <string name="title_activity_found_post">FoundPostActivity</string>
 </resources>
