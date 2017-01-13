@@ -133,8 +133,14 @@
             android:layout_height="146dp"
             android:textSize="18sp"
             android:gravity="top|left"
-            tools:layout_editor_absoluteY="86dp"
-            tools:layout_editor_absoluteX="8dp" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/foundUserPicWritePost"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="16dp" />
 
         <Button
             android:text="POST"
