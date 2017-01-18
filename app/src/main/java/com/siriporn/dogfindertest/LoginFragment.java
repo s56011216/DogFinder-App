@@ -33,6 +33,10 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -40,6 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.R.attr.data;
+import static android.R.attr.name;
 import static android.R.attr.tag;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.facebook.login.widget.ProfilePictureView.TAG;
@@ -49,7 +54,6 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
  */
 public class LoginFragment extends Fragment {
 
-    private String id,first_name,last_name,email;
     private TextView mTextDetails;
     private CallbackManager mCallbackManager;
     private AccessTokenTracker mTokenTracker;
@@ -62,8 +66,10 @@ public class LoginFragment extends Fragment {
             mTextDetails.setText(constructWelcomeMessage(profile));
 
             //get data from fb
-            String accessToken = loginResult.getAccessToken().getToken();
+            accessToken = loginResult.getAccessToken().getToken();
+            token_exp = loginResult.getAccessToken().getExpires();
             Log.i("accessToken", accessToken);
+            Log.i("accessToken_exp", token_exp.toString());
 
             GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
 
@@ -72,13 +78,11 @@ public class LoginFragment extends Fragment {
                     Log.i("LoginActivity", response.toString());
                     // Get facebook data from login
                     Bundle bFacebookData = getFacebookData(object);
-
                     connectToServer();
-
                 }
             });
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location");
+            parameters.putString("fields", "id, first_name, last_name, email, birthday");
             request.setParameters(parameters);
             request.executeAsync();
         }
@@ -94,21 +98,27 @@ public class LoginFragment extends Fragment {
         }
     };
 
-
+    private String id, firstname, lastname, name, email, accessToken;
+    private Date birth_date, token_exp;
     public void connectToServer() {
         User user = new User();
         user.setFb_id(id);
+        user.setFb_name(name);
+        user.setEmail(email);
+        user.setBirth_date(birth_date);
+        user.setFb_token(accessToken);
+        user.setFb_token_exp(token_exp);
+
         UserServiceImp.getInstance().login(user, new Callback<Map<String,Object>>() {
             @Override
             public void onResponse(Call<Map<String,Object>> call, Response<Map<String,Object>> response) {
                 //SharedPreferences sp = this.getActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
-                SharedPreferences sp = MainActivity.context.getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+                SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 Map<String, Object> user_data = (Map<String, Object>) response.body().get("payload");
                 editor.putString("token", user_data.get("token").toString());
                 editor.commit();
             }
-
             @Override
             public void onFailure(Call<Map<String,Object>> call, Throwable t) {
                 Log.e("error", t.getMessage());
@@ -116,12 +126,23 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private Bundle getFacebookData(JSONObject object) {
 
+    private Bundle getFacebookData(JSONObject object) {
         try {
             Bundle bundle = new Bundle();
-            id = object.getString("id"); //id
-            Log.d("id = ", id);
+            id = object.getString("id");
+            email = object.getString("email");
+            firstname = object.getString("first_name");
+            lastname = object.getString("last_name");
+            name = firstname +" "+ lastname;
+            //birth_date = object.getString("birthday");
+
+            SimpleDateFormat dataFormat = new SimpleDateFormat("MM/dd/yyyy");
+            try {
+                birth_date = dataFormat.parse(object.getString("birthday"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             try {
                 URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=200");
@@ -133,6 +154,7 @@ public class LoginFragment extends Fragment {
                 return null;
             }
 
+
             bundle.putString("idFacebook", id);
             if (object.has("first_name"))
                 bundle.putString("first_name", object.getString("first_name"));
@@ -140,12 +162,8 @@ public class LoginFragment extends Fragment {
                 bundle.putString("last_name", object.getString("last_name"));
             if (object.has("email"))
                 bundle.putString("email", object.getString("email"));
-            if (object.has("gender"))
-                bundle.putString("gender", object.getString("gender"));
             if (object.has("birthday"))
                 bundle.putString("birthday", object.getString("birthday"));
-            if (object.has("location"))
-                bundle.putString("location", object.getJSONObject("location").getString("name"));
 
             return bundle;
 
@@ -223,7 +241,7 @@ public class LoginFragment extends Fragment {
     private void setupLoginButton(View view) {
         LoginButton mButtonLogin = (LoginButton) view.findViewById(R.id.login_button);
         mButtonLogin.setFragment(this);
-        mButtonLogin.setReadPermissions("user_friends");
+        mButtonLogin.setReadPermissions(Arrays.asList("user_birthday"));
         mButtonLogin.registerCallback(mCallbackManager, mCallback);
     }
 

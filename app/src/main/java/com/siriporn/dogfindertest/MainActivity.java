@@ -248,7 +248,5 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this,FoundPostActivity.class);
         startActivity(intent);
     }
-    public static Context getContext() {
-           return context;
-    }
+    public static Context getContext() {return context;}
 }

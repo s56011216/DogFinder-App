@@ -1,5 +1,6 @@
 package com.siriporn.dogfindertest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -46,6 +47,7 @@ public class Login extends AppCompatActivity
         // If the access token is available already assign it.
         accessToken = AccessToken.getCurrentAccessToken();
     }
+
 
         @Override
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {

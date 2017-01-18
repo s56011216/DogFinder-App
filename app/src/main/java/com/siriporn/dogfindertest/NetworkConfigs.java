@@ -21,7 +21,7 @@ public class NetworkConfigs {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
-                Context context = MainActivity.getContext();
+                Context context = DogFinderApplication.getContext();
                 SharedPreferences sp = context.getSharedPreferences("USER_DATA", context.MODE_PRIVATE);
                 String token = sp.getString("token", null);
                 if(token == null)
