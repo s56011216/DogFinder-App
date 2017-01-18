@@ -1,7 +1,9 @@
 package com.siriporn.dogfindertest;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,15 +25,23 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.siriporn.dogfindertest.Models.User;
+import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.R.attr.data;
 import static android.R.attr.tag;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.facebook.login.widget.ProfilePictureView.TAG;
 
 /**
@@ -63,7 +73,7 @@ public class LoginFragment extends Fragment {
                     // Get facebook data from login
                     Bundle bFacebookData = getFacebookData(object);
 
-
+                    connectToServer();
 
                 }
             });
@@ -83,6 +93,28 @@ public class LoginFragment extends Fragment {
             Log.d("VIVZ", "onError " + e);
         }
     };
+
+
+    public void connectToServer() {
+        User user = new User();
+        user.setFb_id(id);
+        UserServiceImp.getInstance().login(user, new Callback<Map<String,Object>>() {
+            @Override
+            public void onResponse(Call<Map<String,Object>> call, Response<Map<String,Object>> response) {
+                //SharedPreferences sp = this.getActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+                SharedPreferences sp = MainActivity.context.getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                Map<String, Object> user_data = (Map<String, Object>) response.body().get("payload");
+                editor.putString("token", user_data.get("token").toString());
+                editor.commit();
+            }
+
+            @Override
+            public void onFailure(Call<Map<String,Object>> call, Throwable t) {
+                Log.e("error", t.getMessage());
+            }
+        });
+    }
 
     private Bundle getFacebookData(JSONObject object) {
 
@@ -203,6 +235,7 @@ public class LoginFragment extends Fragment {
         }
         return stringBuffer.toString();
     }
+
 
 
 }

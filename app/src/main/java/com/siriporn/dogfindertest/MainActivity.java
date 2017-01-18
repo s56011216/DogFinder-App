@@ -32,6 +32,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,9 +42,11 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    public static Context context;
     //location user google map
     LocationManager locationManager;
     LocationListener locationListener;
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -242,5 +247,8 @@ public class MainActivity extends AppCompatActivity
     public void AddFoundPostClicked(View view){
         Intent intent = new Intent(this,FoundPostActivity.class);
         startActivity(intent);
+    }
+    public static Context getContext() {
+           return context;
     }
 }
