@@ -39,6 +39,7 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
  */
 public class LoginFragment extends Fragment {
 
+    private String id,first_name,last_name,email;
     private TextView mTextDetails;
     private CallbackManager mCallbackManager;
     private AccessTokenTracker mTokenTracker;
@@ -49,7 +50,6 @@ public class LoginFragment extends Fragment {
             Log.d("VIVZ", "onSuccess");
             Profile profile = Profile.getCurrentProfile();
             mTextDetails.setText(constructWelcomeMessage(profile));
-
 
             //get data from fb
             String accessToken = loginResult.getAccessToken().getToken();
@@ -62,6 +62,9 @@ public class LoginFragment extends Fragment {
                     Log.i("LoginActivity", response.toString());
                     // Get facebook data from login
                     Bundle bFacebookData = getFacebookData(object);
+
+
+
                 }
             });
             Bundle parameters = new Bundle();
@@ -85,10 +88,11 @@ public class LoginFragment extends Fragment {
 
         try {
             Bundle bundle = new Bundle();
-            String id = object.getString("id");
+            id = object.getString("id"); //id
+            Log.d("id = ", id);
 
             try {
-                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=200");
                 Log.i("profile_pic", profile_pic + "");
                 bundle.putString("profile_pic", profile_pic.toString());
 
