@@ -23,7 +23,7 @@ public class UserServiceImp {
 
     public static UserServiceImp getInstance() {
         if(retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create()).build();
+            retrofit = NetworkConfigs.getRestAdapter(BASE_URL);
             service = retrofit.create(UserService.class);
             userService = new UserServiceImp();
         }

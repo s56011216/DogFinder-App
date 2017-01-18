@@ -118,6 +118,10 @@ public class LoginFragment extends Fragment {
                 Map<String, Object> user_data = (Map<String, Object>) response.body().get("payload");
                 editor.putString("token", user_data.get("token").toString());
                 editor.commit();
+
+                //intent
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                startActivity(intent);
             }
             @Override
             public void onFailure(Call<Map<String,Object>> call, Throwable t) {
@@ -153,7 +157,6 @@ public class LoginFragment extends Fragment {
                 e.printStackTrace();
                 return null;
             }
-
 
             bundle.putString("idFacebook", id);
             if (object.has("first_name"))

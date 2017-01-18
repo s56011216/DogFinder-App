@@ -3,12 +3,16 @@ package com.siriporn.dogfindertest;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Moobi on 10-Jan-17.
@@ -35,5 +39,9 @@ public class NetworkConfigs {
         }).build();
 
         return client;
+    }
+
+    public static Retrofit getRestAdapter(String baseUrl) {
+        return new Retrofit.Builder().baseUrl(baseUrl).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create((new GsonBuilder()).setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())).build();
     }
 }

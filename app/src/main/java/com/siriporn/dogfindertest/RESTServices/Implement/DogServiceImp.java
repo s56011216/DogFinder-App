@@ -2,6 +2,8 @@ package com.siriporn.dogfindertest.RESTServices.Implement;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.NetworkConfigs;
 import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
@@ -35,7 +37,7 @@ public class DogServiceImp {
 
     public static DogServiceImp getInstance() {
         if(retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create()).build();
+            retrofit = NetworkConfigs.getRestAdapter(BASE_URL);
             service = retrofit.create(DogService.class);
             dogService = new DogServiceImp();
         }
