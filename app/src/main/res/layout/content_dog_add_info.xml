@@ -78,15 +78,16 @@
             app:layout_constraintTop_toBottomOf="@+id/captureButton" />
 
         <TextView
-            android:layout_width="142dp"
-            android:layout_height="70dp"
+            android:layout_width="149dp"
+            android:layout_height="37dp"
             android:ems="10"
-            android:id="@+id/breedText"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="@+id/nameText"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/nameText" />
+            app:layout_constraintTop_toBottomOf="@+id/nameText"
+            app:layout_constraintRight_toLeftOf="@+id/imageButton9"
+            app:layout_constraintLeft_toLeftOf="@+id/nameText"
+            android:id="@+id/breedText" />
 
         <EditText
             android:layout_width="142dp"
@@ -101,9 +102,9 @@
             android:background="@color/com_facebook_button_background_color_focused"
             app:layout_constraintLeft_toLeftOf="@+id/textView4"
             app:layout_constraintRight_toRightOf="@+id/textView4"
+            app:layout_constraintHorizontal_bias="0.0"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            app:layout_constraintHorizontal_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <ImageButton
             android:layout_width="134dp"
@@ -111,9 +112,9 @@
             app:srcCompat="@drawable/ic_search36dp"
             android:id="@+id/imageButton9"
             android:onClick="searchClicked"
-            app:layout_constraintRight_toRightOf="@+id/nameText"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/nameText" />
+            app:layout_constraintTop_toBottomOf="@+id/nameText"
+            app:layout_constraintRight_toRightOf="@+id/nameText" />
 
         <ImageView
             android:layout_width="134dp"
@@ -146,18 +147,6 @@
             app:layout_constraintTop_toBottomOf="@+id/noticeText" />
 
         <TextView
-            android:text="Noticeable"
-            android:layout_width="140dp"
-            android:layout_height="36dp"
-            android:id="@+id/textView4"
-            android:background="@color/com_facebook_button_background_color_focused_disabled"
-            android:padding="8dp"
-            android:gravity="center_vertical|center_horizontal"
-            app:layout_constraintLeft_toLeftOf="@+id/breedText"
-            app:layout_constraintRight_toRightOf="@+id/breedText"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/breedText" />
-        <TextView
             android:text="Location"
             android:layout_width="134dp"
             android:layout_height="36dp"
@@ -184,6 +173,31 @@
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp" />
+
+        <TextView
+            android:text="Noticeable"
+            android:layout_width="140dp"
+            android:layout_height="36dp"
+            android:id="@+id/textView4"
+            android:background="@color/com_facebook_button_background_color_focused_disabled"
+            android:padding="8dp"
+            android:gravity="center_vertical|center_horizontal"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintLeft_toLeftOf="@+id/ageText" />
+
+        <EditText
+            android:layout_width="138dp"
+            android:layout_height="33dp"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/ageText"
+            android:hint="Age"
+            app:layout_constraintRight_toLeftOf="@+id/imageButton9"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/breedText"
+            app:layout_constraintTop_toBottomOf="@+id/breedText" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

@@ -1,10 +1,8 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +10,27 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterFound;
+import com.siriporn.dogfindertest.R;
+
 /**
  * Created by siriporn on 26/12/2559.
  */
 
-public class LostFragment extends Fragment {
+public class FoundFragment extends Fragment {
     View myView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.layout_lost, container, false);
+        myView = inflater.inflate(R.layout.layout_found, container, false);
+
         final String[] items = new String[] { "Siriporn Oil", "Pakin", "Warisara",
                 "Schonwan" };
+        final String[] itemsDate = new String[] { "A", "B", "C",
+                "D" };
 
-        ListView list = (ListView)myView.findViewById(R.id.lostListView);
-        CustomAdapterLost cus = new CustomAdapterLost(getActivity(),items);
+        ListView list = (ListView)myView.findViewById(R.id.foundListView);
+        CustomAdapterFound cus = new CustomAdapterFound(getActivity(),items, itemsDate);
         list.setAdapter(cus);
 
 
@@ -43,6 +47,7 @@ public class LostFragment extends Fragment {
             }
 
         });
+
         return myView;
     }
 }

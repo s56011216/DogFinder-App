@@ -1,22 +1,16 @@
 package com.siriporn.dogfindertest;
 
-import android.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,8 +25,11 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
+import com.siriporn.dogfindertest.Fragments.AdoptFragment;
+import com.siriporn.dogfindertest.Fragments.FindFragment;
+import com.siriporn.dogfindertest.Fragments.FoundFragment;
+import com.siriporn.dogfindertest.Fragments.LostFragment;
+import com.siriporn.dogfindertest.Fragments.MyDogFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -139,7 +136,43 @@ public class MainActivity extends AppCompatActivity
         }
         */// end user location google map --------------
     }
+/*//ActionBar Title dynamically change with fragment
+    private void displayFragment(int position) {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        String title = "";
+        switch (position) {
+            case 0:
+                fragment = new MyDogFragment();
+                title = "My Dog";
+                break;
+            case 1:
+                fragment = new LostFragment();
+                title = "Lost Post ";
+                break;
+            case 2:
+                fragment = new FoundFragment();
+                title = "Found Post";
+                break;
+            case 3:
+                fragment = new FindFragment();
+                title = "Find My Dog";
+                break;
 
+            default:
+                break;
+        }
+
+        // update selected fragment and title
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container_all, fragment).commit();
+            getSupportActionBar().setTitle(title);
+            // change icon to arrow drawable
+            //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow);
+        }
+    }
+    */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

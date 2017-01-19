@@ -1,4 +1,4 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.CustomAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,12 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapterLost extends BaseAdapter {
+import com.siriporn.dogfindertest.R;
+
+public class CustomAdapterDog extends BaseAdapter {
 
     String items[];
     LayoutInflater mInflater;
 
-    public CustomAdapterLost(Context context, String[] items) {
+    public CustomAdapterDog(Context context, String[] items) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
     }
@@ -39,10 +41,10 @@ public class CustomAdapterLost extends BaseAdapter {
 
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.list_item_lost,parent,false);
+            convertView = mInflater.inflate(R.layout.list_item_mydog,parent,false);
             holder = new ViewHolder();
-            holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
-            holder.iv = (ImageView) convertView.findViewById(R.id.lostUserPicPost);
+            holder.tv = (TextView) convertView.findViewById(R.id.nameDogAccount);
+            holder.iv = (ImageView) convertView.findViewById(R.id.imgDogAccount);
             convertView.setTag(holder);
         }
         else

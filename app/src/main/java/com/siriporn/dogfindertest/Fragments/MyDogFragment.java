@@ -1,17 +1,19 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
+import com.siriporn.dogfindertest.MyDogDetail;
+import com.siriporn.dogfindertest.R;
 
 /**
  * Created by siriporn on 26/12/2559.

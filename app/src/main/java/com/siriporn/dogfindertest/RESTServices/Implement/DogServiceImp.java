@@ -12,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,34 +46,26 @@ public class DogServiceImp {
         return dogService;
     }
 
-    public void uploadFile() {
-        File file = null;
-        try {
-            file = File.createTempFile("hello", ".hi");
-            file.deleteOnExit();
-            BufferedWriter out = new BufferedWriter(new FileWriter(file));
-            out.write("hiiiiiii!! สวัสกัจ้า");
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("path", file.getName(), requestFile);
-        String descriptionString = "this is fine!!";
-        //RequestBody description = RequestBody.create(MediaType.parse("text/plain"), descriptionString);
-        Dog dog = new Dog();
-        dog.setAge(5);
-        dog.setName("sugust");
-        Call call = service.uploadFile("sugust", body);
-        call.enqueue(new Callback<ResponseBody>() {
+    public void newDog(Dog dog, Callback callback) {
+        Call call = service.newDog(dog);
+        call.enqueue(callback);
+    }
+
+    public void uploadImage(final Dog dog, File file, final Callback callback) {
+        FileServiceImp.getInstance().uploadImage(null, file, new Callback<Map<String, Object>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("hello", "file is coming");
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                Boolean success = Boolean.valueOf("" + response.body().get("success"));
+                if(success) {
+                    Map<String, Object> payload = (Map<String, Object>) response.body().get("payload");
+                    Call addImageCall = service.addImage("application/json", dog, Integer.parseInt(payload.get("image_id").toString()));
+                    addImageCall.enqueue(callback);
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("hello", "problems");
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+
             }
         });
     }

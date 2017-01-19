@@ -1,8 +1,11 @@
 package com.siriporn.dogfindertest;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +14,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -31,15 +35,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.User;
+import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
+import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DogAddInfoActivity extends AppCompatActivity {
 
     private Uri mImageCaptureUri;
     private ImageView mImageView;
     private AlertDialog dialog;
+    private Bitmap photo;
+    private String name, breed, note;
+    private Integer age;
+    private File file;
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
+    EditText nameText, ageText, noticeText;
+    TextView breedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +68,17 @@ public class DogAddInfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         captureImageInitialization();
 
+        nameText = (EditText) findViewById(R.id.nameText);
+        ageText = (EditText) findViewById(R.id.ageText);
+        noticeText = (EditText) findViewById(R.id.noticeText);
+        breedView = (TextView) findViewById(R.id.breedText);
+
+        // select breed
+        breed = getIntent().getStringExtra("breed_select");
+        breedView.setText(String.valueOf(breed)); // Data breed
+
         Button button = (Button) findViewById(R.id.captureButton);
-        mImageView = (ImageView) findViewById(R.id.captureView  );
+        mImageView = (ImageView) findViewById(R.id.captureView );
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,13 +114,16 @@ public class DogAddInfoActivity extends AppCompatActivity {
                      * and file name. Note that this Uri variable also used by
                      * gallery app to hold the selected image path.
                      */
+
                     mImageCaptureUri = Uri.fromFile(new File(Environment
                             .getExternalStorageDirectory(), "tmp_avatar_"
                             + String.valueOf(System.currentTimeMillis())
                             + ".jpg"));
-
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
                             mImageCaptureUri);
+                    Log.d("UriImage",mImageCaptureUri.toString());
+
+
 
                     try {
                         intent.putExtra("return-data", true);
@@ -122,6 +153,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
         dialog = builder.create();
     }
+
 
     public class CropOptionAdapter extends ArrayAdapter<CropOption> {
         private ArrayList<CropOption> mOptions;
@@ -192,17 +224,16 @@ public class DogAddInfoActivity extends AppCompatActivity {
                  * display it on imageview.
                  */
                 if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data");
-
+                    photo = extras.getParcelable("data");
                     mImageView.setImageBitmap(photo);
                 }
 
-                File f = new File(mImageCaptureUri.getPath());
+                file = new File(mImageCaptureUri.getPath());
                 /**
                  * Delete the temporary image
                  */
-                if (f.exists())
-                    f.delete();
+                if (file.exists())
+                    file.delete();
 
                 break;
 
@@ -314,26 +345,65 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 alert.show();
             }
         }
-
     }
-    public void nextClicked(View view) {
 
-        EditText nameText = (EditText) findViewById(R.id.nameText);
-
-        EditText noticeText = (EditText) findViewById(R.id.noticeText);
-
-        Log.i("Username", nameText.getText().toString());
-
-        Log.i("Password", noticeText.getText().toString());
-
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-
-    }
     public void searchClicked(View view) {
         Intent intent = new Intent(this,SearchBreed.class);
         startActivity(intent);
 
     }
 
+    public void nextClicked(View view) {
+
+        name = nameText.getText().toString();
+        breed = breedView.getText().toString();
+        age = Integer.parseInt( ageText.getText().toString());
+        note = noticeText.getText().toString();
+
+        Dog dog = new Dog();
+        dog.setName(name);
+        dog.setBleed(breed);
+        dog.setAge(age);
+        dog.setNote(note);
+
+
+/*
+        //add new dog
+        DogServiceImp.getInstance().newDog(dog , new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                Map<String, Object> dog_data = (Map<String, Object>) response.body().get("payload");
+                editor.putString("token", dog_data.get("token").toString());
+                editor.commit();
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Log.e("error", t.getMessage());
+            }
+        });
+
+        //Upload Image
+        DogServiceImp.getInstance().uploadImage(dog, file, new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                Map<String, Object> dog_data = (Map<String, Object>) response.body().get("payload");
+                editor.putString("token", dog_data.get("token").toString());
+                editor.commit();
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Log.e("error", t.getMessage());
+            }
+        });
+*/
+        //Intent intent = new Intent(this,MainActivity.class);
+        //startActivity(intent);
+
+    }
 }

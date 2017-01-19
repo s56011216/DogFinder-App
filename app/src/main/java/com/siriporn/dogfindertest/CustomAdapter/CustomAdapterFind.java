@@ -1,4 +1,4 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.CustomAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,20 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapterFound extends BaseAdapter {
+import com.siriporn.dogfindertest.R;
+
+public class CustomAdapterFind extends BaseAdapter {
 
     String items[];
-    String itemsDate[];
     LayoutInflater mInflater;
 
-    public CustomAdapterFound(Context context, String[] items, String[] itemsDate) {
+    public CustomAdapterFind(Context context, String[] items) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
-        this.itemsDate = itemsDate;
     }
 
     @Override
-    public int getCount() {return items.length;}
+    public int getCount() {
+        return items.length;
+    }
+
     @Override
     public Object getItem(int position) {
         return position;
@@ -34,15 +37,15 @@ public class CustomAdapterFound extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        ViewHolder holder = null;
 
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.list_item_found,parent,false);
+            convertView = mInflater.inflate(R.layout.list_item_find,parent,false);
             holder = new ViewHolder();
-            holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
-            holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);
-            holder.iv = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
+            holder.tv = (TextView) convertView.findViewById(R.id.nameDogFind);
+            holder.iv = (ImageView) convertView.findViewById(R.id.imgDogFind);
+            //holder.iv2 = (ImageView) convertView.findViewById(R.id.alertButton);
             convertView.setTag(holder);
         }
         else
@@ -50,14 +53,13 @@ public class CustomAdapterFound extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv.setText(items[position]);
-        holder.tv2.setText(itemsDate[position]);
         return convertView;
     }
 
     static class ViewHolder
     {
         ImageView iv;
+        //ImageView iv2;
         TextView tv;
-        TextView tv2;
     }
 }

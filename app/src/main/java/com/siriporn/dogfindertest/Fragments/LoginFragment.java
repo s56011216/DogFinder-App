@@ -1,4 +1,4 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,7 +25,10 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.siriporn.dogfindertest.DogFinderApplication;
+import com.siriporn.dogfindertest.MainActivity;
 import com.siriporn.dogfindertest.Models.User;
+import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
 
 import org.json.JSONException;
@@ -112,7 +115,6 @@ public class LoginFragment extends Fragment {
         UserServiceImp.getInstance().login(user, new Callback<Map<String,Object>>() {
             @Override
             public void onResponse(Call<Map<String,Object>> call, Response<Map<String,Object>> response) {
-                //SharedPreferences sp = this.getActivity().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
                 SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 Map<String, Object> user_data = (Map<String, Object>) response.body().get("payload");

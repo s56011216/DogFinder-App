@@ -1,4 +1,4 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.CustomAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,12 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapterFind extends BaseAdapter {
+import com.siriporn.dogfindertest.R;
+
+public class CustomAdapterLost extends BaseAdapter {
 
     String items[];
     LayoutInflater mInflater;
 
-    public CustomAdapterFind(Context context, String[] items) {
+    public CustomAdapterLost(Context context, String[] items) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
     }
@@ -35,15 +37,14 @@ public class CustomAdapterFind extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.list_item_find,parent,false);
+            convertView = mInflater.inflate(R.layout.list_item_lost,parent,false);
             holder = new ViewHolder();
-            holder.tv = (TextView) convertView.findViewById(R.id.nameDogFind);
-            holder.iv = (ImageView) convertView.findViewById(R.id.imgDogFind);
-            //holder.iv2 = (ImageView) convertView.findViewById(R.id.alertButton);
+            holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
+            holder.iv = (ImageView) convertView.findViewById(R.id.lostUserPicPost);
             convertView.setTag(holder);
         }
         else
@@ -57,7 +58,6 @@ public class CustomAdapterFind extends BaseAdapter {
     static class ViewHolder
     {
         ImageView iv;
-        //ImageView iv2;
         TextView tv;
     }
 }

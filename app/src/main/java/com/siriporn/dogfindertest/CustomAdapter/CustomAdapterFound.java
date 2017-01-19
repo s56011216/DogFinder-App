@@ -1,4 +1,4 @@
-package com.siriporn.dogfindertest;
+package com.siriporn.dogfindertest.CustomAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,21 +8,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapterDog extends BaseAdapter {
+import com.siriporn.dogfindertest.R;
+
+public class CustomAdapterFound extends BaseAdapter {
 
     String items[];
+    String itemsDate[];
     LayoutInflater mInflater;
 
-    public CustomAdapterDog(Context context, String[] items) {
+    public CustomAdapterFound(Context context, String[] items, String[] itemsDate) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
+        this.itemsDate = itemsDate;
     }
 
     @Override
-    public int getCount() {
-        return items.length;
-    }
-
+    public int getCount() {return items.length;}
     @Override
     public Object getItem(int position) {
         return position;
@@ -39,10 +40,11 @@ public class CustomAdapterDog extends BaseAdapter {
 
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.list_item_mydog,parent,false);
+            convertView = mInflater.inflate(R.layout.list_item_found,parent,false);
             holder = new ViewHolder();
-            holder.tv = (TextView) convertView.findViewById(R.id.nameDogAccount);
-            holder.iv = (ImageView) convertView.findViewById(R.id.imgDogAccount);
+            holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
+            holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);
+            holder.iv = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
             convertView.setTag(holder);
         }
         else
@@ -50,6 +52,7 @@ public class CustomAdapterDog extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv.setText(items[position]);
+        holder.tv2.setText(itemsDate[position]);
         return convertView;
     }
 
@@ -57,5 +60,6 @@ public class CustomAdapterDog extends BaseAdapter {
     {
         ImageView iv;
         TextView tv;
+        TextView tv2;
     }
 }

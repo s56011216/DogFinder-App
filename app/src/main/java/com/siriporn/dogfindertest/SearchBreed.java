@@ -18,6 +18,7 @@ import static java.util.Arrays.asList;
 
 public class SearchBreed extends AppCompatActivity {
 
+    public String breed_select = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,9 @@ public class SearchBreed extends AppCompatActivity {
 
         ListView friendsListView = (ListView)findViewById(R.id.breedsListView);
 
-        final ArrayList<String> mySelect = new ArrayList<String>(asList("A", "B", "C", "D"));
+        final ArrayList<String> mySelect = new ArrayList<String>(asList
+                        ("Airedale Terrier", "Akita", "Alaskan malamute", "Anatolian shepherd","Australian Cattle"
+                        , "Beagle", "Chow", "Golden", "Italian Greyhound", "Maltese"));
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mySelect);
 
@@ -38,12 +41,14 @@ public class SearchBreed extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Toast.makeText(getApplicationContext(), "Select " + mySelect.get(position), Toast.LENGTH_SHORT).show();
-
+                breed_select = mySelect.get(position);
+                doneClicked();
             }
         });
     }
-    public void doneClicked(View view){
+    public void doneClicked(){
         Intent intent = new Intent(this,DogAddInfoActivity.class);
+        intent.putExtra("breed_select", breed_select);
         startActivity(intent);
     }
 
