@@ -57,8 +57,8 @@ public class DogAddInfoActivity extends AppCompatActivity {
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
-    EditText nameText, ageText, noticeText;
-    TextView breedView;
+    //EditText nameText, ageText, noticeText;
+    // TextView breedView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +68,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         captureImageInitialization();
 
-        nameText = (EditText) findViewById(R.id.nameText);
-        ageText = (EditText) findViewById(R.id.ageText);
-        noticeText = (EditText) findViewById(R.id.noticeText);
-        breedView = (TextView) findViewById(R.id.breedText);
-
+        TextView breedView = (TextView) findViewById(R.id.breedText);
         // select breed
         breed = getIntent().getStringExtra("breed_select");
         breedView.setText(String.valueOf(breed)); // Data breed
@@ -355,8 +351,13 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
     public void nextClicked(View view) {
 
+        EditText nameText = (EditText) findViewById(R.id.nameText);
+        EditText ageText = (EditText) findViewById(R.id.ageText);
+        EditText noticeText = (EditText) findViewById(R.id.noticeText);
+
+
         name = nameText.getText().toString();
-        breed = breedView.getText().toString();
+
         age = Integer.parseInt( ageText.getText().toString());
         note = noticeText.getText().toString();
 
@@ -366,17 +367,15 @@ public class DogAddInfoActivity extends AppCompatActivity {
         dog.setAge(age);
         dog.setNote(note);
 
-
-/*
         //add new dog
         DogServiceImp.getInstance().newDog(dog , new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                Map<String, Object> dog_data = (Map<String, Object>) response.body().get("payload");
-                editor.putString("token", dog_data.get("token").toString());
-                editor.commit();
+                Boolean success = Boolean.valueOf("" + response.body().get("success"));
+                if (success) {
+                    Map<String, Object> dog_data = (Map<String, Object>) response.body().get("payload");
+                    dog_data.get("dog_id");
+                }
             }
 
             @Override
@@ -389,11 +388,11 @@ public class DogAddInfoActivity extends AppCompatActivity {
         DogServiceImp.getInstance().uploadImage(dog, file, new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                Map<String, Object> dog_data = (Map<String, Object>) response.body().get("payload");
-                editor.putString("token", dog_data.get("token").toString());
-                editor.commit();
+                Boolean success = Boolean.valueOf("" + response.body().get("success"));
+                if (success) {
+                    //up more pic 5-6 pic
+                }
+
             }
 
             @Override
@@ -401,7 +400,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 Log.e("error", t.getMessage());
             }
         });
-*/
+
         //Intent intent = new Intent(this,MainActivity.class);
         //startActivity(intent);
 
