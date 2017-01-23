@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Dog {
+    private int id;
     private String name;
     private String bleed;
     private String note;

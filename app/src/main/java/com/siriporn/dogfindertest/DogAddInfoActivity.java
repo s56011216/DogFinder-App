@@ -48,12 +48,12 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
     private Uri mImageCaptureUri;
     private ImageView mImageView;
-    private AlertDialog dialog;
+    private AlertDialog dialog, dialogSearch;
     private Bitmap photo;
     private String name, breed, note;
     private Integer age;
     private File file;
-    private Button button;
+    private Button button , searchBtn;
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
@@ -73,6 +73,17 @@ public class DogAddInfoActivity extends AppCompatActivity {
         breed = getIntent().getStringExtra("breed_select");
         breedView.setText(String.valueOf(breed)); // Data breed
 
+        button = (Button) findViewById(R.id.captureButton);
+        mImageView = (ImageView) findViewById(R.id.captureView );
+        /*
+        // add search text
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogSearch.show();
+            }
+        });
+        */
         button = (Button) findViewById(R.id.captureButton);
         mImageView = (ImageView) findViewById(R.id.captureView );
 
@@ -149,6 +160,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
         dialog = builder.create();
     }
+
 
 
     public class CropOptionAdapter extends ArrayAdapter<CropOption> {
@@ -366,11 +378,13 @@ public class DogAddInfoActivity extends AppCompatActivity {
         }
     }
 
+
     public void searchClicked(View view) {
         Intent intent = new Intent(this,SearchBreed.class);
         startActivity(intent);
-    }
 
+    }
+    Dog dog = new Dog();
     public void nextClicked(View view) {
 
         Intent intent = new Intent(this,MainActivity.class);
@@ -385,9 +399,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
         name = nameText.getText().toString();
         age = Integer.parseInt( ageText.getText().toString());
         note = noticeText.getText().toString();
-        breed = "Chow";
 
-        Dog dog = new Dog();
         dog.setName(name);
         dog.setBleed(breed);
         dog.setAge(age);
@@ -400,7 +412,28 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 Boolean success = Boolean.valueOf("" + response.body().get("success"));
                 if (success) {
                     Map<String, Object> dog_data = (Map<String, Object>) response.body().get("payload");
-                    dog_data.get("dog_id");
+
+                    dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
+
+                    //Upload Image to server----------------------
+                    for(int i = 0; i < 2; i++) {
+
+                        file = files.get(i);
+                        DogServiceImp.getInstance().uploadImage(dog, file, new Callback<Map<String, Object>>() {
+                            @Override
+                            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                                Boolean success = Boolean.valueOf("" + response.body().get("success"));
+                                if (success) {
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                                Log.e("error", t.getMessage());
+                            }
+                        });
+                    }
                 }
             }
 
@@ -409,26 +442,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 Log.e("error", t.getMessage());
             }
         });
-
-        //Upload Image to server----------------------
-        for(int i = 0; i < 2; i++) {
-
-            getFile(file, i);
-            DogServiceImp.getInstance().uploadImage(dog, file, new Callback<Map<String, Object>>() {
-                @Override
-                public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                    Boolean success = Boolean.valueOf("" + response.body().get("success"));
-                    if (success) {
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                    Log.e("error", t.getMessage());
-                }
-            });
-        }
 
     }
 
