@@ -65,7 +65,7 @@ public class DogServiceImp {
 
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-
+                Log.e("error",t.getMessage());
             }
         });
     }

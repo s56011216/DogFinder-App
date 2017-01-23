@@ -53,12 +53,12 @@ public class DogAddInfoActivity extends AppCompatActivity {
     private String name, breed, note;
     private Integer age;
     private File file;
+    private Button button;
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
-    //EditText nameText, ageText, noticeText;
-    // TextView breedView;
+    int myFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +68,15 @@ public class DogAddInfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         captureImageInitialization();
 
-        TextView breedView = (TextView) findViewById(R.id.breedText);
+        final TextView breedView = (TextView) findViewById(R.id.breedText);
         // select breed
         breed = getIntent().getStringExtra("breed_select");
         breedView.setText(String.valueOf(breed)); // Data breed
 
-        Button button = (Button) findViewById(R.id.captureButton);
+        button = (Button) findViewById(R.id.captureButton);
         mImageView = (ImageView) findViewById(R.id.captureView );
 
+        // add image Button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,14 +101,15 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 // camera
                 if (item == 0) {
                     /**
-                     * To take a photo from camera, pass intent action
-                     * ‘MediaStore.ACTION_IMAGE_CAPTURE‘ to open the camera app.
+                     * to open the camera app.
                      */
+
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                     /**
-                     * Also specify the Uri to save the image on specified path
-                     * and file name. Note that this Uri variable also used by
+                     * specific Uri to save the image on specified path
+                     * and file name.
+                     * Uri variable used by
                      * gallery app to hold the selected image path.
                      */
 
@@ -118,8 +120,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
                             mImageCaptureUri);
                     Log.d("UriImage",mImageCaptureUri.toString());
-
-
 
                     try {
                         intent.putExtra("return-data", true);
@@ -189,8 +189,13 @@ public class DogAddInfoActivity extends AppCompatActivity {
         public Intent appIntent;
     }
 
+    private static int count = 0;
+    private static int n = 0;
+    List<File> files;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode != RESULT_OK)
             return;
 
@@ -199,6 +204,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 /**
                  * After taking a picture, do the crop
                  */
+
                 doCrop();
 
                 break;
@@ -217,7 +223,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 /**
                  * After cropping the image, get the bitmap of the cropped image and
-                 * display it on imageview.
+                 * show it on imageview.
                  */
                 if (extras != null) {
                     photo = extras.getParcelable("data");
@@ -225,15 +231,39 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 }
 
                 file = new File(mImageCaptureUri.getPath());
+                if(count == 0) {
+                    files = new ArrayList();
+                }
+                files.add(file);
+                incrementCount();
+                Log.d("Files", "Size: "+ files.size());
+                for (int i = 0; i < files.size(); i++)
+                {
+                    Log.d("Files", "FileName:" + files.get(i).getName());
+                }
                 /**
                  * Delete the temporary image
                  */
                 if (file.exists())
                     file.delete();
 
-                break;
+                if(files.size() == 2){
+                    button.setEnabled(false);
+                    myFile = files.size();
+                }
 
+
+                break;
         }
+    }
+
+    public static synchronized void incrementCount() {
+        count++;
+    }
+
+    public File getFile(File file, int i) {
+        file = files.get(i);
+        return file;
     }
 
     private void doCrop() {
@@ -244,7 +274,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
          */
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setType("image/*");
-
         /**
          * Check if there is image cropper app installed.
          */
@@ -252,22 +281,18 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 intent, 0);
 
         int size = list.size();
-
         /**
          * If there is no image cropper app, display warning message
          */
         if (size == 0) {
-
             Toast.makeText(this, "Can not find image crop app",
                     Toast.LENGTH_SHORT).show();
-
             return;
         } else {
             /**
              * Specify the image path, crop dimension and scale
              */
             intent.setData(mImageCaptureUri);
-
             intent.putExtra("outputX", 200);
             intent.putExtra("outputY", 200);
             intent.putExtra("aspectX", 1);
@@ -279,7 +304,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
              * so we have to check for it first. If there is only one app, open
              * then app.
              */
-
             if (size == 1) {
                 Intent i = new Intent(intent);
                 ResolveInfo res = list.get(0);
@@ -306,10 +330,8 @@ public class DogAddInfoActivity extends AppCompatActivity {
                             .setComponent(new ComponentName(
                                     res.activityInfo.packageName,
                                     res.activityInfo.name));
-
                     cropOptions.add(co);
                 }
-
                 CropOptionAdapter adapter = new CropOptionAdapter(
                         getApplicationContext(), cropOptions);
 
@@ -340,26 +362,30 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
                 alert.show();
             }
+
         }
     }
 
     public void searchClicked(View view) {
         Intent intent = new Intent(this,SearchBreed.class);
         startActivity(intent);
-
     }
 
     public void nextClicked(View view) {
 
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+
+        count = 0;
         EditText nameText = (EditText) findViewById(R.id.nameText);
         EditText ageText = (EditText) findViewById(R.id.ageText);
         EditText noticeText = (EditText) findViewById(R.id.noticeText);
 
 
         name = nameText.getText().toString();
-
         age = Integer.parseInt( ageText.getText().toString());
         note = noticeText.getText().toString();
+        breed = "Chow";
 
         Dog dog = new Dog();
         dog.setName(name);
@@ -367,7 +393,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
         dog.setAge(age);
         dog.setNote(note);
 
-        //add new dog
+        //add new dog---------------------
         DogServiceImp.getInstance().newDog(dog , new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
@@ -384,25 +410,26 @@ public class DogAddInfoActivity extends AppCompatActivity {
             }
         });
 
-        //Upload Image
-        DogServiceImp.getInstance().uploadImage(dog, file, new Callback<Map<String, Object>>() {
-            @Override
-            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                Boolean success = Boolean.valueOf("" + response.body().get("success"));
-                if (success) {
-                    //up more pic 5-6 pic
+        //Upload Image to server----------------------
+        for(int i = 0; i < 2; i++) {
+
+            getFile(file, i);
+            DogServiceImp.getInstance().uploadImage(dog, file, new Callback<Map<String, Object>>() {
+                @Override
+                public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                    Boolean success = Boolean.valueOf("" + response.body().get("success"));
+                    if (success) {
+
+                    }
                 }
 
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                Log.e("error", t.getMessage());
-            }
-        });
-
-        //Intent intent = new Intent(this,MainActivity.class);
-        //startActivity(intent);
+                @Override
+                public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                    Log.e("error", t.getMessage());
+                }
+            });
+        }
 
     }
+
 }
