@@ -16,12 +16,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -125,7 +129,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
                      */
 
                     mImageCaptureUri = Uri.fromFile(new File(Environment
-                            .getExternalStorageDirectory(), "tmp_avatar_"
+                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "tmp_avatar_"
                             + String.valueOf(System.currentTimeMillis())
                             + ".jpg"));
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
@@ -147,8 +151,8 @@ public class DogAddInfoActivity extends AppCompatActivity {
                      * automatically display a list of supported applications,
                      * such as image gallery or file manager.
                      */
-                    Intent intent = new Intent();
-
+                    //Intent intent = new Intent();
+                    Intent intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
 
@@ -205,6 +209,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
     private static int n = 0;
     List<File> files;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -242,7 +247,10 @@ public class DogAddInfoActivity extends AppCompatActivity {
                     mImageView.setImageBitmap(photo);
                 }
 
-                file = new File(mImageCaptureUri.getPath());
+                if(DocumentsContract.isDocumentUri(MainActivity.context,mImageCaptureUri)) {
+                    file = new File(mImageCaptureUri.getPath());
+                }
+
                 if(count == 0) {
                     files = new ArrayList();
                 }
@@ -268,14 +276,15 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 break;
         }
     }
-
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
     public static synchronized void incrementCount() {
         count++;
-    }
-
-    public File getFile(File file, int i) {
-        file = files.get(i);
-        return file;
     }
 
     private void doCrop() {
