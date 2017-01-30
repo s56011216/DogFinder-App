@@ -96,6 +96,24 @@ public class MainActivity extends AppCompatActivity
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
+            @Override
+            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                if(response.body().isSuccess()){
+                    Log.i("Success","OK");
+                    List<Dog> dogs = (List<Dog>) response.body().getPayload().get("dogs");
+                    dogs.get(0).getName();
+                }
+                else{
+                    Log.e("Sucess","Failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFormat> call, Throwable t) {
+
+            }
+        });
         /*//location user google map ---------------------------------------------------
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
