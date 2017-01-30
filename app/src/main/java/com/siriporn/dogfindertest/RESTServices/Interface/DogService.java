@@ -1,14 +1,15 @@
 package com.siriporn.dogfindertest.RESTServices.Interface;
 
 import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
 
 import java.util.Map;
-import java.util.Objects;
 
-import okhttp3.MultipartBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -22,9 +23,12 @@ import retrofit2.http.Query;
 public interface DogService {
 
     @POST("/server/dog/")
-    Call<Map<String, Object>> newDog(@Body Dog dog);
+    Call<ResponseFormat> newDog(@Body Dog dog);
 
-    @POST("/server/upload/")
-    Call<Map<String, Object>> addImage(@Header("Content-type") String contentType, @Query("dog") Dog dog, @Query("image_id") int image_id);
+    @POST("/server/dog/instance")
+    Call<ResponseFormat> addImage(@Body Map<String, Object> map);
+
+    @GET("/server/dog/get_all_dogs")
+    Call<ResponseFormat> getAllMyDog();
 
 }

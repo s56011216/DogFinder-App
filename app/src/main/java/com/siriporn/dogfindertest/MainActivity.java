@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +31,18 @@ import com.siriporn.dogfindertest.Fragments.FindFragment;
 import com.siriporn.dogfindertest.Fragments.FoundFragment;
 import com.siriporn.dogfindertest.Fragments.LostFragment;
 import com.siriporn.dogfindertest.Fragments.MyDogFragment;
+import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
+import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
+import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
