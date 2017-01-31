@@ -19,6 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class NetworkConfigs {
+    public static final String BASE_URL = "http://161.246.6.240:10100";
+    public static final String DEBUG_BASE_URL = "http://161.246.6.240:10200";
 
     public static OkHttpClient getClient() {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
@@ -41,7 +43,9 @@ public class NetworkConfigs {
         return client;
     }
 
-    public static Retrofit getRestAdapter(String baseUrl) {
-        return new Retrofit.Builder().baseUrl(baseUrl).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create((new GsonBuilder()).setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())).build();
+    public static Retrofit getRestAdapter() {
+        return new Retrofit.Builder().baseUrl(BASE_URL).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create((new GsonBuilder()).setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())).build();
     }
+
+
 }

@@ -21,6 +21,7 @@ import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,10 +44,12 @@ public class MyDogFragment extends Fragment {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
                     ArrayList<String> stockList = new ArrayList<String>();
-                    List<Dog> dogs = (List<Dog>) response.body().getPayload().get("dogs");
+                    final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
+
                     for(int i = 0 ; i< dogs.size() ; i++) {
-                        stockList.add(dogs.get(i).getName());
-                        Log.i("Name", dogs.get(i).getName());
+                        dogs.get(i).get("name");
+                        stockList.add(dogs.get(i).get("name").toString());
+                        //Log.i("Name", dogs.get(i).get("name"));
                     }
 
                     String[] items = new String[stockList.size()];
@@ -70,10 +73,12 @@ public class MyDogFragment extends Fragment {
                             // TODO Auto-generated method stub
                             Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
 
-                            Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
-                            myIntent.putExtra("welkerij", position);
-                            startActivity(myIntent);
+                            String positions = Integer.toString(position);
 
+                            // to MyDogDetail
+                            Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
+                            myIntent.putExtra("SelectRowDog", positions);
+                            startActivity(myIntent);
                         }
 
                     });
@@ -85,10 +90,9 @@ public class MyDogFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
-
+                Log.e("Sucess","onFailure");
             }
         });
-
 
         return myView;
 

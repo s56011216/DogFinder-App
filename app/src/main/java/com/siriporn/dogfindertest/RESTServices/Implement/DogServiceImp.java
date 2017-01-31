@@ -25,13 +25,12 @@ public class DogServiceImp {
     private static Retrofit retrofit;
     private static DogService service;
     private static DogServiceImp dogService;
-    public static final String BASE_URL = "http://161.246.6.240:10100";
 
-    private DogServiceImp(){};
+    private DogServiceImp(){}
 
     public static DogServiceImp getInstance() {
         if(retrofit == null) {
-            retrofit = NetworkConfigs.getRestAdapter(BASE_URL);
+            retrofit = NetworkConfigs.getRestAdapter();
             service = retrofit.create(DogService.class);
             dogService = new DogServiceImp();
         }

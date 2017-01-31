@@ -20,13 +20,12 @@ public class FileServiceImp {
     private static Retrofit retrofit;
     private static FileService service;
     private static FileServiceImp fileService;
-    public static final String BASE_URL = "http://161.246.6.240:10100";
 
-    private FileServiceImp(){};
+    private FileServiceImp(){}
 
     public static FileServiceImp getInstance() {
         if(retrofit == null) {
-            retrofit = NetworkConfigs.getRestAdapter(BASE_URL);
+            retrofit = NetworkConfigs.getRestAdapter();
             service = retrofit.create(FileService.class);
             fileService = new FileServiceImp();
         }
