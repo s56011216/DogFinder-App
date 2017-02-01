@@ -1,6 +1,8 @@
 package com.siriporn.dogfindertest.Fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,27 +47,31 @@ public class MyDogFragment extends Fragment {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
                     ArrayList<String> stockList = new ArrayList<String>();
+                    ArrayList<String> stockUri = new ArrayList<String>();
+
                     final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
 
                     for(int i = 0 ; i< dogs.size() ; i++) {
-                        dogs.get(i).get("name");
+                        // INFORMATION AND URI convert List<String> to String[]
                         stockList.add(dogs.get(i).get("name").toString());
-                        //Log.i("Name", dogs.get(i).get("name"));
-                    }
+                        List<String> imagesUrl = (List<String>) dogs.get(63).get("images");
+                        stockUri.add(imagesUrl.get(0));
 
+                    }
+                    // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);
+                    // URI convert List<String> to String[]
+                    String[] itemsPic = new String[stockUri.size()];
+                    itemsPic = stockUri.toArray(itemsPic);
 
-                    for(String s : items)
-                        Log.i("items",s);
-
-                    //final String[] items = new String[] { "Nancy", "ThongDee", "Boo","Carrot" };
 
                     ListView list = (ListView)myView.findViewById(R.id.dogListView);
-                    CustomAdapterDog cus = new CustomAdapterDog(getActivity(),items);
+                    CustomAdapterDog cus = new CustomAdapterDog(getActivity(),items,itemsPic);
                     list.setAdapter(cus);
 
 
+                    //When Clicked
                     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                         @Override
@@ -73,15 +80,17 @@ public class MyDogFragment extends Fragment {
                             // TODO Auto-generated method stub
                             Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
 
+                            /**
+                             * Send position for showing in Dog detail on next page (MyDogDetail)
+                             */
                             String positions = Integer.toString(position);
-
-                            // to MyDogDetail
                             Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
                             myIntent.putExtra("SelectRowDog", positions);
                             startActivity(myIntent);
                         }
 
                     });
+
                 }
                 else{
                     Log.e("Sucess","Failed");

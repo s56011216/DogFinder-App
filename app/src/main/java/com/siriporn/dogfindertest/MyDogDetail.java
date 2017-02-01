@@ -1,6 +1,7 @@
 package com.siriporn.dogfindertest;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,9 +49,20 @@ public class MyDogDetail extends AppCompatActivity {
                     String Name = (String) dogs.get(position).get("name");
                     String Breed = (String) dogs.get(position).get("breed");
                     String Note = (String) dogs.get(position).get("note");
-                    String Age = (String) dogs.get(position).get("age");
+                    //String Age = (String) dogs.get(position).get("age");
 
-                    TextView name = (TextView) findViewById(R.id.text_details);
+                    ImageView mImageView = (ImageView) findViewById(R.id.imageMyDog );
+                    TextView name = (TextView) findViewById(R.id.nameText2);
+                    TextView breed = (TextView) findViewById(R.id.breedText2);
+                    TextView note = (TextView) findViewById(R.id.noticeText);
+                    //TextView age = (TextView) findViewById(R.id.text_details);
+
+                    name.setText(Name);
+                    breed.setText(Breed);
+                    note.setText(Note);
+
+                    //age.setText(Age);
+
                 }
                 else{
                     Log.e("Sucess","Failed");

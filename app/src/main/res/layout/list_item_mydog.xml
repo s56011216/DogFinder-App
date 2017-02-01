@@ -22,6 +22,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@+id/imgDogAccount"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="24sp" />
 
 </RelativeLayout>

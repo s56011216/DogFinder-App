@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.siriporn.dogfindertest.Fragments.MyDogFragment;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.Models.User;
@@ -522,9 +523,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
     Dog dog = new Dog();
     public void nextClicked(View view) {
 
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-
         count = 0;
         EditText nameText = (EditText) findViewById(R.id.nameText);
         EditText ageText = (EditText) findViewById(R.id.ageText);
@@ -575,7 +573,12 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 Log.e("error", t.getMessage());
             }
         });
+        //file = files.get(0);
+        Intent intent = new Intent(this,MainActivity.class);
+        //intent.putExtra("BitmapImage", file);
+        startActivity(intent);
 
     }
+
 
 }
