@@ -51,11 +51,18 @@ public class MyDogFragment extends Fragment {
 
                     final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
 
-                    for(int i = 0 ; i< dogs.size() ; i++) {
+                    for(int i = 0 ; i< dogs.size()-1 ; i++) {
                         // INFORMATION AND URI convert List<String> to String[]
                         stockList.add(dogs.get(i).get("name").toString());
                         List<String> imagesUrl = (List<String>) dogs.get(i).get("images");
-                        stockUri.add(imagesUrl.get(0));
+                        if(imagesUrl.size() != 0) {
+                            stockUri.add(imagesUrl.get(0));
+                        }else{ //temporary
+                            imagesUrl = (List<String>) dogs.get(0).get("images");
+                            stockUri.add(imagesUrl.get(0));
+                            Log.i("picture : ",Integer.toString(i));
+
+                        }
 
                     }
                     // INFORMATION convert List<String> to String[]
