@@ -21,7 +21,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.facebook.Profile;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -88,13 +92,29 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Profile profile = Profile.getCurrentProfile();
+        View header = navigationView.getHeaderView(0);
+
+        TextView name = (TextView)header.findViewById(R.id.NameFacebook);
+        ImageView pic = (ImageView)header.findViewById(R.id.PicFacebook);
+        name.setText(profile.getName());
+
+        Uri picUri = profile.getProfilePictureUri(200,200);
+        Glide.with(context)
+                .load(picUri)
+                .override(200, 200)
+                .centerCrop()
+                .into(pic);
+
         if (savedInstanceState == null) {
             navigationView.getMenu().performIdentifierAction(R.id.nav_my_dog, 0);
         }
 
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
         /*
         DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
             @Override
