@@ -35,7 +35,7 @@ import retrofit2.Response;
  */
 
 public class MyDogFragment extends Fragment {
-
+    String[] itemsPic;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MyDogFragment extends Fragment {
                     for(int i = 0 ; i< dogs.size() ; i++) {
                         // INFORMATION AND URI convert List<String> to String[]
                         stockList.add(dogs.get(i).get("name").toString());
-                        List<String> imagesUrl = (List<String>) dogs.get(63).get("images");
+                        List<String> imagesUrl = (List<String>) dogs.get(i).get("images");
                         stockUri.add(imagesUrl.get(0));
 
                     }
@@ -62,7 +62,7 @@ public class MyDogFragment extends Fragment {
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);
                     // URI convert List<String> to String[]
-                    String[] itemsPic = new String[stockUri.size()];
+                    itemsPic = new String[stockUri.size()];
                     itemsPic = stockUri.toArray(itemsPic);
 
 
@@ -86,6 +86,7 @@ public class MyDogFragment extends Fragment {
                             String positions = Integer.toString(position);
                             Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
                             myIntent.putExtra("SelectRowDog", positions);
+                            myIntent.putExtra("Pic",itemsPic);
                             startActivity(myIntent);
                         }
 

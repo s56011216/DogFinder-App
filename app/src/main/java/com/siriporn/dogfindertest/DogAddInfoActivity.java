@@ -66,6 +66,21 @@ public class DogAddInfoActivity extends AppCompatActivity {
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
     int myFile;
+    Uri imageToUploadUri;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save file url in bundle as it will be null on scren orientation changes
+        outState.putParcelable("mImageCaptureUri", mImageCaptureUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)         {
+        super.onRestoreInstanceState(savedInstanceState);
+        // get the file url
+        mImageCaptureUri = savedInstanceState.getParcelable("mImageCaptureUri");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,25 +134,23 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 // camera
                 if (item == 0) {
                     /**
-                     * to open the camera app.
+                     * To take a photo from camera, pass intent action
+                     * ‘MediaStore.ACTION_IMAGE_CAPTURE‘ to open the camera app.
                      */
-
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                     /**
-                     * specific Uri to save the image on specified path
-                     * and file name.
-                     * Uri variable used by
+                     * Also specify the Uri to save the image on specified path
+                     * and file name. Note that this Uri variable also used by
                      * gallery app to hold the selected image path.
                      */
-
                     mImageCaptureUri = Uri.fromFile(new File(Environment
-                            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "tmp_avatar_"
+                            .getExternalStorageDirectory(), "tmp_avatar_"
                             + String.valueOf(System.currentTimeMillis())
                             + ".jpg"));
+
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
                             mImageCaptureUri);
-                    Log.d("UriImage",mImageCaptureUri.toString());
 
                     try {
                         intent.putExtra("return-data", true);
@@ -157,13 +170,12 @@ public class DogAddInfoActivity extends AppCompatActivity {
                     //Intent intent = new Intent();
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("image/jpeg");
+                    intent.setType("image/*");
                     //startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
                     // intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     //intent.setType("image/*");
                     //intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "Complete action using"), PICK_FROM_FILE);
+                    startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_FILE);
                 }
             }
         });
@@ -212,24 +224,18 @@ public class DogAddInfoActivity extends AppCompatActivity {
     }
 
     private static int count = 0;
-    private static int n = 0;
     List<File> files;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK) //click cancel
             return;
-        if (null == data) return;
-
         switch (requestCode) {
             case PICK_FROM_CAMERA:
                 /**
                  * After taking a picture, do the crop
                  */
-
                 doCrop();
 
                 break;
@@ -246,6 +252,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
             case CROP_FROM_CAMERA:
                 Bundle extras = data.getExtras();
+
                 /**
                  * After cropping the image, get the bitmap of the cropped image and
                  * show it on imageview.
@@ -259,12 +266,20 @@ public class DogAddInfoActivity extends AppCompatActivity {
                         & (Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 // Check for the freshest data.
-                getContentResolver().takePersistableUriPermission(mImageCaptureUri, takeFlags);
+                try {
+                    getContentResolver().takePersistableUriPermission(mImageCaptureUri, takeFlags);
 
-                if (DocumentsContract.isDocumentUri(MainActivity.context, mImageCaptureUri)) {
-                    file = new File(getPath(MainActivity.context,mImageCaptureUri));
+                    if (DocumentsContract.isDocumentUri(MainActivity.context, mImageCaptureUri)) {
+                        file = new File(getPath(MainActivity.context,mImageCaptureUri));
+                    }
+//
+
+//
                 }
+                catch (SecurityException e){
+                    file = new File(mImageCaptureUri.getPath());
 
+                }
                 if (count == 0) {
                     files = new ArrayList();
                 }
@@ -277,8 +292,8 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 /**
                  * Delete the temporary image
 
-                if (file.exists())
-                    file.delete();
+                 if (file.exists())
+                 file.delete();
                  */
                 if (files.size() == 2) {
                     button.setEnabled(false);
@@ -286,6 +301,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 }
 
                 break;
+
         }
     }
 
@@ -313,7 +329,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                        Uri.parse("content://public_downloads"), Long.valueOf(id));
 
                 return getDataColumn(context, contentUri, null, null);
             }
@@ -422,6 +438,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
          */
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setType("image/*");
+
         /**
          * Check if there is image cropper app installed.
          */
@@ -429,18 +446,22 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 intent, 0);
 
         int size = list.size();
+
         /**
          * If there is no image cropper app, display warning message
          */
         if (size == 0) {
+
             Toast.makeText(this, "Can not find image crop app",
                     Toast.LENGTH_SHORT).show();
+
             return;
         } else {
             /**
              * Specify the image path, crop dimension and scale
              */
             intent.setData(mImageCaptureUri);
+
             intent.putExtra("outputX", 200);
             intent.putExtra("outputY", 200);
             intent.putExtra("aspectX", 1);
@@ -452,6 +473,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
              * so we have to check for it first. If there is only one app, open
              * then app.
              */
+
             if (size == 1) {
                 Intent i = new Intent(intent);
                 ResolveInfo res = list.get(0);
@@ -478,8 +500,10 @@ public class DogAddInfoActivity extends AppCompatActivity {
                             .setComponent(new ComponentName(
                                     res.activityInfo.packageName,
                                     res.activityInfo.name));
+
                     cropOptions.add(co);
                 }
+
                 CropOptionAdapter adapter = new CropOptionAdapter(
                         getApplicationContext(), cropOptions);
 
@@ -510,7 +534,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
                 alert.show();
             }
-
         }
     }
 
