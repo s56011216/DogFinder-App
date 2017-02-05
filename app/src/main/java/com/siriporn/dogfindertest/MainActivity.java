@@ -8,10 +8,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,23 +28,11 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.siriporn.dogfindertest.Fragments.AdoptFragment;
+import com.siriporn.dogfindertest.Fragments.ProfileFragment;
 import com.siriporn.dogfindertest.Fragments.FindFragment;
 import com.siriporn.dogfindertest.Fragments.FoundFragment;
 import com.siriporn.dogfindertest.Fragments.LostFragment;
 import com.siriporn.dogfindertest.Fragments.MyDogFragment;
-import com.siriporn.dogfindertest.Models.Dog;
-import com.siriporn.dogfindertest.Models.ResponseFormat;
-import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
-import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -113,6 +99,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().performIdentifierAction(R.id.nav_my_dog, 0);
         }
 
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         /*//location user google map ---------------------------------------------------
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -222,10 +209,11 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FoundFragment()).commit();
         } else if (id == R.id.nav_find) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FindFragment()).commit();
-        } else if (id == R.id.nav_profile) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new AdoptFragment()).commit();
         } else if (id == R.id.nav_map) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
+        } else if (id == R.id.nav_profile) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ProfileFragment()).commit();
+
         } else if (id == R.id.nav_about) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
         } else if (id == R.id.nav_foundation) {
