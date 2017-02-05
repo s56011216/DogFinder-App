@@ -117,7 +117,7 @@
             app:srcCompat="@drawable/places_ic_search"
             android:background="@drawable/oval"
             android:elevation="10dp"
-            android:id="@+id/imageButton9"
+            android:id="@+id/searchBreed"
             android:onClick="searchClicked"
             app:layout_constraintLeft_toRightOf="@+id/breedFoundWritePost"
             android:layout_marginEnd="16dp"

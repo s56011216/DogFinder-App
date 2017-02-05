@@ -28,9 +28,11 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -60,13 +62,16 @@ public class DogAddInfoActivity extends AppCompatActivity {
     private String name, breed, note;
     private Integer age;
     private File file;
-    private Button button , searchBtn;
+    private Button button ;
+    private ImageView button1;
+    private TextView breedtext;
+
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
     int myFile;
-    Uri imageToUploadUri;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -89,11 +94,35 @@ public class DogAddInfoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         captureImageInitialization();
+        //breed
+        breedtext = (TextView) findViewById(R.id.breedText);
+        button1 = (ImageView) findViewById(R.id.searchBreed);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(DogAddInfoActivity.this, button1);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater()
+                        .inflate(R.menu.popup_menu, popup.getMenu());
 
-        final TextView breedView = (TextView) findViewById(R.id.breedText);
-        // select breed
-        breed = getIntent().getStringExtra("breed_select");
-        breedView.setText(String.valueOf(breed)); // Data breed
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(
+                                DogAddInfoActivity.this,
+                                "You Clicked : " + item.getTitle(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        breedtext.setText(item.toString());
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
+            }
+        }); //closing the setOnClickListener method
+        //end breed
 
         button = (Button) findViewById(R.id.captureButton);
         mImageView = (ImageView) findViewById(R.id.captureView );
