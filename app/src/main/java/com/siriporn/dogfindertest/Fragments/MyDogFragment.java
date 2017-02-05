@@ -40,7 +40,9 @@ public class MyDogFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View myView = inflater.inflate(R.layout.layout_mydog, container, false);
-
+        /**
+         * my dog
+         */
         DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
@@ -51,7 +53,7 @@ public class MyDogFragment extends Fragment {
 
                     final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
 
-                    for(int i = 0 ; i< dogs.size()-1 ; i++) {
+                    for(int i = 0 ; i< dogs.size() ; i++) {
                         // INFORMATION AND URI convert List<String> to String[]
                         stockList.add(dogs.get(i).get("name").toString());
                         List<String> imagesUrl = (List<String>) dogs.get(i).get("images");

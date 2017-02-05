@@ -5,6 +5,7 @@ import com.siriporn.dogfindertest.Models.ResponseFormat;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -30,5 +31,9 @@ public interface DogService {
 
     @GET("/server/dog/get_all_dogs")
     Call<ResponseFormat> getAllMyDog();
+
+    @Multipart
+    @POST("/server/dog/get_similar_faces")
+    Call<ResponseFormat> getSameMyDog(@Part("name") String name, @Part MultipartBody.Part file);
 
 }
