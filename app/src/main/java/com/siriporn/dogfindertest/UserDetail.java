@@ -1,6 +1,7 @@
 package com.siriporn.dogfindertest;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.Profile;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
+import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
 import java.util.List;
@@ -23,7 +26,7 @@ import retrofit2.Response;
 
 import static com.siriporn.dogfindertest.MainActivity.context;
 
-public class MyDogDetail extends AppCompatActivity {
+public class UserDetail extends AppCompatActivity {
     String[] pic;
     ImageView mImageView;
     private static int count = 0;
@@ -44,31 +47,21 @@ public class MyDogDetail extends AppCompatActivity {
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
 
-                    final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
-                    String Name = (String) dogs.get(position).get("name");
-                    String Breed = (String) dogs.get(position).get("breed");
-                    String Note = (String) dogs.get(position).get("note");
-                    //String Age = (String) dogs.get(position).get("age");
-
-                    mImageView = (ImageView) findViewById(R.id.imageUser);
+                    Profile profile = Profile.getCurrentProfile();
+                    User user = new User();
+                    ImageView pic = (ImageView) findViewById(R.id.imageUser);
                     TextView name = (TextView) findViewById(R.id.nameUser);
-                    TextView breed = (TextView) findViewById(R.id.emailUser);
-                    TextView note = (TextView) findViewById(R.id.noticeText);
-                    //TextView age = (TextView) findViewById(R.id.text_details);
+                    TextView email = (TextView) findViewById(R.id.emailUser);
 
-                    name.setText(Name);
-                    breed.setText(Breed);
-                    note.setText(Note);
+                    name.setText(profile.getName());
+                    email.setText(user.getEmail());
 
-                    //age.setText(Age);
-                    String uri = "http://161.246.6.240:10100/server" + pic[0];
-                    Log.i("ss",uri);
+                    Uri picUri = profile.getProfilePictureUri(200,200);
                     Glide.with(context)
-                            .load(uri)
-                            .override(700, 700)
+                            .load(picUri)
+                            .override(200, 200)
                             .centerCrop()
-                            .into(mImageView);
-
+                            .into(pic);
                 }
                 else{
                     Log.e("Sucess","Failed");

@@ -19,24 +19,24 @@
             android:icon="@drawable/findicon"
             android:title="Find My Dog" />
         <item
-            android:id="@+id/nav_adopt"
-            android:icon="@drawable/adopticon"
-            android:title="Adopt" />
-        <item
             android:id="@+id/nav_map"
             android:icon="@drawable/locationicon"
             android:title="Map" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/user"
+            android:title="Adopt" />
 
     </group>
 
     <item android:title="Information">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_about"
                 android:icon="@drawable/info"
                 android:title="About Us" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_foundation"
                 android:icon="@drawable/info"
                 android:title="Foundation" />
         </menu>

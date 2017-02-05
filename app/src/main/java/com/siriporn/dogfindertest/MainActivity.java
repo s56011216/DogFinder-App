@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        /**
+         * header menu
+         */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -106,35 +108,11 @@ public class MainActivity extends AppCompatActivity
                 .centerCrop()
                 .into(pic);
 
+
         if (savedInstanceState == null) {
             navigationView.getMenu().performIdentifierAction(R.id.nav_my_dog, 0);
         }
 
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        /*
-        DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
-            @Override
-            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-                if(response.body().isSuccess()){
-                    Log.i("Success","OK");
-                    List<Dog> dogs = (List<Dog>) response.body().getPayload().get("dogs");
-                    Log.i("Name : ",dogs.get(0).getName());
-                }
-                else{
-                    Log.e("Sucess","Failed");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                Log.e("Sucess","onFailure");
-            }
-        });
-        */
         /*//location user google map ---------------------------------------------------
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -188,43 +166,7 @@ public class MainActivity extends AppCompatActivity
         }
         */// end user location google map --------------
     }
-/*//ActionBar Title dynamically change with fragment
-    private void displayFragment(int position) {
-        // update the main content by replacing fragments
-        Fragment fragment = null;
-        String title = "";
-        switch (position) {
-            case 0:
-                fragment = new MyDogFragment();
-                title = "My Dog";
-                break;
-            case 1:
-                fragment = new LostFragment();
-                title = "Lost Post ";
-                break;
-            case 2:
-                fragment = new FoundFragment();
-                title = "Found Post";
-                break;
-            case 3:
-                fragment = new FindFragment();
-                title = "Find My Dog";
-                break;
 
-            default:
-                break;
-        }
-
-        // update selected fragment and title
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_all, fragment).commit();
-            getSupportActionBar().setTitle(title);
-            // change icon to arrow drawable
-            //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow);
-        }
-    }
-    */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -253,6 +195,12 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.action_logout){
+            return true;
+        }else if(id == R.id.action_user){
+            Intent intent = new Intent(this,FoundPostActivity.class);
+            startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -274,13 +222,13 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FoundFragment()).commit();
         } else if (id == R.id.nav_find) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FindFragment()).commit();
-        } else if (id == R.id.nav_adopt) {
+        } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new AdoptFragment()).commit();
         } else if (id == R.id.nav_map) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
+        } else if (id == R.id.nav_foundation) {
 
         }
 

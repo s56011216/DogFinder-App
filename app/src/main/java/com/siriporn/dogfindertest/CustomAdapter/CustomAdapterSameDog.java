@@ -1,6 +1,7 @@
 package com.siriporn.dogfindertest.CustomAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,72 +10,75 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.siriporn.dogfindertest.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.siriporn.dogfindertest.MainActivity.context;
+
 public class CustomAdapterSameDog extends BaseAdapter {
-    private List<Item> items = new ArrayList<Item>();
-    private LayoutInflater inflater;
+    String items[];
+    String itemsPic[];
+    LayoutInflater mInflater;
 
-    public CustomAdapterSameDog(Context context) {
-        inflater = LayoutInflater.from(context);
-
-        items.add(new Item("Red", R.drawable.sample_0));
-        items.add(new Item("Magenta", R.drawable.sample_1));
-        items.add(new Item("Dark Gray", R.drawable.sample_2));
-        items.add(new Item("Gray", R.drawable.sample_3));
-        items.add(new Item("Green", R.drawable.sample_4));
-        items.add(new Item("Cyan", R.drawable.sample_5));
+    public CustomAdapterSameDog( String[] items, String[] itemsPic) {
+        mInflater = LayoutInflater.from(context);
+        this.items = items;
+        this.itemsPic = itemsPic;
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return items.length;
     }
 
     @Override
-    public Object getItem(int i) {
-        return items.get(i);
+    public Object getItem(int position) {
+        return position;
     }
 
     @Override
-    public long getItemId(int i) {
-        return items.get(i).drawableId;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = view;
-        ImageView picture;
-        TextView name;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        CustomAdapterDog.ViewHolder holder;
 
-        if (v == null) {
-            v = inflater.inflate(R.layout.grid_item, viewGroup, false);
-            v.setTag(R.id.picture, v.findViewById(R.id.picture));
-            v.setTag(R.id.text, v.findViewById(R.id.text));
+        if(convertView == null)
+        {
+            convertView = mInflater.inflate(R.layout.list_item_samedog,parent,false);
+            holder = new CustomAdapterDog.ViewHolder();
+            holder.tv = (TextView) convertView.findViewById(R.id.nameDogAccount);
+            holder.iv = (ImageView) convertView.findViewById(R.id.imgDogAccount);
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (CustomAdapterDog.ViewHolder) convertView.getTag();
+        }
+        holder.tv.setText(items[position]);
+
+        if (holder.iv != null) {
+            String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
+            Log.i("ss",uri);
+            Glide.with(context)
+                    .load(uri)
+                    .override(300, 300)
+                    .centerCrop()
+                    .into(holder.iv);
         }
 
-        picture = (ImageView) v.getTag(R.id.picture);
-        name = (TextView) v.getTag(R.id.text);
-
-        Item item = (Item) getItem(i);
-
-        picture.setImageResource(item.drawableId);
-        name.setText(item.name);
-
-        return v;
+        return convertView;
     }
 
-    private class Item {
-        final String name;
-        final int drawableId;
-
-        Item(String name, int drawableId) {
-            this.name = name;
-            this.drawableId = drawableId;
-        }
+    static class ViewHolder
+    {
+        ImageView iv;
+        TextView tv;
     }
 }
 
