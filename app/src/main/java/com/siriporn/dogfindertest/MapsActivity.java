@@ -90,61 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
-                /*// location info.
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-
-                try {
-
-                    List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-
-                    if (listAddresses != null && listAddresses.size() > 0) {
-
-                        Log.i("PlaceInfo", listAddresses.get(0).toString());
-
-                        String address = "";
-
-                        if (listAddresses.get(0).getSubThoroughfare() != null) {
-
-                            address += listAddresses.get(0).getSubThoroughfare() + " ";
-
-                        }
-
-                        if (listAddresses.get(0).getThoroughfare() != null) {
-
-                            address += listAddresses.get(0).getThoroughfare() + ", ";
-
-                        }
-
-                        if (listAddresses.get(0).getLocality() != null) {
-
-                            address += listAddresses.get(0).getLocality() + ", ";
-
-                        }
-
-                        if (listAddresses.get(0).getPostalCode() != null) {
-
-                            address += listAddresses.get(0).getPostalCode() + ", ";
-
-                        }
-
-                        if (listAddresses.get(0).getCountryName() != null) {
-
-                            address += listAddresses.get(0).getCountryName();
-
-                        }
-                        Log.i("LocationInfo", address);
-                        //Toast.makeText(MapsActivity.this, address, Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-
-                }
-               */
             }
-            //end location info.
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -184,12 +130,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
-
             }
 
-
         }
-
 
     }
 

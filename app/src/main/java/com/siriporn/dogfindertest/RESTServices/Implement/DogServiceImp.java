@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.LostAndFound;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.NetworkConfigs;
 import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
@@ -62,13 +63,18 @@ public class DogServiceImp {
 
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                Log.e("error",t.getMessage());
+                Log.e("error", t.getMessage());
             }
         });
     }
 
     public void getAllMyDogs(Callback callback){
         Call call = service.getAllMyDog();
+        call.enqueue(callback);
+    }
+
+    public void createLostAndFound(LostAndFound lostAndFound, Callback callback){
+        Call call = service.createLostAndFound(lostAndFound);
         call.enqueue(callback);
     }
 

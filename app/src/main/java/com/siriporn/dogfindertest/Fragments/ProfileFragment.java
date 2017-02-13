@@ -32,7 +32,6 @@ public class ProfileFragment extends Fragment {
         myviewuser = lf.inflate(R.layout.activity_user_detail, container, false);
 
         Profile profile = Profile.getCurrentProfile();
-        User user = new User();
 
         ImageView picture = (ImageView)myviewuser.findViewById(R.id.imageUser);
         TextView name = (TextView) myviewuser.findViewById(R.id.nameUser);

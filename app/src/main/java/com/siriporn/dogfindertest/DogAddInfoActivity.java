@@ -567,11 +567,18 @@ public class DogAddInfoActivity extends AppCompatActivity {
     }
 
 
+    public void AddMapClicked(View view) {
+        Intent intent = new Intent(this,MapsActivity.class);
+        startActivity(intent);
+
+    }
+
     public void searchClicked(View view) {
         Intent intent = new Intent(this,SearchBreed.class);
         startActivity(intent);
 
     }
+
     Dog dog = new Dog();
     public void nextClicked(View view) {
 

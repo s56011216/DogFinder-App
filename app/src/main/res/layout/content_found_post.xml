@@ -18,19 +18,27 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-        <ImageView
-            android:layout_width="55dp"
+        <ImageButton
+            android:layout_width="347dp"
             app:srcCompat="@drawable/mapbutton"
             android:id="@+id/AddLoc"
-            android:background="@android:color/transparent"
-            android:layout_height="41dp"
-            app:layout_constraintRight_toRightOf="@+id/noticeFoundPost"
-            app:layout_constraintBottom_toBottomOf="@+id/noticeFoundPost" />
+            android:background="@color/cardview_shadow_start_color"
+            android:layout_height="82dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/captureButtonPost"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="16dp"
+            android:scaleType="fitCenter"
+            android:onClick="AddMapClicked" />
 
         <ImageView
             android:id="@+id/foundUserPicWritePost"
-            android:layout_width="65dp"
-            android:layout_height="56dp"
+            android:layout_width="75dp"
+            android:layout_height="68dp"
             android:layout_alignParentTop="true"
             android:src="@drawable/com_facebook_profile_picture_blank_square"
             android:layout_marginTop="8dp"
@@ -51,12 +59,12 @@
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <Button
             android:text= "Add"
-            android:layout_width="89dp"
-            android:layout_height="24dp"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:id="@+id/textView7"
+            android:id="@+id/captureButtonPost"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
@@ -64,8 +72,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp"
             android:textAlignment="center"
-            android:textColor="@color/cardview_light_background"
-            android:background="@color/colorAccent"
+            android:textColor="@color/cast_expanded_controller_background_color"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/picFoundPost"
             android:padding="5dp" />
@@ -106,18 +113,14 @@
         <EditText
             android:id="@+id/noticeFoundPost"
             android:hint="Write your post..."
-            android:layout_width="327dp"
-            android:layout_height="92dp"
+            android:layout_width="376dp"
+            android:layout_height="102dp"
             android:textSize="18sp"
             android:gravity="top|left"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/foundUserPicWritePost"
-            android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="16dp" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:text="POST"
