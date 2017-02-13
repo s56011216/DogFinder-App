@@ -27,6 +27,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.siriporn.dogfindertest.DogFinderApplication;
 import com.siriporn.dogfindertest.MainActivity;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
@@ -101,8 +102,9 @@ public class LoginFragment extends Fragment {
         }
     };
 
-    private String id, firstname, lastname, name, email, accessToken;
+    private String id, firstname, lastname, name, email, accessToken, pic_uri;
     private Date birth_date, token_exp;
+
     public void connectToServer() {
         User user = new User();
         user.setFb_id(id);
@@ -111,14 +113,17 @@ public class LoginFragment extends Fragment {
         user.setBirth_date(birth_date);
         user.setFb_token(accessToken);
         user.setFb_token_exp(token_exp);
+        user.setFb_profile_image(pic_uri);
+        SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit().clear();
+        editor.commit();
 
-        UserServiceImp.getInstance().login(user, new Callback<Map<String,Object>>() {
+        UserServiceImp.getInstance().login(user, new Callback<ResponseFormat>() {
             @Override
-            public void onResponse(Call<Map<String,Object>> call, Response<Map<String,Object>> response) {
+            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
-                Map<String, Object> user_data = (Map<String, Object>) response.body().get("payload");
-                editor.putString("token", user_data.get("token").toString());
+                editor.putString("token", response.body().getPayload().get("token").toString());
                 editor.commit();
 
                 //intent
@@ -126,7 +131,7 @@ public class LoginFragment extends Fragment {
                 startActivity(intent);
             }
             @Override
-            public void onFailure(Call<Map<String,Object>> call, Throwable t) {
+            public void onFailure(Call<ResponseFormat> call, Throwable t) {
                 Log.e("error", t.getMessage());
             }
         });
@@ -141,7 +146,7 @@ public class LoginFragment extends Fragment {
             firstname = object.getString("first_name");
             lastname = object.getString("last_name");
             name = firstname +" "+ lastname;
-            //birth_date = object.getString("birthday");
+
 
             SimpleDateFormat dataFormat = new SimpleDateFormat("MM/dd/yyyy");
             try {
@@ -153,6 +158,7 @@ public class LoginFragment extends Fragment {
             try {
                 URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=200");
                 Log.i("profile_pic", profile_pic + "");
+                pic_uri = profile_pic.toString();
                 bundle.putString("profile_pic", profile_pic.toString());
 
             } catch (MalformedURLException e) {

@@ -18,22 +18,29 @@ import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class CustomAdapterFound extends BaseAdapter {
 
-    String items[];
-    String itemsDate[];
+    String itemId[];
+    String itemNote[];
     String itemsPic[];
-    String itemsPicFB[];
+    String itemsDate[];
+    String itemPicFB[];
+    String itemNameFB[];
+
     LayoutInflater mInflater;
 
-    public CustomAdapterFound(Context context, String[] items, String[] itemsDate, String[] itemsPic, String[] itemsPicFB) {
+    public CustomAdapterFound(Context context, String[] itemId,String[] itemNote, String[] itemsPic,
+                              String[] itemsDate,String[] itemPicFB , String[] itemNameFB) {
+
         mInflater = LayoutInflater.from(context);
-        this.items = items;
+        this.itemNameFB = itemNameFB;
+        this.itemNote = itemNote;
         this.itemsDate = itemsDate;
         this.itemsPic = itemsPic;
-        this.itemsPicFB = itemsPicFB;
+        this.itemPicFB = itemPicFB;
+        this.itemId = itemId;
     }
 
     @Override
-    public int getCount() {return items.length;}
+    public int getCount() {return itemNameFB.length;}
     @Override
     public Object getItem(int position) {
         return position;
@@ -54,44 +61,48 @@ public class CustomAdapterFound extends BaseAdapter {
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
             holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);
-            holder.iv = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
-            holder.iv2 = (ImageView) convertView.findViewById(R.id.picFoundPost);
+            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeFoundPost);
+            holder.ivFB = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
+            holder.ivdog = (ImageView) convertView.findViewById(R.id.picFoundPost);
             convertView.setTag(holder);
         }
+
         else
         {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.tv.setText(items[position]);
+
+        holder.tv.setText(itemNameFB[position]);
         holder.tv2.setText(itemsDate[position]);
-        //Dog Pic
-        if (holder.iv2 != null) {
+        holder.tv3.setText(itemNote[position]);
+
+        if (holder.ivdog != null) {
             String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
             Log.i("ss",uri);
             Glide.with(context)
                     .load(uri)
                     .override(500, 500)
                     .centerCrop()
-                    .into(holder.iv);
+                    .into(holder.ivdog);
         }
-        //FB Pic
-        Profile profile = Profile.getCurrentProfile();
-        if (holder.iv != null) {
-            String uri = itemsPicFB[position].toString();
+
+        if (holder.ivFB != null) {
+            String uri = itemPicFB[position].toString();
             Glide.with(context)
                     .load(uri)
                     .override(500, 500)
                     .centerCrop()
-                    .into(holder.iv);
+                    .into(holder.ivFB);
         }
         return convertView;
     }
 
     static class ViewHolder
     {
-        ImageView iv;
-        ImageView iv2;
+        ImageView ivFB;
+        ImageView ivdog;
         TextView tv;
         TextView tv2;
+        TextView tv3;
     }
 }

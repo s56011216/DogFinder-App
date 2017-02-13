@@ -78,4 +78,15 @@ public class DogServiceImp {
         call.enqueue(callback);
     }
 
+    public void getDog(int id, Callback callback){
+        Call call = service.getDog(id);
+        call.enqueue(callback);
+    }
+
+    public void getAllLostAndFound(Callback callback){
+        Call call = service.getAllLostAndFound();
+        call.enqueue(callback);
+    }
+
+
 }

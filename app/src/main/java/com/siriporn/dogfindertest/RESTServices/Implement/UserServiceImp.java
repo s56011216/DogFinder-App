@@ -43,4 +43,9 @@ public class UserServiceImp {
         Call call = service.updateSelfInfo("application/json", user);
         call.enqueue(callback);
     }
+
+    public void getUser(int id, Callback callback) {
+        Call call = service.getUser(id);
+        call.enqueue(callback);
+    }
 }

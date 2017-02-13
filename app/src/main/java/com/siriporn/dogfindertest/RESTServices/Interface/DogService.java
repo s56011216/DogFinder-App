@@ -27,6 +27,9 @@ public interface DogService {
     @POST("/server/dog/")
     Call<ResponseFormat> newDog(@Body Dog dog);
 
+    @GET("/server/dog/")
+    Call<ResponseFormat> getDog(@Query("id") int id);
+
     @POST("/server/dog/instance")
     Call<ResponseFormat> addImage(@Body Map<String, Object> map);
 
@@ -39,5 +42,8 @@ public interface DogService {
 
     @POST("/server/dog/lost_and_found")
     Call<ResponseFormat> createLostAndFound(@Body LostAndFound lostAndFound);
+
+    @GET("/server/dog/lost_and_found")
+    Call<ResponseFormat> getAllLostAndFound();
 
 }

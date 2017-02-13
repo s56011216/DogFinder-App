@@ -18,4 +18,5 @@ public class User {
     private Date fb_token_exp;
     private String email;
     private Date birth_date;
+    private String fb_profile_image;
 }
