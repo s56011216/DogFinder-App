@@ -60,7 +60,7 @@ ATTENTION: This was auto-generated to add Google Play services to your project f
             android:label="@string/title_activity_my_dog"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SearchBreed"
+            android:name=".FoundDetail"
             android:label="@string/title_activity_search_breed"
             android:theme="@style/AppTheme.NoActionBar" />
 

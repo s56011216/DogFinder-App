@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
@@ -50,23 +52,19 @@ public class MyDogFragment extends Fragment {
                     Log.i("Success","OK");
                     ArrayList<String> stockList = new ArrayList<String>();
                     ArrayList<String> stockUri = new ArrayList<String>();
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
+                    Dog[] dogs = gson.fromJson(gson.toJson(response.body().getPayload().get("dogs")), Dog[].class);
 
-                    final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
-
-                    for(int i = 0 ; i< dogs.size() ; i++) {
-                        // INFORMATION AND URI convert List<String> to String[]
-                        stockList.add(dogs.get(i).get("name").toString());
-                        List<String> imagesUrl = (List<String>) dogs.get(i).get("images");
-                        if(imagesUrl.size() != 0) {
-                            stockUri.add(imagesUrl.get(0));
+                    for(Dog dog: dogs) {
+                        stockList.add(dog.getName());
+                        if(dog.getImages().length != 0) {
+                            stockUri.add(dog.getImages()[0]);
                         }else{ //temporary
-                            imagesUrl = (List<String>) dogs.get(0).get("images");
-                            stockUri.add(imagesUrl.get(0));
-                            Log.i("picture : ",Integer.toString(i));
-
+                            stockUri.add(dogs[0].getImages()[0]);
                         }
-
                     }
+
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);

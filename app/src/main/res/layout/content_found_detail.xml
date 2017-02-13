@@ -10,18 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.siriporn.dogfindertest.SearchBreed"
-    tools:showIn="@layout/activity_search_breed">
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/breedsListView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
+    tools:context="com.siriporn.dogfindertest.FoundDetail"
+    tools:showIn="@layout/activity_found_detail">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

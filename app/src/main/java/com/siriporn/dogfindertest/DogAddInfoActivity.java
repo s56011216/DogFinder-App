@@ -1,13 +1,10 @@
 package com.siriporn.dogfindertest;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -15,7 +12,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -42,12 +38,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.siriporn.dogfindertest.Fragments.MyDogFragment;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
-import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
-import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -574,7 +567,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
     }
 
     public void searchClicked(View view) {
-        Intent intent = new Intent(this,SearchBreed.class);
+        Intent intent = new Intent(this,FoundDetail.class);
         startActivity(intent);
 
     }

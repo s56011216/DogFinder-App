@@ -45,6 +45,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.Profile;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.siriporn.dogfindertest.Fragments.MyDogFragment;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.LostAndFound;
@@ -563,7 +565,10 @@ public class FoundPostActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if (response.body().isSuccess()) {
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    Gson gson = gsonBuilder.create();
                     Map<String, Object> dog_data = response.body().getPayload();
+                    Dog dog = gson.fromJson(gson.toJson(response.body().getPayload()), Dog.class);
 
                     dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
 
