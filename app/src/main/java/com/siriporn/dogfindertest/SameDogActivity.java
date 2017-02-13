@@ -148,6 +148,7 @@ public class SameDogActivity extends AppCompatActivity {
                              * Send position for showing in Dog detail on next page (MyDogDetail)
                              */
                             String positions = Integer.toString(position);
+                            Log.i("position",positions);
                                     /*Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
                                     myIntent.putExtra("SelectRowDog", positions);
                                     myIntent.putExtra("Pic",itemsPic);
