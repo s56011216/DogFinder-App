@@ -1,11 +1,7 @@
 package com.siriporn.dogfindertest.Fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,26 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import com.facebook.Profile;
 import com.siriporn.dogfindertest.Cache;
-import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterFound;
-import com.siriporn.dogfindertest.FoundDetail;
-import com.siriporn.dogfindertest.MainActivity;
-import com.siriporn.dogfindertest.Models.LostAndFound;
+import com.siriporn.dogfindertest.FoundPostDetail;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
-import com.siriporn.dogfindertest.Models.User;
-import com.siriporn.dogfindertest.MyDogDetail;
 import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +122,7 @@ public class FoundFragment extends Fragment {
                                      * Send position for showing in Dog detail on next page (ProfileFragment)
                                      */
                                     String positions = Integer.toString(position);
-                                    Intent myIntent = new Intent(getActivity(), FoundDetail.class);
+                                    Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
                                     Cache.getInstance().put("lostAndFound", lost_and_founds);
                                     startActivity(myIntent);
                                 }

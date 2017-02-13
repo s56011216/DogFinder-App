@@ -2,6 +2,7 @@ package com.siriporn.dogfindertest;
 
 import android.*;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -62,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
+    float lat,lon;
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -82,9 +84,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
 
+
                 Log.i("Location", location.toString());
 
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                lat = (float)location.getLatitude();
+                lon = (float) location.getLongitude();
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
@@ -146,4 +152,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    public void AddDogLocClicked(View view){
+        Intent intent = new Intent(this,DogAddInfoActivity.class);
+        //intent.putExtra("lat",lat);
+        //intent.putExtra("lon",lon);
+        startActivity(intent);
+    }
 }

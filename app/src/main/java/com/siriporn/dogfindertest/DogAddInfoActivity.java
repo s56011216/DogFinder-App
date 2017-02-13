@@ -87,6 +87,11 @@ public class DogAddInfoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         captureImageInitialization();
+        //lat_lon
+        Intent intent = new Intent();
+        //intent.getExtras().get("lat");
+        //intent.getExtras().get("lon");
+
         //breed
         breedtext = (TextView) findViewById(R.id.breedText);
         button1 = (ImageView) findViewById(R.id.searchBreed);
@@ -562,12 +567,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
     public void AddMapClicked(View view) {
         Intent intent = new Intent(this,MapsActivity.class);
-        startActivity(intent);
-
-    }
-
-    public void searchClicked(View view) {
-        Intent intent = new Intent(this,FoundDetail.class);
         startActivity(intent);
 
     }
