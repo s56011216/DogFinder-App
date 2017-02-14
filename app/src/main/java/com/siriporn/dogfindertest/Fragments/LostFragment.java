@@ -65,7 +65,7 @@ public class LostFragment extends Fragment {
                     final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
 
                     for(LostAndFound lostAndFound: lostAndFounds) {
-
+                        if(lostAndFound.getType() == 0){
                         Dog dog = lostAndFound.getDog();
                         //get name
                         nameList.add(dog.getName());
@@ -91,7 +91,7 @@ public class LostFragment extends Fragment {
                         User user = dog.getUser();
                         FBnameList.add(user.getFb_name());
                         FBpicList.add(user.getFb_profile_image());
-
+                    }
                     }
                     // NAME convert List<String> to String[]
                     itemName = new String[nameList.size()];

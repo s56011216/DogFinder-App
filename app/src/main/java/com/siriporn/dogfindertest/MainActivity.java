@@ -271,8 +271,14 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this,MapsActivity.class);
         startActivity(intent);
     }
+
     public void AddFoundPostClicked(View view){
         Intent intent = new Intent(this,FoundPostActivity.class);
+        startActivity(intent);
+    }
+
+    public void AddLostPostClicked(View view){
+        Intent intent = new Intent(this,LostPostAcitivity.class);
         startActivity(intent);
     }
     public static Context getContext() {return context;}

@@ -62,29 +62,27 @@ public class FoundFragment extends Fragment {
                     final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
 
                     for(LostAndFound lostAndFound: lostAndFounds) {
-                        //if(lostAndFound.getDog().getId() == dogs.get(i).get("id")){
-                        // INFORMATION AND URI convert List<String> to String[]
-                        //if (dogs.get("type").toString() == "1") {
-                        Dog dog = lostAndFound.getDog();
-                        //get note
-                        noteList.add(dog.getNote());
-                        //get dog image
-                        String[] images = dog.getImages();
+                        if(lostAndFound.getType() == 1) {
+                            Dog dog = lostAndFound.getDog();
+                            //get note
+                            noteList.add(dog.getNote());
+                            //get dog image
+                            String[] images = dog.getImages();
 
-                        if (images.length != 0) {
-                            stockUri.add(images[0]);
-                        } else { //temporary
-                            stockUri.add(images[0]);
+                            if (images.length != 0) {
+                                stockUri.add(images[0]);
+                            } else { //temporary
+                                stockUri.add(images[0]);
+                            }
+
+                            //get date
+                            dateList.add(dog.getCreated_at().toString());
+
+                            //create user
+                            User user = dog.getUser();
+                            FBnameList.add(user.getFb_name());
+                            FBpicList.add(user.getFb_profile_image());
                         }
-
-                        //get date
-                        dateList.add(dog.getCreated_at().toString());
-
-                        //create user
-                        User user = dog.getUser();
-                        FBnameList.add(user.getFb_name());
-                        FBpicList.add(user.getFb_profile_image());
-
                     }
 
                     // NOTE convert List<String> to String[]
