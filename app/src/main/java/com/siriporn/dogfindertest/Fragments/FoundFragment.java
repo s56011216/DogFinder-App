@@ -2,6 +2,7 @@ package com.siriporn.dogfindertest.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -121,6 +122,12 @@ public class FoundFragment extends Fragment {
                                     /**
                                      * Send position for showing in Dog detail on next page (ProfileFragment)
                                      */
+                                    //Trying to pass an object to another Activity
+                                    Intent i = new Intent(getActivity(), FoundPostDetail.class);
+                                    i.putExtra("test", (Parcelable) lost_and_founds);
+                                    startActivity(i);
+                                    getActivity().finish();
+
                                     String positions = Integer.toString(position);
                                     Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
                                     Cache.getInstance().put("lostAndFound", lost_and_founds);

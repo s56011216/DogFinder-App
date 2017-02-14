@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class LostAndFound implements Serializable {
     User user;
     int type;
     String note;
+    Date created_at;
 
     public LostAndFound() {}
 

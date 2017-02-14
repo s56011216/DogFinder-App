@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/lostUserPicPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="69dp"
+            android:layout_height="62dp"
             android:layout_alignParentTop="true"
             android:src="@drawable/crop_square_36"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -27,28 +27,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            app:layout_constraintTop_toTopOf="@+id/lostUserPicPost"
-            android:textSize="16sp"
-            android:layout_marginStart="10dp"
-            app:layout_constraintLeft_toRightOf="@+id/lostUserPicPost"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp" />
+            android:textSize="24sp"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="79dp" />
 
         <TextView
             android:id="@+id/lostDatePost"
             android:text="Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/nameFB"
-            android:textSize="10sp"
-            app:layout_constraintLeft_toLeftOf="@+id/nameFB" />
+            android:textSize="18sp"
+            tools:layout_editor_absoluteY="36dp"
+            tools:layout_editor_absoluteX="79dp" />
 
         <TextView
             android:id="@+id/nameLostPost"
             android:text="name : (name)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="@+id/lostUserPicPost"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/lostUserPicPost"
@@ -57,8 +54,8 @@
 
         <ImageView
             android:id="@+id/picLostPost"
-            android:layout_width="327dp"
-            android:layout_height="200dp"
+            android:layout_width="384dp"
+            android:layout_height="228dp"
             app:srcCompat="@color/wallet_bright_foreground_disabled_holo_light"
             app:layout_constraintTop_toBottomOf="@+id/noticeLostPost"
             android:layout_marginTop="8dp"
@@ -67,7 +64,7 @@
             android:layout_marginRight="16dp"
             android:background="@color/cast_intro_overlay_button_background_color"
             app:layout_constraintLeft_toLeftOf="@+id/noticeLostPost"
-            app:layout_constraintHorizontal_bias="0.06" />
+            app:layout_constraintHorizontal_bias="1.0" />
 
         <TextView
             android:id="@+id/breedLostPost"
@@ -76,25 +73,18 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@+id/nameLostPost"
             app:layout_constraintTop_toBottomOf="@+id/nameLostPost"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/noticeLostPost"
             android:text="noticeable : (notice)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="370dp"
+            android:layout_height="22dp"
             app:layout_constraintLeft_toLeftOf="@+id/breedLostPost"
             app:layout_constraintTop_toBottomOf="@+id/breedLostPost"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
 
-        <ImageButton
-            android:id="@+id/leftChangeLost"
-            android:layout_width="47dp"
-            android:layout_height="69dp"
-            app:srcCompat="@drawable/arrowpic"
-            app:layout_constraintRight_toRightOf="@+id/picLostPost"
-            app:layout_constraintTop_toTopOf="@+id/picLostPost"
-            app:layout_constraintBottom_toBottomOf="@+id/picLostPost" />
     </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>

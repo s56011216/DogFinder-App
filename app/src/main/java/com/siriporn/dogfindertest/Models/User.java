@@ -23,6 +23,7 @@ public class User {
     String email;
     Date birth_date;
     String fb_profile_image;
+    String telephone;
 
     public User() {}
 
