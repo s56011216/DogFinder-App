@@ -33,7 +33,7 @@ import retrofit2.Response;
  */
 
 public class FoundFragment extends Fragment {
-    String[] itemId, itemNote,itemPic, itemsPicFB, itemsDate,itemsNameFB;
+    String[] itemName,itemBreed, itemNote,itemPic, itemsPicFB, itemsDate,itemsNameFB;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,7 +48,6 @@ public class FoundFragment extends Fragment {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
 
-                    ArrayList<String> stockList = new ArrayList<String>();
                     ArrayList<String> noteList = new ArrayList<String>();
                     ArrayList<String> dateList = new ArrayList<String>();
                     ArrayList<String> FBnameList = new ArrayList<String>();
@@ -105,10 +104,9 @@ public class FoundFragment extends Fragment {
 
 
                             ListView list = (ListView) myView.findViewById(R.id.foundListView);
-                            CustomAdapterFound cus = new CustomAdapterFound(getActivity(), itemId, itemNote,
+                            CustomAdapterFound cus = new CustomAdapterFound(getActivity(), itemName,itemBreed, itemNote,
                                     itemPic, itemsDate, itemsPicFB, itemsNameFB);
                             list.setAdapter(cus);
-
 
                             //When Clicked
                             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

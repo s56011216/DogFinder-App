@@ -18,7 +18,8 @@ import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class CustomAdapterFound extends BaseAdapter {
 
-    String itemId[];
+    String itemName[];
+    String itemBreed[];
     String itemNote[];
     String itemsPic[];
     String itemsDate[];
@@ -27,7 +28,7 @@ public class CustomAdapterFound extends BaseAdapter {
 
     LayoutInflater mInflater;
 
-    public CustomAdapterFound(Context context, String[] itemId,String[] itemNote, String[] itemsPic,
+    public CustomAdapterFound(Context context, String[] itemName,String[] itemBreed, String[] itemNote, String[] itemsPic,
                               String[] itemsDate,String[] itemPicFB , String[] itemNameFB) {
 
         mInflater = LayoutInflater.from(context);
@@ -36,7 +37,8 @@ public class CustomAdapterFound extends BaseAdapter {
         this.itemsDate = itemsDate;
         this.itemsPic = itemsPic;
         this.itemPicFB = itemPicFB;
-        this.itemId = itemId;
+        this.itemName = itemName;
+        this.itemBreed = itemBreed;
     }
 
     @Override
@@ -64,6 +66,11 @@ public class CustomAdapterFound extends BaseAdapter {
             holder.tv3 = (TextView) convertView.findViewById(R.id.noticeFoundPost);
             holder.ivFB = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
             holder.ivdog = (ImageView) convertView.findViewById(R.id.picFoundPost);
+            if(itemName.length != 0 && itemBreed.length != 0) {
+                holder.tv4 = (TextView) convertView.findViewById(R.id.nameLostPost);
+                holder.tv5 = (TextView) convertView.findViewById(R.id.breedLostPost);
+            }
+
             convertView.setTag(holder);
         }
 
@@ -75,6 +82,10 @@ public class CustomAdapterFound extends BaseAdapter {
         holder.tv.setText(itemNameFB[position]);
         holder.tv2.setText(itemsDate[position]);
         holder.tv3.setText(itemNote[position]);
+        if(itemName.length != 0 && itemBreed.length != 0) {
+            holder.tv4.setText(itemName[position]);
+            holder.tv5.setText(itemBreed[position]);
+        }
 
         if (holder.ivdog != null) {
             String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
@@ -104,5 +115,7 @@ public class CustomAdapterFound extends BaseAdapter {
         TextView tv;
         TextView tv2;
         TextView tv3;
+        TextView tv4;
+        TextView tv5;
     }
 }
