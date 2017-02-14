@@ -14,10 +14,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.siriporn.dogfindertest.Cache;
+import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterFound;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterLost;
 import com.siriporn.dogfindertest.FoundPostDetail;
+import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.LostAndFound;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
+import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
@@ -58,34 +62,35 @@ public class LostFragment extends Fragment {
                     ArrayList<String> FBpicList = new ArrayList<String>();
                     ArrayList<String> stockUri = new ArrayList<String>();
 
-                    final List<Map<String, Object>> lost_and_founds = (List<Map<String, Object>>) response.body().getPayload().get("lost_and_founds");
+                    final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
 
-                    for(int i = 0 ; i < lost_and_founds.size() ; i++) {
-                        //if(lostAndFound.getDog().getId() == dogs.get(i).get("id")){
-                        // INFORMATION AND URI convert List<String> to String[]
-                        Map<String, Object> dogs = (Map) lost_and_founds.get(i).get("dog");
-                        //if (dogs.get("type").toString() == "1") {
+                    for(LostAndFound lostAndFound: lostAndFounds) {
+
+                        Dog dog = lostAndFound.getDog();
+                        //get name
+                        nameList.add(dog.getName());
+
+                        //get breed
+                        breedList.add(dog.getBleed());
 
                         //get note
-                        noteList.add(dogs.get("note").toString());
+                        noteList.add(dog.getNote());
                         //get dog image
-                        List<String> imagesUrl = (List<String>) dogs.get("images");
+                        String[] images = dog.getImages();
 
-                        if (imagesUrl.size() != 0) {
-                            stockUri.add(imagesUrl.get(0));
+                        if (images.length != 0) {
+                            stockUri.add(images[0]);
                         } else { //temporary
-                            imagesUrl = (List<String>) dogs.get("images");
-                            stockUri.add(imagesUrl.get(0));
-                            Log.i("picture : ", Integer.toString(i));
+                            stockUri.add(images[0]);
                         }
 
                         //get date
-                        dateList.add(dogs.get("created_at").toString());
+                        dateList.add(dog.getCreated_at().toString());
 
                         //create user
-                        Map<String, Object> user = (Map<String, Object>) dogs.get("user");
-                        FBnameList.add(user.get("fb_name").toString());
-                        FBpicList.add(user.get("fb_profile_image").toString());
+                        User user = dog.getUser();
+                        FBnameList.add(user.getFb_name());
+                        FBpicList.add(user.getFb_profile_image());
 
                     }
                     // NAME convert List<String> to String[]
@@ -113,8 +118,8 @@ public class LostFragment extends Fragment {
                     itemsNameFB = FBnameList.toArray(itemsNameFB);
 
 
-                    ListView list = (ListView) myView.findViewById(R.id.foundListView);
-                    CustomAdapterFound cus = new CustomAdapterFound(getActivity(), itemName, itemBreed, itemNote,
+                    ListView list = (ListView) myView.findViewById(R.id.lostListView);
+                    CustomAdapterLost cus = new CustomAdapterLost(getActivity(), itemName, itemBreed, itemNote,
                             itemPic, itemsDate, itemsPicFB, itemsNameFB);
                     list.setAdapter(cus);
 
@@ -131,15 +136,8 @@ public class LostFragment extends Fragment {
                             /**
                              * Send position for showing in Dog detail on next page (ProfileFragment)
                              */
-                            //Trying to pass an object to another Activity
-                            Intent i = new Intent(getActivity(), FoundPostDetail.class);
-                            i.putExtra("test", (Parcelable) lost_and_founds);
-                            startActivity(i);
-                            getActivity().finish();
-
-                            String positions = Integer.toString(position);
                             Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
-                            Cache.getInstance().put("lostAndFound", lost_and_founds);
+                            Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
                             startActivity(myIntent);
                         }
 

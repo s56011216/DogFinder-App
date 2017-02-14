@@ -94,7 +94,7 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
         //breed
         breedtext = (TextView) findViewById(R.id.breedText);
-        button1 = (ImageView) findViewById(R.id.searchBreed);
+        button1 = (ImageView) findViewById(R.id.searchMydog);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

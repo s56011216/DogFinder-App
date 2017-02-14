@@ -21,7 +21,7 @@
             android:src="@drawable/com_facebook_profile_picture_blank_square"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/nameFB"
@@ -49,7 +49,7 @@
             android:layout_width="384dp"
             android:layout_height="228dp"
             app:srcCompat="@color/wallet_bright_foreground_disabled_holo_light"
-            app:layout_constraintTop_toBottomOf="@+id/noticeFoundPost"
+            app:layout_constraintTop_toBottomOf="@+id/noticeLostPost"
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/wallet_bright_foreground_disabled_holo_light"
             android:layout_marginTop="8dp"
@@ -58,7 +58,7 @@
             android:scaleType="fitXY"/>
 
         <TextView
-            android:id="@+id/noticeFoundPost"
+            android:id="@+id/noticeLostPost"
             android:text="noticeable : (notice)"
             android:layout_width="381dp"
             android:layout_height="28dp"
@@ -68,7 +68,9 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
@@ -50,11 +51,9 @@ public class MyDogFragment extends Fragment {
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
-                    ArrayList<String> stockList = new ArrayList<String>();
-                    ArrayList<String> stockUri = new ArrayList<String>();
-                    GsonBuilder gsonBuilder = new GsonBuilder();
-                    Gson gson = gsonBuilder.create();
-                    Dog[] dogs = gson.fromJson(gson.toJson(response.body().getPayload().get("dogs")), Dog[].class);
+                    ArrayList<String> stockList = new ArrayList<>();
+                    ArrayList<String> stockUri = new ArrayList<>();
+                    Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
                     for(Dog dog: dogs) {
                         stockList.add(dog.getName());

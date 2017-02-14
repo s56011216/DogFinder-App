@@ -5,13 +5,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -29,13 +26,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.text.Text;
 import com.siriporn.dogfindertest.Models.LostAndFound;
 
 import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCallback {
-
+    ImageView picture;
+    String[] pic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +45,20 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Intent intent = getIntent();
-        Parcelable mBoard =  intent.getParcelableExtra("test");
-
+        //Intent intent = getIntent();
+        //Parcelable mBoard =  intent.getParcelableExtra("test");
 
         LostAndFound lostAndFound = (LostAndFound) Cache.getInstance().get("lostAndFound");
 
+        picture = (ImageView)findViewById(R.id.picFoundPost);
+
+
         TextView name = (TextView) findViewById(R.id.nameFB);
-        name.setText(lostAndFound.getUser().getFb_name().toString());
+        String fb_name = lostAndFound.getDog().getUser().getFb_name();
+        name.setText(fb_name);
 
         ImageView pictureFB = (ImageView)findViewById(R.id.foundUserPicWritePost);
-        String picUri = lostAndFound.getUser().getFb_profile_image();
+        String picUri = lostAndFound.getDog().getUser().getFb_profile_image();
         Glide.with(context)
                 .load(picUri)
                 .override(100, 100)
@@ -68,14 +68,14 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         TextView date = (TextView) findViewById(R.id.DatePost);
         date.setText(lostAndFound.getCreated_at().toString());
 
-        TextView note = (TextView) findViewById(R.id.noticeFoundPost);
+        TextView note = (TextView) findViewById(R.id.noticeLostPost);
         note.setText(lostAndFound.getNote());
 
         TextView phone = (TextView) findViewById(R.id.PhoneText);
-        phone.setText(lostAndFound.getUser().getTelephone());
+        phone.setText(lostAndFound.getDog().getUser().getTelephone());
 
         TextView email = (TextView) findViewById(R.id.EmailText);
-        email.setText(lostAndFound.getUser().getEmail());
+        email.setText(lostAndFound.getDog().getUser().getEmail());
 
         //dog pic String[] pic
         pic = lostAndFound.getDog().getImages();
@@ -88,8 +88,7 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
                 .into(picture);
     }
 
-    ImageView picture = (ImageView)findViewById(R.id.picFoundPost);
-    String[] pic;
+
     private static int count = 0;
     ImageButton button_right,button_left;
     public void BtnRightClicked(View view){

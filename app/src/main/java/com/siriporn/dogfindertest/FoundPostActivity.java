@@ -1,13 +1,10 @@
 package com.siriporn.dogfindertest;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -15,7 +12,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,16 +20,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -47,13 +40,11 @@ import com.bumptech.glide.Glide;
 import com.facebook.Profile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.siriporn.dogfindertest.Fragments.MyDogFragment;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.LostAndFound;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
-import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -550,14 +541,14 @@ public class FoundPostActivity extends AppCompatActivity {
     public void writeFoundPostClicked(View view) {
 
         count = 0;
-        EditText noticeText = (EditText) findViewById(R.id.noticeFoundPost);
+        EditText noticeText = (EditText) findViewById(R.id.noticeLostPost);
         note = noticeText.getText().toString();
 
         user.getId();
         dog.setNote(note);
         lostAndFound.setType(LostAndFound.FOUND);
         lostAndFound.setDog(dog);
-        lostAndFound.setUser(user);
+        //lostAndFound.setUser(user);
         lostAndFound.setNote(note);
 
         //add new dog---------------------

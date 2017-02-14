@@ -20,4 +20,5 @@
     <string name="title_activity_same_dog">SameDogActivity</string>
     <string name="title_activity_found_post">FoundPostActivity</string>
     <string name="title_activity_found_post_detail">FoundPostDetail</string>
+    <string name="title_activity_lost_post_acitivity">LostPostAcitivity</string>
 </resources>

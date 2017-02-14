@@ -3,6 +3,8 @@ package com.siriporn.dogfindertest.Models;
 import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,20 +16,12 @@ import lombok.Setter;
 @Getter
 public class Dog {
     int id;
+    int age;
+    User user;
     String name;
     String bleed;
     String note;
     String images[];
-    int age;
-
-    public Dog() {}
-
-    public Dog(int id, String name, String bleed, String note, String[] images, int age) {
-        this.id = id;
-        this.name = name;
-        this.bleed = bleed;
-        this.note = note;
-        this.images = images;
-        this.age = age;
-    }
+    Date created_at;
+    Date updated_at;
 }

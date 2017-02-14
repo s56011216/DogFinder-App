@@ -1,7 +1,6 @@
 package com.siriporn.dogfindertest.CustomAdapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.facebook.Profile;
 import com.siriporn.dogfindertest.R;
 
 import static com.siriporn.dogfindertest.MainActivity.context;
@@ -63,13 +61,13 @@ public class CustomAdapterFound extends BaseAdapter {
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
             holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);
-            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeFoundPost);
+            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeLostPost);
             holder.ivFB = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
             holder.ivdog = (ImageView) convertView.findViewById(R.id.picFoundPost);
-            if(itemName.length != 0 && itemBreed.length != 0) {
-                holder.tv4 = (TextView) convertView.findViewById(R.id.nameLostPost);
-                holder.tv5 = (TextView) convertView.findViewById(R.id.breedLostPost);
-            }
+            //if(itemName.length != 0 && itemBreed.length != 0) {
+            //    holder.tv4 = (TextView) convertView.findViewById(R.id.nameLostPost);
+             //   holder.tv5 = (TextView) convertView.findViewById(R.id.breedLostPost);
+            //}
 
             convertView.setTag(holder);
         }
@@ -82,10 +80,10 @@ public class CustomAdapterFound extends BaseAdapter {
         holder.tv.setText(itemNameFB[position]);
         holder.tv2.setText(itemsDate[position]);
         holder.tv3.setText(itemNote[position]);
-        if(itemName.length != 0 && itemBreed.length != 0) {
-            holder.tv4.setText(itemName[position]);
-            holder.tv5.setText(itemBreed[position]);
-        }
+        //if(itemName.length != 0 && itemBreed.length != 0) {
+         //   holder.tv4.setText(itemName[position]);
+         //   holder.tv5.setText(itemBreed[position]);
+        //}
 
         if (holder.ivdog != null) {
             String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
