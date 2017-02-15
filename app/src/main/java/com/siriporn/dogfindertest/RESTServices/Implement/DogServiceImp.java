@@ -3,6 +3,7 @@ package com.siriporn.dogfindertest.RESTServices.Implement;
 import android.util.Log;
 
 import com.siriporn.dogfindertest.Converter;
+import com.siriporn.dogfindertest.Models.Coordinate;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.LostAndFound;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
@@ -10,6 +11,7 @@ import com.siriporn.dogfindertest.NetworkConfigs;
 import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -88,5 +90,11 @@ public class DogServiceImp {
         call.enqueue(callback);
     }
 
-
+    public void addCoordinate(Dog dog, Coordinate coordinate, Callback callback) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("dog", dog);
+        map.put("coordinate", coordinate);
+        Call call = service.addCoordinate(map);
+        call.enqueue(callback);
+    }
 }

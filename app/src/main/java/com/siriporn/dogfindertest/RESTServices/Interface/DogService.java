@@ -46,4 +46,6 @@ public interface DogService {
     @GET("/server/dog/lost_and_found")
     Call<ResponseFormat> getAllLostAndFound();
 
+    @POST("/server/dog/coordinate")
+    Call<ResponseFormat> addCoordinate(@Body Map<String, Object> map);
 }
