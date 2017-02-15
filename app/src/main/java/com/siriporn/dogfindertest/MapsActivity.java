@@ -64,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    float lat,lon;
+    double lat,lon;
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -89,8 +89,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
-                lat = (float)location.getLatitude();
-                lon = (float) location.getLongitude();
+                //------------------------------
+                lat =  location.getLatitude();
+                lon =  location.getLongitude();
+
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
@@ -131,8 +133,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                mMap.clear();
 
+                //------------------------------
+                lat =  lastKnownLocation.getLatitude();
+                lon =  lastKnownLocation.getLongitude();
+
+                mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
@@ -152,10 +158,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    public void AddDogLocClicked(View view){
-        Intent intent = new Intent(this,DogAddInfoActivity.class);
-        //intent.putExtra("lat",lat);
-        //intent.putExtra("lon",lon);
-        startActivity(intent);
-    }
+
 }

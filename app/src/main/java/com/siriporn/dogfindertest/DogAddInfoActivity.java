@@ -12,10 +12,14 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +27,8 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +44,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
@@ -46,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DogAddInfoActivity extends AppCompatActivity {
+public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Uri mImageCaptureUri;
     private ImageView mImageView;
@@ -58,6 +70,9 @@ public class DogAddInfoActivity extends AppCompatActivity {
     private Button button ;
     private ImageView button1;
     private TextView breedtext;
+    Dog dog = new Dog();
+    private double latitude,longitude;
+    double lat,lon;
 
 
     private static final int PICK_FROM_CAMERA = 1;
@@ -87,10 +102,11 @@ public class DogAddInfoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         captureImageInitialization();
-        //lat_lon
-        Intent intent = new Intent();
-        //intent.getExtras().get("lat");
-        //intent.getExtras().get("lon");
+
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         //breed
         breedtext = (TextView) findViewById(R.id.breedText);
@@ -209,8 +225,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
 
         dialog = builder.create();
     }
-
-
 
     public class CropOptionAdapter extends ArrayAdapter<CropOption> {
         private ArrayList<CropOption> mOptions;
@@ -565,13 +579,6 @@ public class DogAddInfoActivity extends AppCompatActivity {
     }
 
 
-    public void AddMapClicked(View view) {
-        Intent intent = new Intent(this,MapsActivity.class);
-        startActivity(intent);
-
-    }
-
-    Dog dog = new Dog();
     public void nextClicked(View view) {
 
         count = 0;
@@ -588,6 +595,8 @@ public class DogAddInfoActivity extends AppCompatActivity {
         dog.setBleed(breed);
         dog.setAge(age);
         dog.setNote(note);
+        dog.setLatitude(lat);
+        dog.setLongitude(lon);
 
         //add new dog---------------------
         DogServiceImp.getInstance().newDog(dog , new Callback<ResponseFormat>() {
@@ -624,12 +633,94 @@ public class DogAddInfoActivity extends AppCompatActivity {
                 Log.e("error", t.getMessage());
             }
         });
+
         //file = files.get(0);
         Intent intent = new Intent(this,MainActivity.class);
         //intent.putExtra("BitmapImage", file);
         startActivity(intent);
 
     }
+    private GoogleMap mMap;
+
+    LocationManager locationManager;
+
+    LocationListener locationListener;
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+
+                Log.i("Location", location.toString());
+
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                //------------------------------
+                lat =  location.getLatitude();
+                lon =  location.getLongitude();
+
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        if (Build.VERSION.SDK_INT < 23) {
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        } else {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            } else {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+                //------------------------------
+                lat =  lastKnownLocation.getLatitude();
+                lon =  lastKnownLocation.getLongitude();
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+
+        }
+
+    }
+
+
 
 
 }

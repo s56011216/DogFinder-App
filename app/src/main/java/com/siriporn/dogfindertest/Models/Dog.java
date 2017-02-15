@@ -17,6 +17,8 @@ import lombok.Setter;
 public class Dog {
     int id;
     int age;
+    double latitude;
+    double longitude;
     User user;
     String name;
     String bleed;
