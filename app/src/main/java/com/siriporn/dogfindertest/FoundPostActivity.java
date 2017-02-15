@@ -60,7 +60,7 @@ public class FoundPostActivity extends AppCompatActivity {
     private Bitmap photo;
     private String note;
     private File file;
-    private Button button ;
+    private Button button;
 
 
     private static final int PICK_FROM_CAMERA = 1;
@@ -77,7 +77,7 @@ public class FoundPostActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)         {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // get the file url
         mImageCaptureUri = savedInstanceState.getParcelable("mImageCaptureUri");
@@ -93,7 +93,7 @@ public class FoundPostActivity extends AppCompatActivity {
 
         Profile profile = Profile.getCurrentProfile();
 
-        ImageView picture = (ImageView)findViewById(R.id.foundUserPicWritePost);
+        ImageView picture = (ImageView) findViewById(R.id.foundUserPicWritePost);
         TextView name = (TextView) findViewById(R.id.nameFB);
 
         name.setText(profile.getName());
@@ -106,7 +106,7 @@ public class FoundPostActivity extends AppCompatActivity {
                 .into(picture);
 
         button = (Button) findViewById(R.id.captureButtonPost);
-        mImageView = (ImageView) findViewById(R.id.picFoundPost );
+        mImageView = (ImageView) findViewById(R.id.picFoundPost);
 
         // add Button
         button.setOnClickListener(new View.OnClickListener() {
@@ -121,8 +121,8 @@ public class FoundPostActivity extends AppCompatActivity {
         /**
          * a selector dialog to display two image source options
          */
-        final String[] items = new String[] { "Take from camera",
-                "Select from gallery" };
+        final String[] items = new String[]{"Take from camera",
+                "Select from gallery"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.select_dialog_item, items);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -181,7 +181,6 @@ public class FoundPostActivity extends AppCompatActivity {
 
         dialog = builder.create();
     }
-
 
 
     public class CropOptionAdapter extends ArrayAdapter<CropOption> {
@@ -269,11 +268,10 @@ public class FoundPostActivity extends AppCompatActivity {
                     getContentResolver().takePersistableUriPermission(mImageCaptureUri, takeFlags);
 
                     if (DocumentsContract.isDocumentUri(MainActivity.context, mImageCaptureUri)) {
-                        file = new File(getPath(MainActivity.context,mImageCaptureUri));
+                        file = new File(getPath(MainActivity.context, mImageCaptureUri));
                     }
 
-                }
-                catch (SecurityException e){
+                } catch (SecurityException e) {
                     file = new File(mImageCaptureUri.getPath());
 
                 }
@@ -346,7 +344,7 @@ public class FoundPostActivity extends AppCompatActivity {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -369,9 +367,9 @@ public class FoundPostActivity extends AppCompatActivity {
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
@@ -544,15 +542,9 @@ public class FoundPostActivity extends AppCompatActivity {
         EditText noticeText = (EditText) findViewById(R.id.noticeLostPost);
         note = noticeText.getText().toString();
 
-        user.getId();
-        dog.setNote(note);
-        lostAndFound.setType(LostAndFound.FOUND);
-        lostAndFound.setDog(dog);
-        //lostAndFound.setUser(user);
-        lostAndFound.setNote(note);
 
         //add new dog---------------------
-        DogServiceImp.getInstance().newDog(dog , new Callback<ResponseFormat>() {
+        DogServiceImp.getInstance().newDog(dog, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if (response.body().isSuccess()) {
@@ -560,32 +552,35 @@ public class FoundPostActivity extends AppCompatActivity {
                     Gson gson = gsonBuilder.create();
                     Map<String, Object> dog_data = response.body().getPayload();
                     Dog dog = gson.fromJson(gson.toJson(response.body().getPayload()), Dog.class);
-
                     dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
+                    dog.setNote(note);
+                    lostAndFound.setType(LostAndFound.FOUND);
+                    lostAndFound.setDog(dog);
+                    lostAndFound.setNote(note);
 
                     //Upload Image to server----------------------
-                    for(int i = 0; i < 2; i++) {
+                    for (int i = 0; i < 2; i++) {
 
                         file = files.get(i);
                         DogServiceImp.getInstance().uploadImage(dog, file, new Callback<ResponseFormat>() {
                             @Override
                             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                                 if (response.body().isSuccess()) {
-                                        DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
-                                            @Override
-                                            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-                                                if (response.body().isSuccess()) {
+                                    DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                                            if (response.body().isSuccess()) {
 
-                                                }else{
-                                                    Log.e("onResponse","notSuccess");
-                                                }
+                                            } else {
+                                                Log.e("onResponse", "notSuccess");
                                             }
+                                        }
 
-                                            @Override
-                                            public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                                                    Log.e("onFailure","createLostAndFound");
-                                            }
-                                        });
+                                        @Override
+                                        public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                                            Log.e("onFailure", "createLostAndFound");
+                                        }
+                                    });
 
                                 }
                             }
@@ -605,13 +600,15 @@ public class FoundPostActivity extends AppCompatActivity {
             }
         });
         //file = files.get(0);
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         //intent.putExtra("BitmapImage", file);
         startActivity(intent);
 
+
     }
+
     public void AddMapClicked(View view) {
-        Intent intent = new Intent(this,MapsActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
 
     }

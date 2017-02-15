@@ -1,24 +1,20 @@
 package com.siriporn.dogfindertest;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.Profile;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.LostAndFound;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
@@ -26,6 +22,7 @@ import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +33,8 @@ import static com.siriporn.dogfindertest.MainActivity.context;
 public class LostPostAcitivity extends AppCompatActivity {
 
     Dog dog = new Dog();
+    private Dog chosenDog;
+    Dog[] dogs;
     User user = new User();
     LostAndFound lostAndFound = new LostAndFound();
     private String note;
@@ -65,49 +64,39 @@ public class LostPostAcitivity extends AppCompatActivity {
 
         //get note
         String notes = note.getText().toString();
-
         DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-                if(response.body().isSuccess()){
-                    ArrayList<String> stockList = new ArrayList<>();
+                if (response.body().isSuccess()) {
+                    final List<String> stockList = new ArrayList<>();
+                    dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
-                    Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
-
-                    for(Dog dog: dogs) {
+                    for (Dog dog : dogs) {
                         stockList.add(dog.getName());
                     }
 
+                    final CharSequence[] charSequenceStockList = stockList.toArray(new CharSequence[stockList.size()]);
 
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LostPostAcitivity.this);
+                    builder.setTitle("Who's lost?");
+                    builder.setItems(charSequenceStockList, new DialogInterface.OnClickListener() {
 
-                    search.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
-                            //Creating the instance of PopupMenu
-                            PopupMenu popup = new PopupMenu(LostPostAcitivity.this, search);
-                            //popup.getMenu().add();
-                            //Inflating the Popup using xml file
-                            popup.getMenuInflater()
-                                    .inflate(R.menu.popup_menu, popup.getMenu());
+                        public void onClick(DialogInterface dialog, int which) {
 
-                            //registering popup with OnMenuItemClickListener
-                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                public boolean onMenuItemClick(MenuItem item) {
-                                    Toast.makeText(
-                                            LostPostAcitivity.this,
-                                            "You Clicked : " + item.getTitle(),
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-                                    show_name.setText(item.toString());
-                                    return true;
+                            show_name.setText(stockList.get(which));
+                            for(Dog dog : dogs){
+                                if(dog.getName() == stockList.get(which)){
+                                    setChosenDog(dog);
+                                    break;
                                 }
-                            });
-
-                            popup.show(); //showing popup menu
+                            }
                         }
-                    }); //closing the setOnClickListener method
+                    });
+                    builder.show();
+                }
 
-                }else{
+                else{
                     Log.e("Sucess","Failed");
                 }
             }
@@ -119,15 +108,42 @@ public class LostPostAcitivity extends AppCompatActivity {
         });
     }
 
-    public void writePostLostClicked(View view) {
+    public void writeLostPostClicked(View view){
 
         EditText noticeText = (EditText) findViewById(R.id.noticeLostPost);
         note = noticeText.getText().toString();
-
         user.getId();
         lostAndFound.setType(LostAndFound.LOST);
-        lostAndFound.setDog(dog);
+        lostAndFound.setDog(getChosenDog());
         //lostAndFound.setUser(user);
         lostAndFound.setNote(note);
+
+        DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
+            @Override
+            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                if (response.body().isSuccess()) {
+                    Log.e("onResponse","Success");
+                }else{
+                    Log.e("onResponse","notSuccess");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                Log.e("onFailure","createLostAndFound");
+            }
+        });
+
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    private void setChosenDog(Dog dog) {
+        chosenDog = dog;
+    }
+
+    private Dog getChosenDog() {
+        return chosenDog;
     }
 }
