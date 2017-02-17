@@ -24,6 +24,7 @@ public class User {
     Date birth_date;
     String fb_profile_image;
     String telephone;
+    Date last_login;
 
     public User() {}
 

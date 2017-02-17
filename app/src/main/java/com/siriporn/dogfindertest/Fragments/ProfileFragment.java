@@ -1,5 +1,7 @@
 package com.siriporn.dogfindertest.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +15,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.Profile;
+import com.siriporn.dogfindertest.Converter;
+import com.siriporn.dogfindertest.DogFinderApplication;
+import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.R;
+import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.siriporn.dogfindertest.MainActivity.context;
 
@@ -33,19 +44,45 @@ public class ProfileFragment extends Fragment {
 
         Profile profile = Profile.getCurrentProfile();
 
-        ImageView picture = (ImageView)myviewuser.findViewById(R.id.imageUser);
-        TextView name = (TextView) myviewuser.findViewById(R.id.nameUser);
-        TextView email = (TextView) myviewuser.findViewById(R.id.emailUser);
-
-        name.setText(profile.getName());
+        String id = profile.getId().toString();
 
 
-        Uri picUri = profile.getProfilePictureUri(200, 200);
-        Glide.with(context)
-                .load(picUri)
-                .override(200, 200)
-                .centerCrop()
-                .into(picture);
+        UserServiceImp.getInstance().getUser(id, new Callback<ResponseFormat>() {
+
+            @Override
+            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+
+                final User user = Converter.toPOJO(response.body().getPayload().get("user"), User.class);
+
+                ImageView picture = (ImageView) myviewuser.findViewById(R.id.imageUser);
+                TextView name = (TextView) myviewuser.findViewById(R.id.nameUser);
+                TextView email = (TextView) myviewuser.findViewById(R.id.email_user);
+                TextView phone = (TextView) myviewuser.findViewById(R.id.phone_user);
+                TextView birth = (TextView) myviewuser.findViewById(R.id.birth_user);
+                TextView last = (TextView) myviewuser.findViewById(R.id.lastLogin_user);
+
+                name.setText(user.getFb_name());
+                email.setText(user.getEmail());
+                phone.setText(user.getTelephone());
+                birth.setText(user.getBirth_date().toString());
+                last.setText(user.getLast_login().toString());
+
+
+                String picUri = user.getFb_profile_image().toString();
+                Glide.with(context)
+                        .load(picUri)
+                        .override(200, 200)
+                        .centerCrop()
+                        .into(picture);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFormat> call, Throwable t) {
+
+            }
+
+
+        });
 
         return myviewuser;
     }
