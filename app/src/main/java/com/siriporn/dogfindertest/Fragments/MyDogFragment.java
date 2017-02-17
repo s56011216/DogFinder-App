@@ -53,10 +53,14 @@ public class MyDogFragment extends Fragment {
                     Log.i("Success","OK");
                     ArrayList<String> stockList = new ArrayList<>();
                     ArrayList<String> stockUri = new ArrayList<>();
-                    Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
+                    ArrayList<Double> latList = new ArrayList<>();
+                    ArrayList<Double> longList = new ArrayList<>();
+                    final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
                     for(Dog dog: dogs) {
                         stockList.add(dog.getName());
+                        latList.add(dog.getLatitude());
+                        longList.add(dog.getLongitude());
                         if(dog.getImages().length != 0) {
                             stockUri.add(dog.getImages()[0]);
                         }else{ //temporary
@@ -70,6 +74,16 @@ public class MyDogFragment extends Fragment {
                     // URI convert List<String> to String[]
                     itemsPic = new String[stockUri.size()];
                     itemsPic = stockUri.toArray(itemsPic);
+                    //convert double list to double[]
+                    final double[] lat_list = new double[latList.size()];
+                    for (int i = 0; i < lat_list.length; i++) {
+                        lat_list[i] = latList.get(i).doubleValue();
+                    }
+                    final double[] long_list = new double[longList.size()];
+                    for (int i = 0; i < long_list.length; i++) {
+                        long_list[i] = longList.get(i).doubleValue();
+                    }
+
 
 
                     ListView list = (ListView)myView.findViewById(R.id.dogListView);
@@ -93,6 +107,10 @@ public class MyDogFragment extends Fragment {
                             Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
                             myIntent.putExtra("SelectRowDog", positions);
                             myIntent.putExtra("Pic",itemsPic);
+                            myIntent.putExtra("lat",lat_list);
+                            myIntent.putExtra("lon",long_list);
+
+
                             startActivity(myIntent);
                         }
 

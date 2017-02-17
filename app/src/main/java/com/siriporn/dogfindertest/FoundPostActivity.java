@@ -12,10 +12,14 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +27,8 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -38,6 +44,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.Profile;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.siriporn.dogfindertest.Models.Dog;
@@ -52,7 +64,7 @@ import retrofit2.Response;
 
 import static com.siriporn.dogfindertest.MainActivity.context;
 
-public class FoundPostActivity extends AppCompatActivity {
+public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Uri mImageCaptureUri;
     private ImageView mImageView;
@@ -61,6 +73,8 @@ public class FoundPostActivity extends AppCompatActivity {
     private String note;
     private File file;
     private Button button;
+    private double latitude,longitude;
+    private int count2;
 
 
     private static final int PICK_FROM_CAMERA = 1;
@@ -115,6 +129,12 @@ public class FoundPostActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        count2 = 0;
     }
 
     private void captureImageInitialization() {
@@ -290,7 +310,7 @@ public class FoundPostActivity extends AppCompatActivity {
                  if (file.exists())
                  file.delete();
                  */
-                if (files.size() == 2) {
+                if (files.size() == 1) {
                     button.setEnabled(false);
                     myFile = files.size();
                 }
@@ -543,6 +563,17 @@ public class FoundPostActivity extends AppCompatActivity {
         note = noticeText.getText().toString();
 
 
+        dog.setName("No name");
+        dog.setBleed("thousand way");
+        dog.setAge(2);
+        dog.setNote(note);
+        dog.setLatitude(latitude);
+        dog.setLongitude(longitude);
+
+        lostAndFound.setType(LostAndFound.FOUND);
+        lostAndFound.setDog(dog);
+        lostAndFound.setNote(note);
+
         //add new dog---------------------
         DogServiceImp.getInstance().newDog(dog, new Callback<ResponseFormat>() {
             @Override
@@ -553,34 +584,36 @@ public class FoundPostActivity extends AppCompatActivity {
                     Map<String, Object> dog_data = response.body().getPayload();
                     Dog dog = gson.fromJson(gson.toJson(response.body().getPayload()), Dog.class);
                     dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
-                    dog.setNote(note);
-                    lostAndFound.setType(LostAndFound.FOUND);
-                    lostAndFound.setDog(dog);
-                    lostAndFound.setNote(note);
+
 
                     //Upload Image to server----------------------
-                    for (int i = 0; i < 2; i++) {
+                    for (int i = 0; i < 1; i++) {
 
                         file = files.get(i);
                         DogServiceImp.getInstance().uploadImage(dog, file, new Callback<ResponseFormat>() {
                             @Override
                             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                                 if (response.body().isSuccess()) {
-                                    DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
-                                        @Override
-                                        public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-                                            if (response.body().isSuccess()) {
+                                    if(count2 == 0) {
+                                        count2++;
+                                        DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
+                                            @Override
+                                            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                                                if (response.body().isSuccess()) {
 
-                                            } else {
-                                                Log.e("onResponse", "notSuccess");
+                                                } else {
+                                                    Log.e("onResponse", "notSuccess");
+                                                }
                                             }
-                                        }
 
-                                        @Override
-                                        public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                                            Log.e("onFailure", "createLostAndFound");
-                                        }
-                                    });
+                                            @Override
+                                            public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                                                Log.e("onFailure", "createLostAndFound");
+                                            }
+
+                                        });
+                                    }
+
 
                                 }
                             }
@@ -612,6 +645,88 @@ public class FoundPostActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    private GoogleMap mMap;
+
+    LocationManager locationManager;
+
+    LocationListener locationListener;
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+
+                Log.i("Location", location.toString());
+
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                //------------------------------
+                latitude =  location.getLatitude();
+                longitude =  location.getLongitude();
+
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        if (Build.VERSION.SDK_INT < 23) {
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        } else {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            } else {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+                //------------------------------
+                latitude =  lastKnownLocation.getLatitude();
+                longitude =  lastKnownLocation.getLongitude();
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+
+        }
+
+    }
+
+
 
 }
 

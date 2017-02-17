@@ -1,7 +1,14 @@
 package com.siriporn.dogfindertest;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
@@ -23,10 +36,12 @@ import retrofit2.Response;
 
 import static com.siriporn.dogfindertest.MainActivity.context;
 
-public class MyDogDetail extends AppCompatActivity {
+public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback {
     String[] pic;
     ImageView mImageView;
     private static int count = 0;
+    double[] latitude,longitude;
+    int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +52,10 @@ public class MyDogDetail extends AppCompatActivity {
         Intent intent = getIntent();
         String positions = intent.getStringExtra("SelectRowDog");
         pic = getIntent().getExtras().getStringArray("Pic");
-        final int position = Integer.parseInt(positions);
+        latitude = getIntent().getExtras().getDoubleArray("lat");
+        longitude = getIntent().getExtras().getDoubleArray("lon");
+
+        position = Integer.parseInt(positions);
 
         DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
             @Override
@@ -48,7 +66,8 @@ public class MyDogDetail extends AppCompatActivity {
                     String Name = (String) dogs.get(position).get("name");
                     String Breed = (String) dogs.get(position).get("breed");
                     String Note = (String) dogs.get(position).get("note");
-                    //String Age = (String) dogs.get(position).get("age");
+                    //latitude = (double) dogs.get(position).get("latitude");
+                    //longitude = (double) dogs.get(position).get("longitude");
 
                     mImageView = (ImageView) findViewById(R.id.imageUser);
                     TextView name = (TextView) findViewById(R.id.nameUser);
@@ -61,7 +80,7 @@ public class MyDogDetail extends AppCompatActivity {
                     note.setText(Note);
 
                     //age.setText(Age);
-                    String uri = "http://161.246.6.240:10100/server" + pic[0];
+                    String uri = "http://161.246.6.240:10100/server" + pic[position];
                     Log.i("ss",uri);
                     Glide.with(context)
                             .load(uri)
@@ -80,7 +99,80 @@ public class MyDogDetail extends AppCompatActivity {
                 Log.e("Sucess","onFailure");
             }
         });
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
     }
+
+    private GoogleMap mMap;
+
+    LocationManager locationManager;
+
+    LocationListener locationListener;
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        LatLng userLocation = new LatLng(latitude[position], longitude[position]);
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("Dog's Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+        locationListener = new LocationListener() {
+
+            @Override
+            public void onLocationChanged(Location location) {
+
+                Log.i("Location", location.toString());
+                //LatLng userLocation = new LatLng(latitude[position], longitude[position]);
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        if (Build.VERSION.SDK_INT < 23) {
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        } else {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            } else {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+                LatLng userLocation2 = new LatLng(latitude[position], longitude[position]);
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+
+        }
+
+    }
+/*
     ImageButton button_right,button_left;
     public void BtnRightClicked(View view){
         button_left = (ImageButton) findViewById(R.id.ButtonLeft);
@@ -137,5 +229,7 @@ public class MyDogDetail extends AppCompatActivity {
     public static synchronized void decrementCount() {
         count--;
     }
+
+*/
 
 }

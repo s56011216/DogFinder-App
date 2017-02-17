@@ -72,7 +72,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
     private TextView breedtext;
     Dog dog = new Dog();
     private double latitude,longitude;
-    double lat,lon;
+
 
 
     private static final int PICK_FROM_CAMERA = 1;
@@ -595,8 +595,8 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
         dog.setBleed(breed);
         dog.setAge(age);
         dog.setNote(note);
-        dog.setLatitude(lat);
-        dog.setLongitude(lon);
+        dog.setLatitude(latitude);
+        dog.setLongitude(longitude);
 
         //add new dog---------------------
         DogServiceImp.getInstance().newDog(dog , new Callback<ResponseFormat>() {
@@ -662,8 +662,8 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
                 //------------------------------
-                lat =  location.getLatitude();
-                lon =  location.getLongitude();
+                latitude =  location.getLatitude();
+                longitude =  location.getLongitude();
 
 
                 mMap.clear();
@@ -707,8 +707,8 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                 LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 
                 //------------------------------
-                lat =  lastKnownLocation.getLatitude();
-                lon =  lastKnownLocation.getLongitude();
+                latitude =  lastKnownLocation.getLatitude();
+                longitude =  lastKnownLocation.getLongitude();
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
