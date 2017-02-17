@@ -57,6 +57,10 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
 
         position = Integer.parseInt(positions);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
         DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
@@ -99,10 +103,6 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
                 Log.e("Sucess","onFailure");
             }
         });
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
     }
 
@@ -161,7 +161,7 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
-                LatLng userLocation2 = new LatLng(latitude[position], longitude[position]);
+                userLocation = new LatLng(latitude[position], longitude[position]);
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));

@@ -33,12 +33,16 @@ import static com.siriporn.dogfindertest.MainActivity.context;
 public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCallback {
     ImageView picture;
     String[] pic;
+    double latitude,longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_found_post_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -86,6 +90,9 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
                 .override(700, 700)
                 .centerCrop()
                 .into(picture);
+
+        latitude = lostAndFound.getDog().getLatitude();
+        longitude = lostAndFound.getDog().getLongitude();
     }
 
 
@@ -144,13 +151,6 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         count--;
     }
 
-
-    //map fragment
-    private GoogleMap mMap;
-    LocationManager locationManager;
-    LocationListener locationListener;
-    float lat,lon;
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -174,27 +174,29 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+
+    private GoogleMap mMap;
+
+    LocationManager locationManager;
+
+    LocationListener locationListener;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
+        LatLng userLocation = new LatLng(latitude, longitude);
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(userLocation).title("Dog's Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
         locationListener = new LocationListener() {
+
             @Override
             public void onLocationChanged(Location location) {
 
-
                 Log.i("Location", location.toString());
-
-                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-
-                lat = (float)location.getLatitude();
-                lon = (float) location.getLongitude();
-
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+                //LatLng userLocation = new LatLng(latitude[position], longitude[position]);
 
             }
 
@@ -228,11 +230,9 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                userLocation = new LatLng(latitude, longitude);
 
-                LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                 mMap.clear();
-
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
@@ -241,4 +241,5 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         }
 
     }
+
 }

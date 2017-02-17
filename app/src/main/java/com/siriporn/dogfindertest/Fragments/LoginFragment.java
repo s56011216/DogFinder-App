@@ -58,6 +58,8 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
  */
 public class LoginFragment extends Fragment {
 
+    Bundle bFacebookData;
+
     private TextView mTextDetails;
     private CallbackManager mCallbackManager;
     private AccessTokenTracker mTokenTracker;
@@ -81,7 +83,7 @@ public class LoginFragment extends Fragment {
                 public void onCompleted(JSONObject object, GraphResponse response) {
                     Log.i("LoginActivity", response.toString());
                     // Get facebook data from login
-                    Bundle bFacebookData = getFacebookData(object);
+                    bFacebookData = getFacebookData(object);
                     connectToServer();
                 }
             });
@@ -109,7 +111,7 @@ public class LoginFragment extends Fragment {
         User user = new User();
         user.setFb_id(id);
         user.setFb_name(name);
-        user.setEmail(email);
+        //user.setEmail(email);
         user.setBirth_date(birth_date);
         user.setFb_token(accessToken);
         user.setFb_token_exp(token_exp);
@@ -142,7 +144,7 @@ public class LoginFragment extends Fragment {
         try {
             Bundle bundle = new Bundle();
             id = object.getString("id");
-            email = object.getString("email");
+            //email = object.getString("email");
             firstname = object.getString("first_name");
             lastname = object.getString("last_name");
             name = firstname +" "+ lastname;
