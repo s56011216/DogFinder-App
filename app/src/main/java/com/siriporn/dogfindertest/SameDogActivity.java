@@ -90,6 +90,8 @@ public class SameDogActivity extends AppCompatActivity {
                     DogService service = NetworkConfigs.getRestAdapter().create(DogService.class);
                     RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     MultipartBody.Part body = MultipartBody.Part.createFormData("path", file.getName(), requestFile);
+
+
                     Call<ResponseFormat> call = service.getSameMyDog("oil", body);
                     Response<ResponseFormat> response = call.execute();
 
@@ -102,14 +104,8 @@ public class SameDogActivity extends AppCompatActivity {
                         // INFORMATION AND URI convert List<String> to String[]
                         stockList.add(dogs.get(i).get("name").toString());
                         List<String> imagesUrl = (List<String>) dogs.get(i).get("images");
-                        //if(imagesUrl.size() != 0) {
                         stockUri.add(imagesUrl.get(0));
-                        /*}else{ //temporary
-                            imagesUrl = (List<String>) dogs.get(0).get("path");
-                            stockUri.add(imagesUrl.get(0));
-                            Log.i("picture : ",Integer.toString(i));
-                        }
-                         */
+
                     }
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];

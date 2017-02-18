@@ -25,6 +25,7 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.DogFinderApplication;
 import com.siriporn.dogfindertest.MainActivity;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
@@ -123,13 +124,23 @@ public class LoginFragment extends Fragment {
         UserServiceImp.getInstance().login(user, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+
                 SharedPreferences sp = DogFinderApplication.getContext().getSharedPreferences("USER_DATA", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("token", response.body().getPayload().get("token").toString());
                 editor.commit();
 
+                /*send id to profile fragment
+                final User user = Converter.toPOJO(response.body().getPayload().get("user_data"), User.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", "From Activity");
+
+                LoginFragment fragobj = new LoginFragment();
+                fragobj.setArguments(bundle);
+                */
                 //intent
                 Intent intent = new Intent(getActivity(),MainActivity.class);
+                //intent.putExtra("id",user.getId());
                 startActivity(intent);
             }
             @Override

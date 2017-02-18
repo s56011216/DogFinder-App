@@ -1,6 +1,7 @@
 package com.siriporn.dogfindertest.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,39 +42,60 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LayoutInflater lf = getActivity().getLayoutInflater();
         myviewuser = lf.inflate(R.layout.activity_user_detail, container, false);
-
+        
         Profile profile = Profile.getCurrentProfile();
 
-        String id = profile.getId().toString();
+        ImageView picture = (ImageView) myviewuser.findViewById(R.id.imageUser);
+        TextView name = (TextView) myviewuser.findViewById(R.id.nameUser);
+
+        name.setText(profile.getName());
+        Uri picUri = profile.getProfilePictureUri(200,200);
+        Glide.with(context)
+                .load(picUri)
+                .override(200, 200)
+                .centerCrop()
+                .into(picture);
+
+        /*receive id from login fragment
+        String strtext = getArguments().getString("id");
+        int id_user = 8;
 
 
-        UserServiceImp.getInstance().getUser(id, new Callback<ResponseFormat>() {
+        UserServiceImp.getInstance().getUser(id_user, new Callback<ResponseFormat>() {
 
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-
-                final User user = Converter.toPOJO(response.body().getPayload().get("user"), User.class);
-
-                ImageView picture = (ImageView) myviewuser.findViewById(R.id.imageUser);
-                TextView name = (TextView) myviewuser.findViewById(R.id.nameUser);
-                TextView email = (TextView) myviewuser.findViewById(R.id.email_user);
-                TextView phone = (TextView) myviewuser.findViewById(R.id.phone_user);
-                TextView birth = (TextView) myviewuser.findViewById(R.id.birth_user);
-                TextView last = (TextView) myviewuser.findViewById(R.id.lastLogin_user);
-
-                name.setText(user.getFb_name());
-                email.setText(user.getEmail());
-                phone.setText(user.getTelephone());
-                birth.setText(user.getBirth_date().toString());
-                last.setText(user.getLast_login().toString());
+                if(response.body().isSuccess()) {
+                    Profile profile = Profile.getCurrentProfile();
 
 
-                String picUri = user.getFb_profile_image().toString();
-                Glide.with(context)
-                        .load(picUri)
-                        .override(200, 200)
-                        .centerCrop()
-                        .into(picture);
+                    final User user = Converter.toPOJO(response.body().getPayload().get("user_data"), User.class);
+
+                    String id = profile.getId().toString();
+
+                    ImageView picture = (ImageView) myviewuser.findViewById(R.id.imageUser);
+                    TextView name = (TextView) myviewuser.findViewById(R.id.nameUser);
+                    TextView email = (TextView) myviewuser.findViewById(R.id.email_user);
+                    TextView phone = (TextView) myviewuser.findViewById(R.id.phone_user);
+                    TextView birth = (TextView) myviewuser.findViewById(R.id.birth_user);
+                    TextView last = (TextView) myviewuser.findViewById(R.id.lastLogin_user);
+
+                    name.setText(user.getFb_name());
+                    email.setText(user.getEmail());
+                    phone.setText(user.getTelephone());
+                    birth.setText(user.getBirth_date().toString());
+                    last.setText(user.getLast_login().toString());
+
+
+                    String picUri = user.getFb_profile_image().toString();
+                    Glide.with(context)
+                            .load(picUri)
+                            .override(200, 200)
+                            .centerCrop()
+                            .into(picture);
+                }else{
+                    Log.e("Sucess","Failed");
+                }
             }
 
             @Override
@@ -83,7 +105,7 @@ public class ProfileFragment extends Fragment {
 
 
         });
-
+*/
         return myviewuser;
     }
 }

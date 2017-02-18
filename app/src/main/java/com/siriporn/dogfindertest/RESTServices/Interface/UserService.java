@@ -23,7 +23,7 @@ public interface UserService {
     Call<ResponseFormat> isAuthenticate();
 
     @GET("/server/user/self")
-    Call<ResponseFormat> getUser(@Query("id") String id);
+    Call<ResponseFormat> getUser(@Query("id") int id);
 
     @GET("/server/user/self_info")
     Call<ResponseFormat> getSelfInfo();
