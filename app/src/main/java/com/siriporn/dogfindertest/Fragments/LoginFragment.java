@@ -130,15 +130,10 @@ public class LoginFragment extends Fragment {
                 editor.putString("token", response.body().getPayload().get("token").toString());
                 editor.commit();
 
-                /*send id to profile fragment
-                final User user = Converter.toPOJO(response.body().getPayload().get("user_data"), User.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("id", "From Activity");
+                //send id to profile fragment
+                User user = Converter.toPOJO(response.body().getPayload().get("user_data"), User.class);
+                DogFinderApplication.setUser(user);
 
-                LoginFragment fragobj = new LoginFragment();
-                fragobj.setArguments(bundle);
-                */
-                //intent
                 Intent intent = new Intent(getActivity(),MainActivity.class);
                 //intent.putExtra("id",user.getId());
                 startActivity(intent);

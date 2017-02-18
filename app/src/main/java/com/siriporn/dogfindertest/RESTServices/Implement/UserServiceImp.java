@@ -48,4 +48,9 @@ public class UserServiceImp {
         Call call = service.getUser(id);
         call.enqueue(callback);
     }
+
+    public void getSelfInfo(Callback callback) {
+        Call call = service.getSelfInfo();
+        call.enqueue(callback);
+    }
 }

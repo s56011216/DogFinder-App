@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterSameDog;
 import com.siriporn.dogfindertest.Models.Dog;
+import com.siriporn.dogfindertest.Models.LostAndFound;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
@@ -62,7 +63,7 @@ public class SameDogActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        final Context context = this;
         //get parameter
         AsyncTask.execute(new Runnable() {
             @Override
@@ -98,15 +99,14 @@ public class SameDogActivity extends AppCompatActivity {
                     ArrayList<String> stockList = new ArrayList<String>();
                     ArrayList<String> stockUri = new ArrayList<String>();
 
-                    final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
+                    final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
 
-                    for(int i = 0 ; i< dogs.size() ; i++) {
-                        // INFORMATION AND URI convert List<String> to String[]
-                        stockList.add(dogs.get(i).get("name").toString());
-                        List<String> imagesUrl = (List<String>) dogs.get(i).get("images");
-                        stockUri.add(imagesUrl.get(0));
-
+                    for(LostAndFound lostAndFound: lostAndFounds) {
+                        Dog dog = lostAndFound.getDog();
+                        stockList.add(dog.getName());
+                        stockUri.add(dog.getImages()[0]);
                     }
+
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);
@@ -139,10 +139,13 @@ public class SameDogActivity extends AppCompatActivity {
                                                 long arg3) {
                             // TODO Auto-generated method stub
                             //Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
-
                             /**
                              * Send position for showing in Dog detail on next page (MyDogDetail)
                              */
+                            Intent myIntent = new Intent(context, FoundPostDetail.class);
+                            Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
+                            startActivity(myIntent);
+
                             String positions = Integer.toString(position);
                             Log.i("position",positions);
                                     /*Intent myIntent = new Intent(getActivity(), MyDogDetail.class);

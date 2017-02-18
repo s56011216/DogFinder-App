@@ -105,7 +105,6 @@ tools:showIn="@layout/activity_found_post_detail">
 
     <TextView
         android:id="@+id/noticeLostPost"
-        android:hint="Write your post..."
         android:layout_width="376dp"
         android:layout_height="47dp"
         android:textSize="18sp"

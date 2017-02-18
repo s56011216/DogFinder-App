@@ -85,7 +85,7 @@ public class LostFragment extends Fragment {
                         }
 
                         //get date
-                        dateList.add(dog.getCreated_at().toString());
+                        dateList.add(lostAndFound.getCreated_at().toString());
 
                         //create user
                         User user = dog.getUser();

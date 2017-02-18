@@ -61,11 +61,11 @@ public class MyDogFragment extends Fragment {
                         stockList.add(dog.getName());
                         latList.add(dog.getLatitude());
                         longList.add(dog.getLongitude());
-                        if(dog.getImages().length != 0) {
-                            stockUri.add(dog.getImages()[0]);
-                        }else{ //temporary
-                            stockUri.add(dogs[0].getImages()[0]);
-                        }
+                        //if(dog.getImages().length != 0) {
+                        stockUri.add(dog.getImages()[0]);
+                        //}else{ //temporary
+                        //    stockUri.add(dogs[0].getImages()[0]);
+                        //}
                     }
 
                     // INFORMATION convert List<String> to String[]
