@@ -57,7 +57,7 @@ public class CustomAdapterSearch extends BaseAdapter {
 
         if(convertView == null)
         {
-            convertView = mInflater.inflate(R.layout.list_item_found,parent,false);
+            convertView = mInflater.inflate(R.layout.list_item_searchdog,parent,false);
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
             holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);

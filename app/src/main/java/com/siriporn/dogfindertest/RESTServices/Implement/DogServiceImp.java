@@ -11,13 +11,12 @@ import com.siriporn.dogfindertest.NetworkConfigs;
 import com.siriporn.dogfindertest.RESTServices.Interface.DogService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,6 +94,26 @@ public class DogServiceImp {
         map.put("dog", dog);
         map.put("coordinate", coordinate);
         Call call = service.addCoordinate(map);
+        call.enqueue(callback);
+    }
+
+    public Response<ResponseFormat> getSimilarDogFound(String name, MultipartBody.Part body) throws IOException {
+        Call<ResponseFormat> call = service.getSimilarDogFound(name, body);
+        return call.execute();
+    }
+
+    public void getSimilarDogFound(String name, MultipartBody.Part body, Callback callback) {
+        Call<ResponseFormat> call = service.getSimilarDogFound(name, body);
+        call.enqueue(callback);
+    }
+
+    public Response<ResponseFormat> getSimilarDogFound(Dog dog) throws IOException {
+        Call<ResponseFormat> call = service.getSimilarDogFound(dog.getId());
+        return call.execute();
+    }
+
+    public void getSimilarDogFound(Dog dog, Callback callback) {
+        Call<ResponseFormat> call = service.getSimilarDogFound(dog.getId());
         call.enqueue(callback);
     }
 }

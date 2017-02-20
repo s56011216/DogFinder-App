@@ -12,5 +12,71 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.siriporn.dogfindertest.FindPostActivity"
     tools:showIn="@layout/activity_find_post">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:layout_width="266dp"
+                android:layout_height="238dp"
+                app:srcCompat="@drawable/camera2"
+                android:id="@+id/captureView"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp" />
+
+
+            <Button
+                android:text="Find dog you like"
+                android:layout_width="378dp"
+                android:layout_height="88dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/FindDogYouLike"
+                android:onClick="FindDogYouLikeClicked"
+                app:layout_constraintTop_toBottomOf="@+id/captureButton"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:textSize="30sp"
+                android:padding="10dp" />
+
+            <Button
+                android:text="ADD"
+                android:layout_width="188dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/captureButton"
+                app:layout_constraintTop_toBottomOf="@+id/captureView"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp" />
+
+
+
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </RelativeLayout>

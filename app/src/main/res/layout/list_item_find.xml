@@ -5,7 +5,7 @@
     android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/imgDogFind"
+        android:id="@+id/imgDogAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,16 +16,17 @@
         android:src="@drawable/camera" />
 
     <TextView
-        android:id="@+id/nameDogFind"
+        android:id="@+id/nameDogAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imgDogFind"
+        android:layout_alignTop="@+id/imgDogAccount"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
-        android:layout_toRightOf="@+id/imgDogFind"
-        android:text="TextView" />
+        android:layout_toRightOf="@+id/imgDogAccount"
+        android:text="TextView"
+        android:textSize="24sp" />
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/alertoff"
@@ -37,5 +38,5 @@
         android:id="@+id/alertButton"
         android:onClick="myClickHandler"
         android:background="@color/cast_expanded_controller_seek_bar_progress_background_tint_color" />
-
+-->
 </RelativeLayout>

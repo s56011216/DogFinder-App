@@ -12,8 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.siriporn.dogfindertest.Cache;
+import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterFind;
+import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.MyDogDetail;
 import com.siriporn.dogfindertest.R;
@@ -37,7 +40,7 @@ public class FindFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View myView = inflater.inflate(R.layout.layout_mydog, container, false);
+        final View myView = inflater.inflate(R.layout.layout_find, container, false);
         /**
          * my dog
          */
@@ -46,25 +49,20 @@ public class FindFragment extends Fragment {
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
-                    ArrayList<String> stockList = new ArrayList<String>();
-                    ArrayList<String> stockUri = new ArrayList<String>();
+                    ArrayList<String> stockList = new ArrayList<>();
+                    ArrayList<String> stockUri = new ArrayList<>();
 
-                    final List<Map<String, Object>> dogs = (List<Map<String, Object>>) response.body().getPayload().get("dogs");
+                    final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
-                    for(int i = 0 ; i< dogs.size() ; i++) {
-                        // INFORMATION AND URI convert List<String> to String[]
-                        stockList.add(dogs.get(i).get("name").toString());
-                        List<String> imagesUrl = (List<String>) dogs.get(i).get("images");
-                        if(imagesUrl.size() != 0) {
-                            stockUri.add(imagesUrl.get(0));
-                        }else{ //temporary
-                            imagesUrl = (List<String>) dogs.get(0).get("images");
-                            stockUri.add(imagesUrl.get(0));
-                            Log.i("picture : ",Integer.toString(i));
-
+                    for(Dog dog: dogs) {
+                        stockList.add(dog.getName());
+                        if (dog.getImages().length != 0) {
+                            stockUri.add(dog.getImages()[0]);
+                        } else {
+                            stockUri.add(dogs[0].getImages()[0]);
                         }
-
                     }
+
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);
@@ -73,8 +71,8 @@ public class FindFragment extends Fragment {
                     itemsPic = stockUri.toArray(itemsPic);
 
 
-                    ListView list = (ListView)myView.findViewById(R.id.dogListView);
-                    CustomAdapterDog cus = new CustomAdapterDog(getActivity(),items,itemsPic);
+                    ListView list = (ListView)myView.findViewById(R.id.findListView);
+                    CustomAdapterFind cus = new CustomAdapterFind(getActivity(),items,itemsPic);
                     list.setAdapter(cus);
 
 
@@ -85,15 +83,16 @@ public class FindFragment extends Fragment {
                         public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                                 long arg3) {
                             // TODO Auto-generated method stub
-                            Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
 
                             /**
                              * Send position for showing in Dog detail on next page (MyDogDetail)
                              */
-                            String positions = Integer.toString(position);
+                            Cache.getInstance().put("chosen_dog", dogs[position]);
+//                            String positions = Integer.toString(position);
                             Intent myIntent = new Intent(getActivity(), SameDogActivity.class);
-                            myIntent.putExtra("SelectRowDog", positions);
-                            myIntent.putExtra("Pic",itemsPic);
+//                            myIntent.putExtra("SelectRowDog", positions);
+//                            myIntent.putExtra("Pic",itemsPic);
                             startActivity(myIntent);
                         }
 

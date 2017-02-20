@@ -37,8 +37,11 @@ public interface DogService {
     Call<ResponseFormat> getAllMyDog();
 
     @Multipart
-    @POST("/server/dog/get_similar_faces")
-    Call<ResponseFormat> getSameMyDog(@Part("name") String name, @Part MultipartBody.Part file);
+    @POST("/server/dog/find_similar_dogs")
+    Call<ResponseFormat> getSimilarDogFound(@Part("name") String name, @Part MultipartBody.Part file);
+
+    @GET("/server/dog/find_similar_dogs")
+    Call<ResponseFormat> getSimilarDogFound(@Query("dog_id") int dogId);
 
     @POST("/server/dog/lost_and_found")
     Call<ResponseFormat> createLostAndFound(@Body LostAndFound lostAndFound);

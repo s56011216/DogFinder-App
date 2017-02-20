@@ -96,6 +96,14 @@ ATTENTION: This was auto-generated to add Google Play services to your project f
         <activity
             android:name=".LostPostAcitivity"
             android:label="@string/title_activity_lost_post_acitivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FindPostActivity"
+            android:label="@string/title_activity_find_post"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SameDogSearchActivity"
+            android:label="@string/title_activity_same_dog_search"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -68,36 +68,35 @@ public class SameDogActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                Intent intent = getIntent();
-                String positions = intent.getStringExtra("SelectRowDog");
-                pic = getIntent().getExtras().getStringArray("Pic");
-                int position = Integer.parseInt(positions);
-                mImageCaptureUri = Uri.fromFile(new File(Environment
-                        .getExternalStorageDirectory(),"TempPic.jpg"));
-                String uri = "http://161.246.6.240:10100/server" + pic[position];
-                File file = new File(mImageCaptureUri.getPath());
+//                Intent intent = getIntent();
+//                String positions = intent.getStringExtra("SelectRowDog");
+//                pic = getIntent().getExtras().getStringArray("Pic");
+                Dog chosen_dog = Cache.getInstance().get("chosen_dog");
+//                int position = Integer.parseInt(positions);
+//                mImageCaptureUri = Uri.fromFile(new File(Environment
+//                        .getExternalStorageDirectory(),"TempPic.jpg"));
+//                String uri = "http://161.246.6.240:10100/server" + pic[position];
+//                File file = new File(mImageCaptureUri.getPath());
                 try {
-                    Bitmap theBitmap =
-                            Glide.with(context)
-                                    .load(uri)
-                                    .asBitmap()
-                                    .into(231, 231)
-                                    .get();
-                    OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
-                    theBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-                    os.close();
+//                    Bitmap theBitmap =
+//                            Glide.with(context)
+//                                    .load(uri)
+//                                    .asBitmap()
+//                                    .into(231, 231)
+//                                    .get();
+//                    OutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+//                    theBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+//                    os.close();
+//
+//
+//                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//                    MultipartBody.Part body = MultipartBody.Part.createFormData("path", file.getName(), requestFile);
 
+//                    Response<ResponseFormat> response = DogServiceImp.getInstance().getSimilarDogFound("oil", body);
+                    Response<ResponseFormat> response = DogServiceImp.getInstance().getSimilarDogFound(chosen_dog);
 
-                    DogService service = NetworkConfigs.getRestAdapter().create(DogService.class);
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                    MultipartBody.Part body = MultipartBody.Part.createFormData("path", file.getName(), requestFile);
-
-
-                    Call<ResponseFormat> call = service.getSameMyDog("oil", body);
-                    Response<ResponseFormat> response = call.execute();
-
-                    ArrayList<String> stockList = new ArrayList<String>();
-                    ArrayList<String> stockUri = new ArrayList<String>();
+                    ArrayList<String> stockList = new ArrayList<>();
+                    ArrayList<String> stockUri = new ArrayList<>();
 
                     final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
 
@@ -156,10 +155,6 @@ public class SameDogActivity extends AppCompatActivity {
 
                     });
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

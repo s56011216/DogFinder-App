@@ -28,12 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            app:layout_constraintTop_toTopOf="@+id/foundUserPicPost"
             android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:textColor="@color/cast_expanded_controller_background_color"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toRightOf="@+id/foundUserPicPost"
             android:layout_marginLeft="16dp"
-            android:textStyle="normal|bold" />
+            app:layout_constraintTop_toTopOf="@+id/foundUserPicPost" />
 
         <TextView
             android:id="@+id/foundDatePost"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/nameFB"
-            app:layout_constraintLeft_toLeftOf="@+id/nameFB" />
+            app:layout_constraintLeft_toLeftOf="@+id/nameFB"
+            android:textColor="@color/cast_expanded_controller_background_color" />
 
         <ImageView
             android:id="@+id/picFoundPost"
@@ -70,7 +72,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp" />
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/cast_expanded_controller_background_color" />
 
     </android.support.constraint.ConstraintLayout>
 
