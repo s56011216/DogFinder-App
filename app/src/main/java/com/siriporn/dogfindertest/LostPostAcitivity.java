@@ -64,6 +64,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        String dd = Cache.getInstance().get("lostAndFound");
         Profile profile = Profile.getCurrentProfile();
         ImageView picture = (ImageView) findViewById(R.id.lostUserPicWritePost);
         TextView name = (TextView) findViewById(R.id.nameFB);
@@ -80,8 +81,8 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
                 .centerCrop()
                 .into(picture);
 
-        latitude = lostAndFound.getDog().getLatitude();
-        longitude = lostAndFound.getDog().getLongitude();
+        //latitude = lostAndFound.getDog().getLatitude();
+        //longitude = lostAndFound.getDog().getLongitude();
 
         //get note
         String notes = note.getText().toString();
@@ -91,6 +92,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
                 if (response.body().isSuccess()) {
                     final List<String> stockList = new ArrayList<>();
                     dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
+
 
                     for (Dog dog : dogs) {
                         stockList.add(dog.getName());
@@ -138,6 +140,8 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
         lostAndFound.setDog(getChosenDog());
         //lostAndFound.setUser(user);
         lostAndFound.setNote(note);
+        dog.setLatitude(latitude);
+        dog.setLongitude(longitude);
 
         DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
             @Override
@@ -162,6 +166,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
 
     private void setChosenDog(Dog dog) {
         chosenDog = dog;
+
     }
 
     private Dog getChosenDog() {
@@ -179,17 +184,31 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
         mMap = googleMap;
 
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+
+        /*
         LatLng userLocation = new LatLng(latitude, longitude);
+
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(userLocation).title("Dog's Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+          */
         locationListener = new LocationListener() {
 
             @Override
             public void onLocationChanged(Location location) {
 
                 Log.i("Location", location.toString());
-                //LatLng userLocation = new LatLng(latitude[position], longitude[position]);
+
+                LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                //------------------------------
+                latitude =  location.getLatitude();
+                longitude =  location.getLongitude();
+
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
             }
 
@@ -223,7 +242,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
-                userLocation = new LatLng(latitude, longitude);
+                LatLng userLocation = new LatLng(latitude, longitude);
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));

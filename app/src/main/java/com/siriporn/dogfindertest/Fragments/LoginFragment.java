@@ -25,6 +25,7 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.siriporn.dogfindertest.Cache;
 import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.DogFinderApplication;
 import com.siriporn.dogfindertest.MainActivity;

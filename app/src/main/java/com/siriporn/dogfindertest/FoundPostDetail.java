@@ -52,7 +52,7 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         //Intent intent = getIntent();
         //Parcelable mBoard =  intent.getParcelableExtra("test");
 
-        LostAndFound lostAndFound = (LostAndFound) Cache.getInstance().get("lostAndFound");
+        LostAndFound lostAndFound = Cache.getInstance().get("lostAndFound");
 
         picture = (ImageView)findViewById(R.id.picFoundPost);
 

@@ -503,8 +503,8 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
              */
             intent.setData(mImageCaptureUri);
 
-            intent.putExtra("outputX", 200);
-            intent.putExtra("outputY", 200);
+            intent.putExtra("outputX", 231);
+            intent.putExtra("outputY", 231);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
@@ -592,7 +592,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
         note = noticeText.getText().toString();
 
         dog.setName(name);
-        dog.setBleed(breed);
+        dog.setBreed(breed);
         dog.setAge(age);
         dog.setNote(note);
         dog.setLatitude(latitude);

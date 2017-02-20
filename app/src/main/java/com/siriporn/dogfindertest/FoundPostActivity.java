@@ -477,8 +477,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
              */
             intent.setData(mImageCaptureUri);
 
-            intent.putExtra("outputX", 200);
-            intent.putExtra("outputY", 200);
+            intent.putExtra("outputX", 231);
+            intent.putExtra("outputY", 231);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
@@ -564,7 +564,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
 
 
         dog.setName("No name");
-        dog.setBleed("thousand way");
+        dog.setBreed("thousand way");
         dog.setAge(2);
         dog.setNote(note);
         dog.setLatitude(latitude);

@@ -11,6 +11,7 @@ public class Cache {
 
     private static Cache instance;
     private static Map<String, Object> cache;
+    private static Map<String, Class<?>> objectClass;
 
     private Cache() {}
 
@@ -18,15 +19,21 @@ public class Cache {
         if(instance == null) {
             instance = new Cache();
             cache = new HashMap<>();
+            objectClass = new HashMap<>();
         }
         return instance;
     }
 
     public void put(String key, Object object) {
+        objectClass.put(key, object.getClass());
         cache.put(key, object);
     }
 
-    public Object get(String key) {
-        return cache.get(key);
+//    public Object get(String key) {
+//        return cache.get(key);
+//    }
+
+    public <T> T get(String key) {
+        return (T) objectClass.get(key).cast(cache.get(key));
     }
 }

@@ -71,7 +71,7 @@ public class LostFragment extends Fragment {
                         nameList.add(dog.getName());
 
                         //get breed
-                        breedList.add(dog.getBleed());
+                        breedList.add(dog.getBreed());
 
                         //get note
                         noteList.add(dog.getNote());
@@ -85,7 +85,7 @@ public class LostFragment extends Fragment {
                         }
 
                         //get date
-                        dateList.add(lostAndFound.getCreated_at().toString());
+                        dateList.add(lostAndFound.getCreated_at().toString().substring(0,20));
 
                         //create user
                         User user = dog.getUser();

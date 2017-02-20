@@ -12,13 +12,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">Dog Finder</string>
-    <string name="title_activity_mydog2">Mydog2</string>
-    <string name="title_activity_dog_add_info">DogAddInforActivity</string>
+    <string name="title_activity_mydog2">My Dog</string>
+    <string name="title_activity_dog_add_info">Add Dog</string>
     <string name="title_activity_search_breed">SearchBreed</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_my_dog_detail">MyDogDetail</string>
-    <string name="title_activity_same_dog">SameDogActivity</string>
-    <string name="title_activity_found_post">FoundPostActivity</string>
-    <string name="title_activity_found_post_detail">FoundPostDetail</string>
-    <string name="title_activity_lost_post_acitivity">LostPostAcitivity</string>
+    <string name="title_activity_my_dog_detail">My Dog Info.</string>
+    <string name="title_activity_same_dog">Look like my dog</string>
+    <string name="title_activity_found_post">Found Post</string>
+    <string name="title_activity_found_post_detail">Dog Info.</string>
+    <string name="title_activity_lost_post_acitivity">Lost Post</string>
 </resources>

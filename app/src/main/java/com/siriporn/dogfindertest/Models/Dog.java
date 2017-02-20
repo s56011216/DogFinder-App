@@ -21,7 +21,7 @@ public class Dog {
     double longitude;
     User user;
     String name;
-    String bleed;
+    String breed;
     String note;
     String images[];
     Date created_at;
