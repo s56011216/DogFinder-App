@@ -98,7 +98,7 @@ public class MyDogFragment extends Fragment {
                         public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                                 long arg3) {
                             // TODO Auto-generated method stub
-                            Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(),"row : "+ position,Toast.LENGTH_SHORT).show();
 
                             /**
                              * Send position for showing in Dog detail on next page (MyDogDetail)

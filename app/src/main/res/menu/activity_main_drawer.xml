@@ -21,7 +21,7 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/locationicon"
-            android:title="Map" />
+            android:title="Find For Adopting" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/user"

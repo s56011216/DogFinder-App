@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -38,7 +39,8 @@ public class NetworkConfigs {
                         .build();
                 return chain.proceed(authorisedRequest);
             }
-        }).build();
+        }).readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS).build();
 
         return client;
     }

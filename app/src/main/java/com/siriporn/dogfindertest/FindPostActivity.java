@@ -507,6 +507,7 @@ public class CropOption {
 
     public void FindDogYouLikeClicked(View view){
         Intent intent = new Intent(this,SameDogSearchActivity.class);
+        Cache.getInstance().put("PictureILike", file);
         intent.putExtra("PictureILike", file.toString());
         startActivity(intent);
     }
