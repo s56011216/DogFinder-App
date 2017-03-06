@@ -65,7 +65,7 @@ public class FoundFragment extends Fragment {
                         if(lostAndFound.getType() == 1) {
                             Dog dog = lostAndFound.getDog();
                             //get note
-                            noteList.add(dog.getNote());
+                            noteList.add(lostAndFound.getNote());
                             //get dog image
                             String[] images = dog.getImages();
 
@@ -76,7 +76,7 @@ public class FoundFragment extends Fragment {
                             }
 
                             //get date
-                            dateList.add(lostAndFound.getCreated_at().toString());
+                            dateList.add(lostAndFound.getCreated_at().toString().substring(0,20));
 
                             //create user
                             User user = dog.getUser();

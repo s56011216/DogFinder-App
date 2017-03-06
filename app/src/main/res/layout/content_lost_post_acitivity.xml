@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/lostUserPicWritePost" />
 
         <EditText
-            android:id="@+id/noticeLostPost"
+            android:id="@+id/noticeDog"
             android:hint="Write your post"
             android:layout_width="350dp"
             android:layout_height="131dp"
@@ -110,7 +110,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/noticeLostPost" />
+            app:layout_constraintTop_toBottomOf="@+id/noticeDog" />
 
     </android.support.constraint.ConstraintLayout>
 

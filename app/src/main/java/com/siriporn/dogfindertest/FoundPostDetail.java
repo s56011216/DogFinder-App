@@ -1,13 +1,11 @@
 package com.siriporn.dogfindertest;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -72,7 +70,7 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         TextView date = (TextView) findViewById(R.id.DatePost);
         date.setText(lostAndFound.getCreated_at().toString());
 
-        TextView note = (TextView) findViewById(R.id.noticeLostPost);
+        TextView note = (TextView) findViewById(R.id.noticeDog);
         note.setText(lostAndFound.getNote());
 
         TextView phone = (TextView) findViewById(R.id.PhoneText);

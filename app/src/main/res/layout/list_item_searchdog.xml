@@ -51,7 +51,7 @@
             android:layout_width="384dp"
             android:layout_height="228dp"
             app:srcCompat="@color/wallet_bright_foreground_disabled_holo_light"
-            app:layout_constraintTop_toBottomOf="@+id/noticeLostPost"
+            app:layout_constraintTop_toBottomOf="@+id/noticeDog"
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/wallet_bright_foreground_disabled_holo_light"
             android:layout_marginTop="8dp"
@@ -60,7 +60,7 @@
             android:scaleType="fitXY"/>
 
         <TextView
-            android:id="@+id/noticeLostPost"
+            android:id="@+id/noticeDog"
             android:text="noticeable : (notice)"
             android:layout_width="381dp"
             android:layout_height="28dp"

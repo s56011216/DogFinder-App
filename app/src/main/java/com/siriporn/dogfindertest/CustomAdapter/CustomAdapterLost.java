@@ -23,10 +23,11 @@ public class CustomAdapterLost extends BaseAdapter {
     String itemsDate[];
     String itemPicFB[];
     String itemNameFB[];
+    String itemNotePost[];
 
     LayoutInflater mInflater;
 
-    public CustomAdapterLost(Context context, String[] itemName,String[] itemBreed, String[] itemNote, String[] itemsPic,
+    public CustomAdapterLost(Context context, String[] itemName,String[] itemBreed, String[] itemNote,String[] itemNotePost, String[] itemsPic,
                               String[] itemsDate,String[] itemPicFB , String[] itemNameFB) {
 
         mInflater = LayoutInflater.from(context);
@@ -37,6 +38,7 @@ public class CustomAdapterLost extends BaseAdapter {
         this.itemPicFB = itemPicFB;
         this.itemName = itemName;
         this.itemBreed = itemBreed;
+        this.itemNotePost = itemNotePost;
     }
 
     @Override
@@ -61,7 +63,8 @@ public class CustomAdapterLost extends BaseAdapter {
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
             holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);
-            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeLostPost);
+            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeDog);
+            holder.tv6 = (TextView) convertView.findViewById(R.id.NotePost);
             holder.ivFB = (ImageView) convertView.findViewById(R.id.lostUserPicWritePost);
             holder.ivdog = (ImageView) convertView.findViewById(R.id.picLostPost);
 
@@ -83,6 +86,7 @@ public class CustomAdapterLost extends BaseAdapter {
 
         holder.tv4.setText(itemName[position]);
         holder.tv5.setText(itemBreed[position]);
+        holder.tv6.setText(itemNotePost[position]);
 
         if (holder.ivdog != null) {
             String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
@@ -114,5 +118,6 @@ public class CustomAdapterLost extends BaseAdapter {
         TextView tv3;
         TextView tv4;
         TextView tv5;
+        TextView tv6;
     }
 }

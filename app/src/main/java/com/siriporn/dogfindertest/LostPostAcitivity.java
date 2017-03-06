@@ -68,7 +68,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
         Profile profile = Profile.getCurrentProfile();
         ImageView picture = (ImageView) findViewById(R.id.lostUserPicWritePost);
         TextView name = (TextView) findViewById(R.id.nameFB);
-        TextView note = (TextView) findViewById(R.id.noticeLostPost);
+        TextView note = (TextView) findViewById(R.id.noticeDog);
         final ImageView search = (ImageView) findViewById(R.id.searchMydog);
         final TextView show_name = (TextView) findViewById(R.id.nameLostPost);
 
@@ -133,7 +133,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
 
     public void writeLostPostClicked(View view){
 
-        EditText noticeText = (EditText) findViewById(R.id.noticeLostPost);
+        EditText noticeText = (EditText) findViewById(R.id.noticeDog);
         note = noticeText.getText().toString();
         user.getId();
         lostAndFound.setType(LostAndFound.LOST);

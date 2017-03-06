@@ -44,10 +44,8 @@ public class FindPostActivity extends AppCompatActivity {
     private AlertDialog dialog;
     private Bitmap photo;
     private File file;
-    private Button button ;
+    private Button button;
     Dog dog = new Dog();
-
-
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;

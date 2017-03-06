@@ -559,7 +559,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
     public void writeFoundPostClicked(View view) {
 
         count = 0;
-        EditText noticeText = (EditText) findViewById(R.id.noticeLostPost);
+        EditText noticeText = (EditText) findViewById(R.id.noticeDog);
         note = noticeText.getText().toString();
 
 

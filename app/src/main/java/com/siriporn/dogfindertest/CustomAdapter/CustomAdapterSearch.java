@@ -61,7 +61,7 @@ public class CustomAdapterSearch extends BaseAdapter {
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameFB);
             holder.tv2 = (TextView) convertView.findViewById(R.id.foundDatePost);
-            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeLostPost);
+            holder.tv3 = (TextView) convertView.findViewById(R.id.noticeDog);
             holder.ivFB = (ImageView) convertView.findViewById(R.id.foundUserPicPost);
             holder.ivdog = (ImageView) convertView.findViewById(R.id.picFoundPost);
             //if(itemName.length != 0 && itemBreed.length != 0) {

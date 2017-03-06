@@ -33,6 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.util.Log.e;
+
 /**
  * Created by siriporn on 26/12/2559.
  */
@@ -118,13 +120,13 @@ public class MyDogFragment extends Fragment {
 
                 }
                 else{
-                    Log.e("Sucess","Failed");
+                    e("Sucess","Failed");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                Log.e("Sucess","onFailure");
+                 Log.e("Sucess","onFailure");
             }
         });
 

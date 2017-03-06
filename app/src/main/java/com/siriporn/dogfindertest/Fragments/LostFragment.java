@@ -24,6 +24,7 @@ import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
+import com.siriporn.dogfindertest.UserDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ import retrofit2.Response;
 
 public class LostFragment extends Fragment {
 
-    String[] itemName, itemBreed, itemNote,itemPic, itemsPicFB, itemsDate,itemsNameFB;
+    String[] itemName, itemBreed, itemNote, itemNotePost,itemPic, itemsPicFB, itemsDate,itemsNameFB;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class LostFragment extends Fragment {
                     ArrayList<String> nameList = new ArrayList<String>();
                     ArrayList<String> breedList = new ArrayList<String>();
                     ArrayList<String> noteList = new ArrayList<String>();
+                    ArrayList<String> postList = new ArrayList<String>();
                     ArrayList<String> dateList = new ArrayList<String>();
                     ArrayList<String> FBnameList = new ArrayList<String>();
                     ArrayList<String> FBpicList = new ArrayList<String>();
@@ -72,6 +74,9 @@ public class LostFragment extends Fragment {
 
                         //get breed
                         breedList.add(dog.getBreed());
+
+                        //get post
+                         postList.add(lostAndFound.getNote());
 
                         //get note
                         noteList.add(dog.getNote());
@@ -101,6 +106,10 @@ public class LostFragment extends Fragment {
                     itemBreed = breedList.toArray(itemBreed);
 
                     // NOTE convert List<String> to String[]
+                    itemNotePost = new String[postList.size()];
+                    itemNotePost = postList.toArray(itemNotePost);
+
+                    // NOTE convert List<String> to String[]
                     itemNote = new String[noteList.size()];
                     itemNote = noteList.toArray(itemNote);
                     // DOG IMG convert List<String> to String[]
@@ -119,7 +128,7 @@ public class LostFragment extends Fragment {
 
 
                     ListView list = (ListView) myView.findViewById(R.id.lostListView);
-                    CustomAdapterLost cus = new CustomAdapterLost(getActivity(), itemName, itemBreed, itemNote,
+                    CustomAdapterLost cus = new CustomAdapterLost(getActivity(), itemName, itemBreed, itemNote, itemNotePost,
                             itemPic, itemsDate, itemsPicFB, itemsNameFB);
                     list.setAdapter(cus);
 
@@ -136,8 +145,8 @@ public class LostFragment extends Fragment {
                             /**
                              * Send position for showing in Dog detail on next page (ProfileFragment)
                              */
-                            Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
-                            Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
+                            Intent myIntent = new Intent(getActivity(), UserDetail.class);
+                            //Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
                             startActivity(myIntent);
                         }
 
