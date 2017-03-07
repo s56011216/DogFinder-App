@@ -64,7 +64,7 @@ public class SameDogSearchActivity extends AppCompatActivity {
                         if (lostAndFound.getType() == 1) {
                             Dog dog = lostAndFound.getDog();
                             //get note
-                            noteList.add(dog.getNote());
+                            noteList.add(lostAndFound.getNote());
                             //get dog image
                             String[] images = dog.getImages();
 

@@ -46,18 +46,15 @@
 
         <ImageView
             android:id="@+id/picFoundPost"
-            android:layout_width="0dp"
-            android:layout_height="285dp"
+            android:layout_width="415dp"
+            android:layout_height="276dp"
             app:srcCompat="@color/wallet_bright_foreground_disabled_holo_light"
             app:layout_constraintTop_toBottomOf="@+id/noticeDog"
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/wallet_bright_foreground_disabled_holo_light"
             android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/foundUserPicPost"
-            app:layout_constraintHorizontal_bias="0.0"
             android:scaleType="fitXY"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" />
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/noticeDog"

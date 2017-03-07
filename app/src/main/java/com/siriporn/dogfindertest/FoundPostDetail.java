@@ -59,6 +59,14 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         String fb_name = lostAndFound.getDog().getUser().getFb_name();
         name.setText(fb_name);
 
+        TextView nameDog = (TextView) findViewById(R.id.NameText);
+        String Dogname = lostAndFound.getDog().getName();
+        nameDog.setText(Dogname);
+
+        TextView breedDog = (TextView) findViewById(R.id.BreedText);
+        String Dogbreed = lostAndFound.getDog().getBreed();
+        breedDog.setText(Dogbreed);
+
         ImageView pictureFB = (ImageView)findViewById(R.id.foundUserPicWritePost);
         String picUri = lostAndFound.getDog().getUser().getFb_profile_image();
         Glide.with(context)
@@ -93,62 +101,62 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         longitude = lostAndFound.getDog().getLongitude();
     }
 
+    /*
+        private static int count = 0;
+        ImageButton button_right,button_left;
+        public void BtnRightClicked(View view){
+            //button_left = (ImageButton) findViewById(R.id.ButtonLeft);
+            //button_right = (ImageButton) findViewById(R.id.ButtonRight);
+            if(count != pic.length-1) {
+                incrementCount();
+            }
+            if(count < pic.length) {
+                String uri = "http://161.246.6.240:10100/server" + pic[count];
+                Glide.with(context)
+                        .load(uri)
+                        .override(100, 100)
+                        .centerCrop()
+                        .into(picture);
 
-    private static int count = 0;
-    ImageButton button_right,button_left;
-    public void BtnRightClicked(View view){
-        button_left = (ImageButton) findViewById(R.id.ButtonLeft);
-        button_right = (ImageButton) findViewById(R.id.ButtonRight);
-        if(count != pic.length-1) {
-            incrementCount();
-        }
-        if(count < pic.length) {
-            String uri = "http://161.246.6.240:10100/server" + pic[count];
-            Glide.with(context)
-                    .load(uri)
-                    .override(100, 100)
-                    .centerCrop()
-                    .into(picture);
+                if(count == pic.length-1) {
+                    button_right .setVisibility(View.INVISIBLE);
+                }
+                button_left .setVisibility(View.VISIBLE);
 
-            if(count == pic.length-1) {
+            }else{
                 button_right .setVisibility(View.INVISIBLE);
             }
-            button_left .setVisibility(View.VISIBLE);
-
-        }else{
-            button_right .setVisibility(View.INVISIBLE);
         }
-    }
 
-    public void BtnLeftClicked(View view){
-        button_left = (ImageButton) findViewById(R.id.ButtonLeft);
-        button_right = (ImageButton) findViewById(R.id.ButtonRight);
-        if(count != -1) {
-            decrementCount();
-        }
-        if(count >= 0) {
-            String uri = "http://161.246.6.240:10100/server" + pic[count];
-            Glide.with(context)
-                    .load(uri)
-                    .override(700, 700)
-                    .centerCrop()
-                    .into(picture);
-            if(count == 0) {
+        public void BtnLeftClicked(View view){
+            button_left = (ImageButton) findViewById(R.id.ButtonLeft);
+            button_right = (ImageButton) findViewById(R.id.ButtonRight);
+            if(count != -1) {
+                decrementCount();
+            }
+            if(count >= 0) {
+                String uri = "http://161.246.6.240:10100/server" + pic[count];
+                Glide.with(context)
+                        .load(uri)
+                        .override(700, 700)
+                        .centerCrop()
+                        .into(picture);
+                if(count == 0) {
 
+                    button_left .setVisibility(View.INVISIBLE);
+                }
+                button_right .setVisibility(View.VISIBLE);
+            }else{
                 button_left .setVisibility(View.INVISIBLE);
             }
-            button_right .setVisibility(View.VISIBLE);
-        }else{
-            button_left .setVisibility(View.INVISIBLE);
         }
-    }
-    public static synchronized void incrementCount() {
-        count++;
-    }
-    public static synchronized void decrementCount() {
-        count--;
-    }
-
+        public static synchronized void incrementCount() {
+            count++;
+        }
+        public static synchronized void decrementCount() {
+            count--;
+        }
+    */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

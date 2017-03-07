@@ -50,12 +50,14 @@ public class FindFragment extends Fragment {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
                     ArrayList<String> stockList = new ArrayList<>();
+                    ArrayList<String> breedList = new ArrayList<>();
                     ArrayList<String> stockUri = new ArrayList<>();
 
                     final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
                     for(Dog dog: dogs) {
                         stockList.add(dog.getName());
+                        breedList.add(dog.getBreed());
                         if (dog.getImages().length != 0) {
                             stockUri.add(dog.getImages()[0]);
                         } else {
@@ -66,13 +68,16 @@ public class FindFragment extends Fragment {
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);
+                    // INFORMATION convert List<String> to String[]
+                    String[] breeditems = new String[breedList.size()];
+                    breeditems = breedList.toArray(breeditems);
                     // URI convert List<String> to String[]
                     itemsPic = new String[stockUri.size()];
                     itemsPic = stockUri.toArray(itemsPic);
 
 
                     ListView list = (ListView)myView.findViewById(R.id.findListView);
-                    CustomAdapterFind cus = new CustomAdapterFind(getActivity(),items,itemsPic);
+                    CustomAdapterFind cus = new CustomAdapterFind(getActivity(),items,breeditems, itemsPic);
                     list.setAdapter(cus);
 
 

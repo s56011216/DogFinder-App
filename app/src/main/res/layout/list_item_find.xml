@@ -13,18 +13,32 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/camera" />
+        android:src="@drawable/skyblueee" />
+
+    <TextView
+        android:text="Thousandway"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/breedText"
+        android:textSize="18sp"
+        android:layout_marginBottom="23dp"
+        android:layout_alignBottom="@+id/imgDogAccount"
+        android:layout_alignLeft="@+id/nameDogAccount"
+        android:layout_alignStart="@+id/nameDogAccount" />
 
     <TextView
         android:id="@+id/nameDogAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imgDogAccount"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@+id/imgDogAccount"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textSize="30sp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_alignBottom="@+id/breedText"
+        android:layout_toRightOf="@+id/imgDogAccount"
+        android:layout_toEndOf="@+id/imgDogAccount"
+        android:textStyle="normal|bold" />
 
     <!--<ImageView
         android:layout_width="wrap_content"
