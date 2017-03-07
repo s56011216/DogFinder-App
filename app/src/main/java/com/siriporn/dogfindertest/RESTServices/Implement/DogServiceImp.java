@@ -69,8 +69,8 @@ public class DogServiceImp {
         });
     }
 
-    public void getAllMyDogs(Callback callback){
-        Call call = service.getAllMyDog();
+    public void getAllMyDogs(int page, int number, Callback callback){
+        Call call = service.getAllMyDog(page, number);
         call.enqueue(callback);
     }
 

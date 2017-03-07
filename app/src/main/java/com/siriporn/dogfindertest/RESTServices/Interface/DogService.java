@@ -34,7 +34,7 @@ public interface DogService {
     Call<ResponseFormat> addImage(@Body Map<String, Object> map);
 
     @GET("/server/dog/get_all_dogs")
-    Call<ResponseFormat> getAllMyDog();
+    Call<ResponseFormat> getAllMyDog(@Query("page") int page, @Query("limit") int limit);
 
     @Multipart
     @POST("/server/dog/find_similar_dogs")

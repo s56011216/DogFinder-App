@@ -48,7 +48,7 @@ public class MyDogFragment extends Fragment {
         /**
          * my dog
          */
-        DogServiceImp.getInstance().getAllMyDogs(new Callback<ResponseFormat>() {
+        DogServiceImp.getInstance().getAllMyDogs(1, 5, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
