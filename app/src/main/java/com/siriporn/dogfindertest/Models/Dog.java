@@ -11,7 +11,7 @@ import lombok.Setter;
 /**
  * Created by Moobi on 12-Jan-17.
  */
-@Parcel
+
 @Setter
 @Getter
 public class Dog {
@@ -23,7 +23,26 @@ public class Dog {
     String name;
     String breed;
     String note;
-    String images[];
+    String[] images;
     Date created_at;
     Date updated_at;
+
+    public Dog(){
+
+    }
+
+    public Dog(int id, int age, double latitude, double longitude, User user, String name,
+                   String breed, String note, String[] images, Date created_at, Date updated_at ) {
+        this.id = id;
+        this.age = age;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.user = user;
+        this.name = name;
+        this.breed = breed;
+        this.note = note;
+        this.images = images;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }
