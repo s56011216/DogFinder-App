@@ -54,17 +54,19 @@ public class MyDogFragment extends Fragment {
         return myView;
 
     }
+    List<Dog> stockList;
     public void Items(){
         /**
          * my dog
          */
         int i = 1;
+
             DogServiceImp.getInstance().getAllMyDogs(i, 5, new Callback<ResponseFormat>() {
                 @Override
                 public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                     if (response.body().isSuccess()) {
                         Log.i("Success", "OK");
-                        List<Dog> stockList = new ArrayList<>();
+                        stockList = new ArrayList<>();
                         ArrayList<Double> latList = new ArrayList<>();
                         ArrayList<Double> longList = new ArrayList<>();
                         final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
@@ -131,9 +133,12 @@ public class MyDogFragment extends Fragment {
                             public void onScroll(AbsListView view, int firstVisibleItem,
                                                  int visibleItemCount, int totalItemCount) {
 
+                                int rowsOnScreen =  Math.abs(view.getLastVisiblePosition());
+                                int aa = Math.abs(list.getCount());
+
                                 //Check when scroll to last item in listview, in this tut, init data in listview = 10 item
-                                if(view.getLastVisiblePosition() == totalItemCount-1 && list.getCount() >=10 && isLoading == false) {
-                                    isLoading = true;
+                                if(view.getLastVisiblePosition() == totalItemCount-1 && list.getCount() >= 5 && isLoading == false) {
+                                        isLoading = true;
                                     Thread thread = new ThreadGetMoreData();
                                     //Start thread
                                     thread.start();
@@ -183,7 +188,7 @@ public class MyDogFragment extends Fragment {
             List<Dog> lstResult = getMoreData();
             //Delay time to show loading footer when debug, remove it when release
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -194,20 +199,23 @@ public class MyDogFragment extends Fragment {
         }
     }
     int i = 2;
-    List<Dog> addList;
+   //List<Dog> addList;
     private List<Dog> getMoreData() {
         // new data
-        DogServiceImp.getInstance().getAllMyDogs(i, 5, new Callback<ResponseFormat>() {
+        //addList = new ArrayList<>();
+        User user = new User();
+
+        DogServiceImp.getInstance().getAllMyDogs(i, 1, new Callback<ResponseFormat>() {
 
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if (response.body().isSuccess()) {
                     i++;
                     Log.i("Success", "OK");
-                    List<Dog> addList = new ArrayList<>();
+                    //List<Dog> addList = new ArrayList<>();
                     final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
                     for (Dog dog : dogs) {
-                        addList.add(new Dog(dog.getId(), dog.getAge(), dog.getLatitude(), dog.getLongitude(), dog.getUser(), dog.getName(),
+                        stockList.add(new Dog(dog.getId(), dog.getAge(), dog.getLatitude(), dog.getLongitude(), dog.getUser(), dog.getName(),
                                 dog.getBreed(), dog.getNote(), dog.getImages(), dog.getCreated_at(), dog.getUpdated_at()));
                     }
                 }
@@ -219,7 +227,7 @@ public class MyDogFragment extends Fragment {
             }
         });
 
-        return addList;
+        return stockList;
     }
 }
 
