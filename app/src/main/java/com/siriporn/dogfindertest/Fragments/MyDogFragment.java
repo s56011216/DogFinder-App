@@ -61,7 +61,7 @@ public class MyDogFragment extends Fragment {
          */
         int i = 1;
 
-            DogServiceImp.getInstance().getAllMyDogs(i, 5, new Callback<ResponseFormat>() {
+            DogServiceImp.getInstance().getAllMyDogs(i, 6, new Callback<ResponseFormat>() {
                 @Override
                 public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                     if (response.body().isSuccess()) {
@@ -69,6 +69,7 @@ public class MyDogFragment extends Fragment {
                         stockList = new ArrayList<>();
                         ArrayList<Double> latList = new ArrayList<>();
                         ArrayList<Double> longList = new ArrayList<>();
+                        ArrayList<String> picList = new ArrayList<>();
                         final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
                         for (Dog dog : dogs) {
@@ -78,6 +79,7 @@ public class MyDogFragment extends Fragment {
 
                             latList.add(dog.getLatitude());
                             longList.add(dog.getLongitude());
+                            picList.add(dog.getImages()[0]);
                                 }
                                 //convert double list to double[]
                                 final double[] lat_list = new double[latList.size()];
@@ -89,6 +91,9 @@ public class MyDogFragment extends Fragment {
                                     long_list[i] = longList.get(i).doubleValue();
                                 }
 
+                            // URI convert List<String> to String[]
+                            itemsPic = new String[picList.size()];
+                            itemsPic = picList.toArray(itemsPic);
                         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                         ftView = li.inflate(R.layout.footer_view, null);
                         mHandler = new MyHandler();
@@ -113,7 +118,7 @@ public class MyDogFragment extends Fragment {
                                 String positions = Integer.toString(position);
                                 Intent myIntent = new Intent(getActivity(), MyDogDetail.class);
                                 myIntent.putExtra("SelectRowDog", positions);
-                                //myIntent.putExtra("Pic", itemsPic);
+                                myIntent.putExtra("Pic", itemsPic);
                                 myIntent.putExtra("lat", lat_list);
                                 myIntent.putExtra("lon", long_list);
 
@@ -168,10 +173,11 @@ public class MyDogFragment extends Fragment {
                     break;
                 case 1:
                     //Update data adapter and UI
-                    cus.addListItemToAdapter((ArrayList<Dog>)msg.obj);
+                    cus.addListItemToAdapter((ArrayList<Dog>) msg.obj);
                     //Remove loading view after update listview
                     list.removeFooterView(myView);
-                    isLoading=false;
+                    isLoading = false;
+
                     break;
                 default:
                     break;
@@ -199,11 +205,11 @@ public class MyDogFragment extends Fragment {
         }
     }
     int i = 2;
-   //List<Dog> addList;
+   List<Dog> addList;
     private List<Dog> getMoreData() {
         // new data
-        //addList = new ArrayList<>();
-        User user = new User();
+        addList = new ArrayList<>();
+        //User user = new User();
 
         DogServiceImp.getInstance().getAllMyDogs(i, 1, new Callback<ResponseFormat>() {
 
@@ -217,6 +223,8 @@ public class MyDogFragment extends Fragment {
                     for (Dog dog : dogs) {
                         stockList.add(new Dog(dog.getId(), dog.getAge(), dog.getLatitude(), dog.getLongitude(), dog.getUser(), dog.getName(),
                                 dog.getBreed(), dog.getNote(), dog.getImages(), dog.getCreated_at(), dog.getUpdated_at()));
+                        addList.add(new Dog(dog.getId(), dog.getAge(), dog.getLatitude(), dog.getLongitude(), dog.getUser(), dog.getName(),
+                                dog.getBreed(), dog.getNote(), dog.getImages(), dog.getCreated_at(), dog.getUpdated_at()));
                     }
                 }
             }
@@ -227,7 +235,7 @@ public class MyDogFragment extends Fragment {
             }
         });
 
-        return stockList;
+        return addList;
     }
 }
 
