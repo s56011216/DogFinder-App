@@ -64,7 +64,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        String dd = Cache.getInstance().get("lostAndFound");
+        //String dd = Cache.getInstance().get("lostAndFound");
         Profile profile = Profile.getCurrentProfile();
         ImageView picture = (ImageView) findViewById(R.id.lostUserPicWritePost);
         TextView name = (TextView) findViewById(R.id.nameFB);
@@ -83,6 +83,9 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
 
         //latitude = lostAndFound.getDog().getLatitude();
         //longitude = lostAndFound.getDog().getLongitude();
+
+        latitude = 0.0;
+        longitude = 0.0;
 
         //get note
         String notes = note.getText().toString();
@@ -204,7 +207,6 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
                 //------------------------------
                 latitude =  location.getLatitude();
                 longitude =  location.getLongitude();
-
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));

@@ -60,9 +60,12 @@ public class FoundFragment extends Fragment {
                     ArrayList<String> stockUri = new ArrayList<String>();
 
                     final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
-
+                    final LostAndFound[] found = new LostAndFound[lostAndFounds.length];
+                    int i = 0;
                     for(LostAndFound lostAndFound: lostAndFounds) {
                         if(lostAndFound.getType() == 1) {
+                            found[i] = lostAndFound;
+                            i++;
                             Dog dog = lostAndFound.getDog();
                             //get note
                             noteList.add(lostAndFound.getNote());
@@ -122,7 +125,7 @@ public class FoundFragment extends Fragment {
                              */
 
                             Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
-                            Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
+                            Cache.getInstance().put("lostAndFound", found[position]);
                             startActivity(myIntent);
                         }
 

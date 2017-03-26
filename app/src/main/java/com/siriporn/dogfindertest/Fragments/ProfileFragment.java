@@ -75,7 +75,7 @@ public class ProfileFragment extends Fragment {
         String picUri = user.getFb_profile_image().toString();
         Glide.with(context)
                 .load(picUri)
-                .override(200, 200)
+                .override(400, 400)
                 .centerCrop()
                 .into(picture);
 

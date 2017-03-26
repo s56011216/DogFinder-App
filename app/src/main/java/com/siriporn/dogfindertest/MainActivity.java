@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity
 
     public void AddLostPostClicked(View view){
         Intent intent = new Intent(this,LostPostAcitivity.class);
-        Cache.getInstance().put("lostAndFound", "a");
+        //Cache.getInstance().put("lostAndFound", "a");
         startActivity(intent);
     }
 

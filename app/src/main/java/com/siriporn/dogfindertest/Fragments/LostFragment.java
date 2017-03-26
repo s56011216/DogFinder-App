@@ -65,10 +65,14 @@ public class LostFragment extends Fragment {
                     ArrayList<String> stockUri = new ArrayList<String>();
 
                     final LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
-
+                    final LostAndFound[] lost = new LostAndFound[lostAndFounds.length];
+                    int i = 0;
                     for(LostAndFound lostAndFound: lostAndFounds) {
                         if(lostAndFound.getType() == 0){
-                        Dog dog = lostAndFound.getDog();
+
+                            lost[i] = lostAndFound;
+                            i++;
+                            Dog dog = lostAndFound.getDog();
                         //get name
                         nameList.add(dog.getName());
 
@@ -145,8 +149,8 @@ public class LostFragment extends Fragment {
                             /**
                              * Send position for showing in Dog detail on next page (ProfileFragment)
                              */
-                            Intent myIntent = new Intent(getActivity(), UserDetail.class);
-                            //Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
+                            Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
+                            Cache.getInstance().put("lostAndFound", lost[position]);
                             startActivity(myIntent);
                         }
 

@@ -52,6 +52,8 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
 
         LostAndFound lostAndFound = Cache.getInstance().get("lostAndFound");
 
+
+
         picture = (ImageView)findViewById(R.id.picFoundPost);
 
 
