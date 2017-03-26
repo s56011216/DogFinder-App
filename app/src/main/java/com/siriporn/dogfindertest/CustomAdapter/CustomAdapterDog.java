@@ -11,25 +11,34 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.R;
 
+import java.util.List;
+
+import static android.R.id.list;
 import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class CustomAdapterDog extends BaseAdapter {
 
-    String items[];
-    String itemsPic[];
-    LayoutInflater mInflater;
+    private Context mContext;
+    private List<Dog> mProductList;
 
-    public CustomAdapterDog(Context context, String[] items, String[] itemsPic) {
-        mInflater = LayoutInflater.from(context);
-        this.items = items;
-        this.itemsPic = itemsPic;
+    public CustomAdapterDog(Context mContext, List<Dog> mProductList) {
+        this.mContext = mContext;
+        this.mProductList = mProductList;
+    }
+
+    public void addListItemToAdapter(List<Dog> list) {
+        //Add list to current array list of data
+        mProductList.addAll(list);
+        //Notify UI
+        this.notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return items.length;
+        return mProductList.size();
     }
 
     @Override
@@ -44,39 +53,24 @@ public class CustomAdapterDog extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
 
-        if(convertView == null)
-        {
-            convertView = mInflater.inflate(R.layout.list_item_mydog,parent,false);
-            holder = new ViewHolder();
-            holder.tv = (TextView) convertView.findViewById(R.id.nameDogAccount);
-            holder.iv = (ImageView) convertView.findViewById(R.id.imgDogAccount);
-            convertView.setTag(holder);
-        }
-        else
-        {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        holder.tv.setText(items[position]);
+        View v = View.inflate(mContext, R.layout.list_item_mydog, null);
 
-        if (holder.iv != null) {
-            String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
-            Log.i("ss",uri);
+        TextView name = (TextView) v.findViewById(R.id.nameDogAccount);
+        ImageView img = (ImageView) v.findViewById(R.id.imgDogAccount);
+
+        //Set text for TextView
+        name.setText(mProductList.get(position).getName().toString());
+        String[] pic = mProductList.get(position).getImages();
+            String uri = "http://161.246.6.240:10100/server" + pic[0].toString();
             Glide.with(context)
                     .load(uri)
                     .override(400, 400)
                     .centerCrop()
-                    .into(holder.iv);
-        }
+                    .into(img);
 
-        return convertView;
-    }
 
-    static class ViewHolder
-    {
-        ImageView iv;
-        TextView tv;
+        return v;
     }
 
 }

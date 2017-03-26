@@ -46,19 +46,19 @@ public class CustomAdapterSameDog extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CustomAdapterDog.ViewHolder holder;
+        CustomAdapterSameDog.ViewHolder holder;
 
         if(convertView == null)
         {
             convertView = mInflater.inflate(R.layout.list_item_samedog,parent,false);
-            holder = new CustomAdapterDog.ViewHolder();
+            holder = new CustomAdapterSameDog.ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameDogAccount);
             holder.iv = (ImageView) convertView.findViewById(R.id.imgDogAccount);
             convertView.setTag(holder);
         }
         else
         {
-            holder = (CustomAdapterDog.ViewHolder) convertView.getTag();
+            holder = (CustomAdapterSameDog.ViewHolder) convertView.getTag();
         }
         holder.tv.setText(items[position]);
 

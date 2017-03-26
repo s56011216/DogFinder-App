@@ -28,7 +28,7 @@
 
         <ListView
             android:layout_width="411dp"
-            android:layout_height="wrap_content"
+            android:layout_height="599dp"
             android:id="@+id/dogListView"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
