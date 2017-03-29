@@ -102,7 +102,7 @@ public class SameDogActivity extends AppCompatActivity {
 
                     for(LostAndFound lostAndFound: lostAndFounds) {
                         Dog dog = lostAndFound.getDog();
-                        stockList.add(dog.getName());
+                        stockList.add(dog.getName()+" - FOUND");
                         stockUri.add(dog.getImages()[0]);
                     }
 

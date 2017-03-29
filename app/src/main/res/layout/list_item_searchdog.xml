@@ -46,8 +46,8 @@
 
         <ImageView
             android:id="@+id/picFoundPost"
-            android:layout_width="0dp"
-            android:layout_height="228dp"
+            android:layout_width="match_parent"
+            android:layout_height="293dp"
             app:srcCompat="@color/wallet_bright_foreground_disabled_holo_light"
             app:layout_constraintTop_toBottomOf="@+id/noticeDog"
             app:layout_constraintRight_toRightOf="parent"
@@ -60,7 +60,7 @@
         <TextView
             android:id="@+id/noticeDog"
             android:text="noticeable : (notice)"
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="28dp"
             app:layout_constraintTop_toBottomOf="@+id/foundUserPicPost"
             android:textSize="18sp"
@@ -71,7 +71,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:textColor="@color/cast_expanded_controller_background_color" />
+            android:textColor="@color/cast_expanded_controller_background_color"
+            app:layout_constraintHorizontal_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
 

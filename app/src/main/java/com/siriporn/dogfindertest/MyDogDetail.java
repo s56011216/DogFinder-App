@@ -70,7 +70,6 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
                     String Name = (String) dogs.get(position).get("name");
                     String Breed = (String) dogs.get(position).get("breed");
                     String Note = (String) dogs.get(position).get("note");
-                    String pic = (String) dogs.get(position).get("image");
                     //latitude = (double) dogs.get(position).get("latitude");
                     //longitude = (double) dogs.get(position).get("longitude");
 
@@ -85,7 +84,7 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
                     note.setText(Note);
 
                     //age.setText(Age);
-                    String uri = "http://161.246.6.240:10100/server" + pic;
+                    String uri = "http://161.246.6.240:10100/server" + pic[position];
                     Log.i("ss",uri);
                     Glide.with(context)
                             .load(uri)
