@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "339538486603",
+    "firebase_url": "https://dogfinder-1fa3d.firebaseio.com",
+    "project_id": "dogfinder-1fa3d",
+    "storage_bucket": "dogfinder-1fa3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339538486603:android:18af4c7709b0d823",
+        "android_client_info": {
+          "package_name": "com.siriporn.dogfindertest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339538486603-odkcd4hn53fo8eoaequojqv14v1v757r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFPvaCw_q_W_4T-PguFYYfrCjpT0lkaj8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -69,7 +69,6 @@ public class CustomAdapterDog extends BaseAdapter {
                     .centerCrop()
                     .into(img);
 
-
         return v;
     }
 

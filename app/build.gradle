@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
+
 android {
     compileSdkVersion 23
-    buildToolsVersion "24.0.2"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.siriporn.dogfindertest"
         minSdkVersion 15
@@ -57,3 +58,4 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:25.1.0'
 }
 
+apply plugin: 'com.google.gms.google-services'

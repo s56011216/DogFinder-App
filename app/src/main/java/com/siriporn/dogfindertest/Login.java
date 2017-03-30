@@ -23,6 +23,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,6 +40,7 @@ public class Login extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
        //fb ติดตามโทเค็นการเข้าถึง
 
             try {

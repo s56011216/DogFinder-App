@@ -25,6 +25,7 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.siriporn.dogfindertest.Cache;
 import com.siriporn.dogfindertest.Converter;
 import com.siriporn.dogfindertest.DogFinderApplication;
@@ -32,11 +33,13 @@ import com.siriporn.dogfindertest.MainActivity;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.Models.User;
 import com.siriporn.dogfindertest.R;
+import com.siriporn.dogfindertest.RESTServices.Implement.DeviceServiceImp;
 import com.siriporn.dogfindertest.RESTServices.Implement.UserServiceImp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -134,6 +137,23 @@ public class LoginFragment extends Fragment {
                 //send id to profile fragment
                 User user = Converter.toPOJO(response.body().getPayload().get("user_data"), User.class);
                 DogFinderApplication.setUser(user);
+
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                DeviceServiceImp.getInstance().updateFCMToken(refreshedToken, new Callback<ResponseFormat>() {
+                    @Override
+                    public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                        if (response.body().isSuccess()) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                        if (1 == 1) {
+
+                        }
+                    }
+                });
 
                 Intent intent = new Intent(getActivity(),MainActivity.class);
                 //intent.putExtra("id",user.getId());
