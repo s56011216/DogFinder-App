@@ -59,7 +59,7 @@
             android:layout_width="423dp"
             android:layout_height="266dp"
             app:srcCompat="@color/wallet_bright_foreground_disabled_holo_light"
-            android:background="@color/cast_intro_overlay_button_background_color"
+            android:background="@android:color/transparent"
             android:scaleType="fitXY"
             app:layout_constraintTop_toBottomOf="@+id/NotePost"
             android:layout_marginTop="8dp"
