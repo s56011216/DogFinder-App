@@ -54,13 +54,17 @@ public class MyDogFragment extends Fragment {
                 if(response.body().isSuccess()){
                     Log.i("Success","OK");
                     ArrayList<String> stockList = new ArrayList<>();
+                    ArrayList<String> stockList2 = new ArrayList<>();
                     ArrayList<String> stockUri = new ArrayList<>();
                     ArrayList<Double> latList = new ArrayList<>();
                     ArrayList<Double> longList = new ArrayList<>();
                     final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
                     for(Dog dog: dogs) {
+                        if(dog.getImages().length < 1)
+                            continue;
                         stockList.add(dog.getName());
+                        stockList2.add(dog.getBreed());
                         latList.add(dog.getLatitude());
                         longList.add(dog.getLongitude());
                         //if(dog.getImages().length != 0) {
@@ -73,6 +77,9 @@ public class MyDogFragment extends Fragment {
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
                     items = stockList.toArray(items);
+                    // INFORMATION convert List<String> to String[]
+                    String[] items2 = new String[stockList2.size()];
+                    items2 = stockList2.toArray(items2);
                     // URI convert List<String> to String[]
                     itemsPic = new String[stockUri.size()];
                     itemsPic = stockUri.toArray(itemsPic);
@@ -89,7 +96,7 @@ public class MyDogFragment extends Fragment {
 
 
                     ListView list = (ListView)myView.findViewById(R.id.dogListView);
-                    CustomAdapterDog cus = new CustomAdapterDog(getActivity(),items,itemsPic);
+                    CustomAdapterDog cus = new CustomAdapterDog(getActivity(),items,itemsPic, items2);
                     list.setAdapter(cus);
 
 

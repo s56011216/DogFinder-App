@@ -1,16 +1,21 @@
 package com.siriporn.dogfindertest;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,8 +40,13 @@ import com.siriporn.dogfindertest.Fragments.FindFragment;
 import com.siriporn.dogfindertest.Fragments.FoundFragment;
 import com.siriporn.dogfindertest.Fragments.LostFragment;
 import com.siriporn.dogfindertest.Fragments.MyDogFragment;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
+import com.siriporn.dogfindertest.RESTServices.Implement.DeviceServiceImp;
 
-import java.util.logging.Handler;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
+        context = this;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,6 +166,18 @@ public class MainActivity extends AppCompatActivity
 
         }
         */// end user location google map --------------
+        String FCM_Token = FCMInstanceIDService.getFCMToken();
+        DeviceServiceImp.getInstance().updateFCMToken(FCM_Token, new Callback<ResponseFormat>() {
+            @Override
+            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                Log.i("fcm token", "" + response.body().isSuccess());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFormat> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -288,5 +310,22 @@ public class MainActivity extends AppCompatActivity
 
 
     public static Context getContext() {return context;}
+
+    public static void showDialog(String title, String message, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener){
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.getContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes, positiveListener)
+                .setNegativeButton(android.R.string.no, negativeListener)
+                .setIcon(android.R.drawable.ic_dialog_alert);
+        Handler handler = new Handler(MainActivity.getContext().getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.show();
+            }
+        });
+
+    }
 }
 

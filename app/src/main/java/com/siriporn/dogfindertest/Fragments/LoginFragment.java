@@ -214,6 +214,7 @@ public class LoginFragment extends Fragment {
         mTokenTracker.startTracking();
         mProfileTracker.startTracking();
 
+
     }
 
     private void setupTokenTracker() {

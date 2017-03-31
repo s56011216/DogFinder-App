@@ -17,13 +17,14 @@ import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class CustomAdapterDog extends BaseAdapter {
 
-    String items[];
+    String items[], items2[];
     String itemsPic[];
     LayoutInflater mInflater;
 
-    public CustomAdapterDog(Context context, String[] items, String[] itemsPic) {
+    public CustomAdapterDog(Context context, String[] items, String[] itemsPic, String[] items2) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
+        this.items2 = items2;
         this.itemsPic = itemsPic;
     }
 
@@ -51,6 +52,7 @@ public class CustomAdapterDog extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item_mydog,parent,false);
             holder = new ViewHolder();
             holder.tv = (TextView) convertView.findViewById(R.id.nameDogAccount);
+            holder.tv2 = (TextView) convertView.findViewById(R.id.breedText);
             holder.iv = (ImageView) convertView.findViewById(R.id.imgDogAccount);
             convertView.setTag(holder);
         }
@@ -59,6 +61,7 @@ public class CustomAdapterDog extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tv.setText(items[position]);
+        holder.tv2.setText(items2[position]);
 
         if (holder.iv != null) {
             String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
@@ -77,6 +80,7 @@ public class CustomAdapterDog extends BaseAdapter {
     {
         ImageView iv;
         TextView tv;
+        TextView tv2;
     }
 
 }

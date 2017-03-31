@@ -30,6 +30,8 @@ public class DogServiceImp {
     private static Retrofit retrofit;
     private static DogService service;
     private static DogServiceImp dogService;
+    public static int LOST = 0;
+    public static int FOUND = 1;
 
     private DogServiceImp(){}
 
@@ -84,8 +86,8 @@ public class DogServiceImp {
         call.enqueue(callback);
     }
 
-    public void getAllLostAndFound(Callback callback){
-        Call call = service.getAllLostAndFound();
+    public void getAllLostAndFound(int type, int max, Callback callback){
+        Call call = service.getAllLostAndFound(type, max);
         call.enqueue(callback);
     }
 
@@ -114,6 +116,11 @@ public class DogServiceImp {
 
     public void getSimilarDogFound(Dog dog, Callback callback) {
         Call<ResponseFormat> call = service.getSimilarDogFound(dog.getId());
+        call.enqueue(callback);
+    }
+
+    public void getLastNotification(Callback callback) {
+        Call<ResponseFormat> call = service.getLastNotification();
         call.enqueue(callback);
     }
 }

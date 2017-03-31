@@ -34,6 +34,10 @@ public class Cache {
 //    }
 
     public <T> T get(String key) {
-        return (T) objectClass.get(key).cast(cache.get(key));
+        try {
+            return (T) objectClass.get(key).cast(cache.get(key));
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

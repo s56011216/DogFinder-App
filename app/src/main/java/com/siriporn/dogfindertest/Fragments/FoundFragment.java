@@ -47,7 +47,7 @@ public class FoundFragment extends Fragment {
          * my dog
          */
 
-        DogServiceImp.getInstance().getAllLostAndFound(new Callback<ResponseFormat>() {
+        DogServiceImp.getInstance().getAllLostAndFound(DogServiceImp.FOUND, 20, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if (response.body().isSuccess()) {
@@ -63,9 +63,6 @@ public class FoundFragment extends Fragment {
                     final LostAndFound[] found = new LostAndFound[lostAndFounds.length];
                     int i = 0;
                     for(LostAndFound lostAndFound: lostAndFounds) {
-                        if(lostAndFound.getType() == 1) {
-                            found[i] = lostAndFound;
-                            i++;
                             Dog dog = lostAndFound.getDog();
                             //get note
                             noteList.add(lostAndFound.getNote());
@@ -85,7 +82,6 @@ public class FoundFragment extends Fragment {
                             User user = dog.getUser();
                             FBnameList.add(user.getFb_name());
                             FBpicList.add(user.getFb_profile_image());
-                        }
                     }
 
                     // NOTE convert List<String> to String[]
@@ -125,7 +121,7 @@ public class FoundFragment extends Fragment {
                              */
 
                             Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
-                            Cache.getInstance().put("lostAndFound", found[position]);
+                            Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
                             startActivity(myIntent);
                         }
 

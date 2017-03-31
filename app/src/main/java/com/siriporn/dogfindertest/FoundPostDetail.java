@@ -1,5 +1,6 @@
 package com.siriporn.dogfindertest;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,13 +26,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.siriporn.dogfindertest.Models.LostAndFound;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
+import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
-import static com.siriporn.dogfindertest.MainActivity.context;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+//import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCallback {
     ImageView picture;
     String[] pic;
     double latitude,longitude;
+    Context context = DogFinderApplication.getContext();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,55 +60,114 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
 
         LostAndFound lostAndFound = Cache.getInstance().get("lostAndFound");
 
+        if (lostAndFound == null) {
+            DogServiceImp.getInstance().getLastNotification(new Callback<ResponseFormat>() {
+                @Override
+                public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                    LostAndFound lostAndFound = Converter.toPOJO(response.body().getPayload().get("notification"), LostAndFound.class);
+                    picture = (ImageView)findViewById(R.id.picFoundPost);
 
 
-        picture = (ImageView)findViewById(R.id.picFoundPost);
+                    TextView name = (TextView) findViewById(R.id.nameFB);
+                    String fb_name = lostAndFound.getDog().getUser().getFb_name();
+                    name.setText(fb_name);
+
+                    TextView nameDog = (TextView) findViewById(R.id.NameText);
+                    String Dogname = lostAndFound.getDog().getName();
+                    nameDog.setText(Dogname);
+
+                    TextView breedDog = (TextView) findViewById(R.id.BreedText);
+                    String Dogbreed = lostAndFound.getDog().getBreed();
+                    breedDog.setText(Dogbreed);
+
+                    ImageView pictureFB = (ImageView)findViewById(R.id.foundUserPicWritePost);
+                    String picUri = lostAndFound.getDog().getUser().getFb_profile_image();
+                    Glide.with(context)
+                            .load(picUri)
+                            .override(100, 100)
+                            .centerCrop()
+                            .into(pictureFB);
+
+                    TextView date = (TextView) findViewById(R.id.DatePost);
+                    date.setText(lostAndFound.getCreated_at().toString());
+
+                    TextView note = (TextView) findViewById(R.id.noticeDog);
+                    note.setText(lostAndFound.getNote());
+
+                    TextView phone = (TextView) findViewById(R.id.PhoneText);
+                    phone.setText(lostAndFound.getDog().getUser().getTelephone());
+
+                    TextView email = (TextView) findViewById(R.id.EmailText);
+                    email.setText(lostAndFound.getDog().getUser().getEmail());
+
+                    //dog pic String[] pic
+                    pic = lostAndFound.getDog().getImages();
+                    String uri = "http://161.246.6.240:10100/server" + pic[0];
+                    Log.i("ss",uri);
+                    Glide.with(context)
+                            .load(uri)
+                            .override(700, 700)
+                            .centerCrop()
+                            .into(picture);
+
+                    latitude = lostAndFound.getDog().getLatitude();
+                    longitude = lostAndFound.getDog().getLongitude();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                    Log.e("error", "its me");
+                }
+            });
+        }else {
+            picture = (ImageView)findViewById(R.id.picFoundPost);
 
 
-        TextView name = (TextView) findViewById(R.id.nameFB);
-        String fb_name = lostAndFound.getDog().getUser().getFb_name();
-        name.setText(fb_name);
+            TextView name = (TextView) findViewById(R.id.nameFB);
+            String fb_name = lostAndFound.getDog().getUser().getFb_name();
+            name.setText(fb_name);
 
-        TextView nameDog = (TextView) findViewById(R.id.NameText);
-        String Dogname = lostAndFound.getDog().getName();
-        nameDog.setText(Dogname);
+            TextView nameDog = (TextView) findViewById(R.id.NameText);
+            String Dogname = lostAndFound.getDog().getName();
+            nameDog.setText(Dogname);
 
-        TextView breedDog = (TextView) findViewById(R.id.BreedText);
-        String Dogbreed = lostAndFound.getDog().getBreed();
-        breedDog.setText(Dogbreed);
+            TextView breedDog = (TextView) findViewById(R.id.BreedText);
+            String Dogbreed = lostAndFound.getDog().getBreed();
+            breedDog.setText(Dogbreed);
 
-        ImageView pictureFB = (ImageView)findViewById(R.id.foundUserPicWritePost);
-        String picUri = lostAndFound.getDog().getUser().getFb_profile_image();
-        Glide.with(context)
-                .load(picUri)
-                .override(100, 100)
-                .centerCrop()
-                .into(pictureFB);
+            ImageView pictureFB = (ImageView)findViewById(R.id.foundUserPicWritePost);
+            String picUri = lostAndFound.getDog().getUser().getFb_profile_image();
+            Glide.with(context)
+                    .load(picUri)
+                    .override(100, 100)
+                    .centerCrop()
+                    .into(pictureFB);
 
-        TextView date = (TextView) findViewById(R.id.DatePost);
-        date.setText(lostAndFound.getCreated_at().toString());
+            TextView date = (TextView) findViewById(R.id.DatePost);
+            date.setText(lostAndFound.getCreated_at().toString());
 
-        TextView note = (TextView) findViewById(R.id.noticeDog);
-        note.setText(lostAndFound.getNote());
+            TextView note = (TextView) findViewById(R.id.noticeDog);
+            note.setText(lostAndFound.getNote());
 
-        TextView phone = (TextView) findViewById(R.id.PhoneText);
-        phone.setText(lostAndFound.getDog().getUser().getTelephone());
+            TextView phone = (TextView) findViewById(R.id.PhoneText);
+            phone.setText(lostAndFound.getDog().getUser().getTelephone());
 
-        TextView email = (TextView) findViewById(R.id.EmailText);
-        email.setText(lostAndFound.getDog().getUser().getEmail());
+            TextView email = (TextView) findViewById(R.id.EmailText);
+            email.setText(lostAndFound.getDog().getUser().getEmail());
 
-        //dog pic String[] pic
-        pic = lostAndFound.getDog().getImages();
-        String uri = "http://161.246.6.240:10100/server" + pic[0];
-        Log.i("ss",uri);
-        Glide.with(context)
-                .load(uri)
-                .override(700, 700)
-                .centerCrop()
-                .into(picture);
+            //dog pic String[] pic
+            pic = lostAndFound.getDog().getImages();
+            String uri = "http://161.246.6.240:10100/server" + pic[0];
+            Log.i("ss",uri);
+            Glide.with(context)
+                    .load(uri)
+                    .override(700, 700)
+                    .centerCrop()
+                    .into(picture);
 
-        latitude = lostAndFound.getDog().getLatitude();
-        longitude = lostAndFound.getDog().getLongitude();
+            latitude = lostAndFound.getDog().getLatitude();
+            longitude = lostAndFound.getDog().getLongitude();
+        }
     }
 
     /*

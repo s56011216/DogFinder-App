@@ -22,10 +22,10 @@ public interface UserService {
     @GET("/server/user/is_authenticate")
     Call<ResponseFormat> isAuthenticate();
 
-    @GET("/server/user/self")
+    @GET("/server/user/get_user")
     Call<ResponseFormat> getUser(@Query("id") int id);
 
-    @GET("/server/user/self_info")
+    @GET("/server/user/self")
     Call<ResponseFormat> getSelfInfo();
 
     @PUT("/server/user/self_info")

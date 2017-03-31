@@ -49,7 +49,7 @@ public class LostFragment extends Fragment {
          * my dog
          */
 
-        DogServiceImp.getInstance().getAllLostAndFound(new Callback<ResponseFormat>() {
+        DogServiceImp.getInstance().getAllLostAndFound(DogServiceImp.LOST, 10, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
@@ -68,10 +68,6 @@ public class LostFragment extends Fragment {
                     final LostAndFound[] lost = new LostAndFound[lostAndFounds.length];
                     int i = 0;
                     for(LostAndFound lostAndFound: lostAndFounds) {
-                        if(lostAndFound.getType() == 0){
-
-                            lost[i] = lostAndFound;
-                            i++;
                             Dog dog = lostAndFound.getDog();
                         //get name
                         nameList.add(dog.getName());
@@ -89,8 +85,6 @@ public class LostFragment extends Fragment {
 
                         if (images.length != 0) {
                             stockUri.add(images[0]);
-                        } else { //temporary
-                            stockUri.add(images[0]);
                         }
 
                         //get date
@@ -100,7 +94,6 @@ public class LostFragment extends Fragment {
                         User user = dog.getUser();
                         FBnameList.add(user.getFb_name());
                         FBpicList.add(user.getFb_profile_image());
-                    }
                     }
                     // NAME convert List<String> to String[]
                     itemName = new String[nameList.size()];
@@ -150,7 +143,7 @@ public class LostFragment extends Fragment {
                              * Send position for showing in Dog detail on next page (ProfileFragment)
                              */
                             Intent myIntent = new Intent(getActivity(), FoundPostDetail.class);
-                            Cache.getInstance().put("lostAndFound", lost[position]);
+                            Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
                             startActivity(myIntent);
                         }
 

@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:text= "Add"
+            android:text= "Add image"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -57,9 +57,28 @@
             android:layout_marginLeft="16dp"
             android:textAlignment="center"
             android:textColor="@color/cast_expanded_controller_background_color"
-            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/picFoundPost"
-            android:padding="5dp" />
+            android:padding="5dp"
+            app:layout_constraintHorizontal_bias="0.14" />
+
+        <Button
+            android:text= "Add location"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/locationButton"
+            android:textAlignment="center"
+            android:textColor="@color/cast_expanded_controller_background_color"
+            android:padding="5dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/captureButtonPost"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="16dp"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintTop_toTopOf="@+id/captureButtonPost" />
+
         <ImageView
             android:layout_width="303dp"
             android:layout_height="131dp"
@@ -97,8 +116,8 @@
         <EditText
             android:id="@+id/noticeDog"
             android:hint="Write your post..."
-            android:layout_width="376dp"
-            android:layout_height="102dp"
+            android:layout_width="371dp"
+            android:layout_height="52dp"
             android:textSize="18sp"
             android:gravity="top|left"
             android:layout_marginTop="8dp"
@@ -128,17 +147,18 @@
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="375dp"
-            android:layout_height="154dp"
+            android:layout_width="0dp"
+            android:layout_height="132dp"
             tools:context="com.siriporn.dogfindertest.MapsActivity"
             app:layout_constraintTop_toBottomOf="@+id/captureButtonPost"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="16dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 

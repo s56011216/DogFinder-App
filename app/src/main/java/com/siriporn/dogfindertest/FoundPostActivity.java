@@ -1,6 +1,10 @@
 package com.siriporn.dogfindertest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -71,11 +77,11 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
     private AlertDialog dialog;
     private Bitmap photo;
     private String note;
-    private File file;
-    private Button button;
-    private double latitude,longitude;
+    private File file, f;
+    private double latitude, longitude;
     private int count2;
-
+    private Button button;
+    private Button b;
 
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
@@ -104,6 +110,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         captureImageInitialization();
+
+        b = (Button) findViewById(R.id.locationButton);
 
         Profile profile = Profile.getCurrentProfile();
 
@@ -244,6 +252,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
     private static int count = 0;
     List<File> files;
 
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -278,8 +287,50 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                 if (extras != null) {
                     photo = extras.getParcelable("data");
                     mImageView.setImageBitmap(photo);
-                }
 
+                    Toast.makeText(getApplicationContext(),
+                            photo.getWidth() + "x" + photo.getHeight() + "\n" + photo.getByteCount() + "\n", Toast.LENGTH_SHORT).show();
+                    incrementCount();
+                    f = new File(context.getCacheDir(), "image" + count);
+                    if (!f.exists()) {
+                        try {
+                            f.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    //Convert bitmap to byte array
+                    Bitmap bitmap = photo;
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+                    //write the bytes in file
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(f);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.write(bitmapdata);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                file = new File(mImageCaptureUri.getPath());
+/*
                 final int takeFlags = data.getFlags()
                         & (Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -295,25 +346,27 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     file = new File(mImageCaptureUri.getPath());
 
                 }
+
                 if (count == 0) {
                     files = new ArrayList();
                 }
-                files.add(file);
+                //files.add(file);
                 incrementCount();
-                Log.d("Files", "Size: " + files.size());
-                for (int i = 0; i < files.size(); i++) {
-                    Log.d("Files", "FileName:" + files.get(i).getName());
-                }
+                //Log.d("Files", "Size: " + files.size());
+                //for (int i = 0; i < files.size(); i++) {
+                    Log.d("Files", "FileName:" + files.get(0).getName());
+                //
+                */
                 /**
                  * Delete the temporary image
 
                  if (file.exists())
                  file.delete();
                  */
-                if (files.size() == 1) {
-                    button.setEnabled(false);
-                    myFile = files.size();
-                }
+                //if (files.size() == 1) {
+                //    button.setEnabled(false);
+                //    myFile = files.size();
+                //}
 
                 break;
 
@@ -571,7 +624,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
         dog.setLongitude(longitude);
 
         lostAndFound.setType(LostAndFound.FOUND);
-        lostAndFound.setDog(dog);
+//        lostAndFound.setDog(dog);
         lostAndFound.setNote(note);
 
         //add new dog---------------------
@@ -582,48 +635,48 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     GsonBuilder gsonBuilder = new GsonBuilder();
                     Gson gson = gsonBuilder.create();
                     Map<String, Object> dog_data = response.body().getPayload();
-                    Dog dog = gson.fromJson(gson.toJson(response.body().getPayload()), Dog.class);
+                    final Dog dog = gson.fromJson(gson.toJson(response.body().getPayload()), Dog.class);
                     dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
 
 
                     //Upload Image to server----------------------
-                    for (int i = 0; i < 1; i++) {
+                    //for (int i = 0; i < 1; i++) {
+                    //file = files.get(i);
+                    DogServiceImp.getInstance().uploadImage(dog, f, new Callback<ResponseFormat>() {
+                        @Override
+                        public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                            if (response.body().isSuccess()) {
+                                //if(count2 == 0) {
+                                //count2++;
+                                lostAndFound.setDog(dog);
+                                DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                                        if (response.body().isSuccess()) {
 
-                        file = files.get(i);
-                        DogServiceImp.getInstance().uploadImage(dog, file, new Callback<ResponseFormat>() {
-                            @Override
-                            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-                                if (response.body().isSuccess()) {
-                                    if(count2 == 0) {
-                                        count2++;
-                                        DogServiceImp.getInstance().createLostAndFound(lostAndFound, new Callback<ResponseFormat>() {
-                                            @Override
-                                            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
-                                                if (response.body().isSuccess()) {
-
-                                                } else {
-                                                    Log.e("onResponse", "notSuccess");
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                                                Log.e("onFailure", "createLostAndFound");
-                                            }
-
-                                        });
+                                        } else {
+                                            Log.e("onResponse", "createLostAndFoundNotSuccess");
+                                        }
                                     }
 
+                                    @Override
+                                    public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                                        Log.e("onFailure", "createLostAndFound");
+                                    }
 
-                                }
-                            }
+                                });
+                                //}
 
-                            @Override
-                            public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                                Log.e("error", t.getMessage());
+
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseFormat> call, Throwable t) {
+                            Log.e("error", t.getMessage());
+                        }
+                    });
+                    //}
                 }
             }
 
@@ -645,6 +698,32 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
         startActivity(intent);
 
     }
+
+    private boolean isLocationEnabled() {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                        "use this app")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
+    }
+
 
     private GoogleMap mMap;
 
@@ -668,8 +747,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
                 //------------------------------
-                latitude =  location.getLatitude();
-                longitude =  location.getLongitude();
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
 
 
                 mMap.clear();
@@ -693,6 +772,10 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
 
             }
         };
+        configure_button();
+
+
+        //locationManager.requestLocationUpdates("gps", 5000, 0, locationListener);
 
         if (Build.VERSION.SDK_INT < 23) {
 
@@ -713,8 +796,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                 LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 
                 //------------------------------
-                latitude =  lastKnownLocation.getLatitude();
-                longitude =  lastKnownLocation.getLongitude();
+                latitude = lastKnownLocation.getLatitude();
+                longitude = lastKnownLocation.getLongitude();
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
@@ -726,7 +809,44 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 10:
+                configure_button();
+                break;
+            default:
+                break;
+        }
+    }
 
+    void configure_button() {
+        // first check for permissions
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET}
+                        , 10);
+            }
+            return;
+        }
+        // this code won't execute IF permissions are not allowed, because in the line above there is return statement.
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //noinspection MissingPermission
+                locationManager.requestLocationUpdates("gps", 5000, 0, locationListener);
+
+                LatLng userLocation = new LatLng(13.729246, 100.775622);
+
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+            }
+        });
+
+    }
 
 }
+
+
 

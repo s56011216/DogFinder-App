@@ -47,8 +47,11 @@ public interface DogService {
     Call<ResponseFormat> createLostAndFound(@Body LostAndFound lostAndFound);
 
     @GET("/server/dog/lost_and_found")
-    Call<ResponseFormat> getAllLostAndFound();
+    Call<ResponseFormat> getAllLostAndFound(@Query("type") int type, @Query("max") int max);
 
     @POST("/server/dog/coordinate")
     Call<ResponseFormat> addCoordinate(@Body Map<String, Object> map);
+
+    @GET("/server/dog/last_noti")
+    Call<ResponseFormat> getLastNotification();
 }
