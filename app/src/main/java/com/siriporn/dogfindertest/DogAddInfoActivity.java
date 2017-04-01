@@ -608,9 +608,9 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                     dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
 
                     //Upload Image to server----------------------
-                    for(int i = 0; i < 2; i++) {
+                    //for(int i = 0; i < 2; i++) {
 
-                        file = files.get(i);
+                        //file = files.get(i);
                         DogServiceImp.getInstance().uploadImage(dog, file, new Callback<ResponseFormat>() {
                             @Override
                             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
@@ -624,7 +624,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                                 Log.e("error", t.getMessage());
                             }
                         });
-                    }
+                    //}
                 }
             }
 

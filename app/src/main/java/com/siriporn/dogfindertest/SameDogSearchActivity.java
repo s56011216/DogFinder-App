@@ -120,9 +120,9 @@ public class SameDogSearchActivity extends AppCompatActivity {
                              * Send position for showing in Dog detail on next page (ProfileFragment)
                              */
 
-                            //Intent myIntent = new Intent(context, FoundPostDetail.class);
+                            Intent myIntent = new Intent(context, FoundPostDetail.class);
                             //Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
-                            //startActivity(myIntent);
+                            startActivity(myIntent);
                         }
 
                     });

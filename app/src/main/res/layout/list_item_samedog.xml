@@ -15,7 +15,7 @@
             android:layout_height="222dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+            android:src="@drawable/com_facebook_profile_picture_blank_square"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 

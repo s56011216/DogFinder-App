@@ -37,7 +37,7 @@ public class FCMMessagingService extends FirebaseMessagingService {
             final String targetActivity = remoteMessage.getNotification().getClickAction();
 //            RemoteMessage.Notification notification = remoteMessage.getNotification().;
 
-            MainActivity.showDialog("Hello", "Its me", new DialogInterface.OnClickListener() {
+            MainActivity.showDialog(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (targetActivity.equals("FoundPostDetail")) {
                         Intent intent = new Intent(DogFinderApplication.getContext(), FoundPostDetail.class);

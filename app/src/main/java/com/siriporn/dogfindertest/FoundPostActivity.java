@@ -20,10 +20,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +39,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -251,7 +255,10 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
 
     private static int count = 0;
     List<File> files;
-
+    public static float dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -288,8 +295,6 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     photo = extras.getParcelable("data");
                     mImageView.setImageBitmap(photo);
 
-                    Toast.makeText(getApplicationContext(),
-                            photo.getWidth() + "x" + photo.getHeight() + "\n" + photo.getByteCount() + "\n", Toast.LENGTH_SHORT).show();
                     incrementCount();
                     f = new File(context.getCacheDir(), "image" + count);
                     if (!f.exists()) {
@@ -301,15 +306,32 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     }
 
                     //Convert bitmap to byte array
-                    Bitmap bitmap = photo;
+                    //Bitmap bitmap = photo;
+                    Bitmap bitmap =Bitmap.createScaledBitmap(photo, 231, 231, true);
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
                     byte[] bitmapdata = bos.toByteArray();
 
+                    Toast.makeText(getApplicationContext(),
+                            bitmap.getWidth() + "x" + bitmap.getHeight() + "\n" + bitmap.getByteCount() + "\n", Toast.LENGTH_LONG).show();
+
+//                    int a = (int) dipToPixels(context,231);
+//                    //Log.e("dip",a);
+//                    Bitmap newbitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+//                    mImageView.setImageBitmap(Bitmap.createScaledBitmap(newbitmap, 600, 600, true));
+//                    ByteArrayOutputStream aos = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, aos);
+//                    byte[] bitmapdata2 = aos.toByteArray();
+//                    Toast.makeText(getApplicationContext(),
+//                            newbitmap.getWidth() + "x" + newbitmap.getHeight() + "\n" + newbitmap.getByteCount() + "\n", Toast.LENGTH_LONG).show();
+
+
                     //write the bytes in file
                     FileOutputStream fos = null;
+
                     try {
                         fos = new FileOutputStream(f);
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -530,8 +552,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
              */
             intent.setData(mImageCaptureUri);
 
-            intent.putExtra("outputX", 231);
-            intent.putExtra("outputY", 231);
+            intent.putExtra("outputX", 400);
+            intent.putExtra("outputY", 400);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
