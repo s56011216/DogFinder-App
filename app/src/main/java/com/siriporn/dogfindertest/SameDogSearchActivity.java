@@ -52,11 +52,11 @@ public class SameDogSearchActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if (response.body().isSuccess()) {
-                    ArrayList<String> noteList = new ArrayList<String>();
-                    ArrayList<String> dateList = new ArrayList<String>();
-                    ArrayList<String> FBnameList = new ArrayList<String>();
-                    ArrayList<String> FBpicList = new ArrayList<String>();
-                    ArrayList<String> stockUri = new ArrayList<String>();
+                    ArrayList<String> noteList = new ArrayList<>();
+                    ArrayList<String> dateList = new ArrayList<>();
+                    ArrayList<String> FBnameList = new ArrayList<>();
+                    ArrayList<String> FBpicList = new ArrayList<>();
+                    ArrayList<String> stockUri = new ArrayList<>();
 
                     LostAndFound[] lostAndFounds = Converter.toPOJO(response.body().getPayload().get("lost_and_founds"), LostAndFound[].class);
 
@@ -68,22 +68,17 @@ public class SameDogSearchActivity extends AppCompatActivity {
                             //get dog image
                             String[] images = dog.getImages();
 
-                            if (images.length != 0) {
+                            if (images.length != 0)
                                 stockUri.add(images[0]);
-                            } else { //temporary
-                                stockUri.add(images[0]);
-                            }
 
                             //get date
                             dateList.add(lostAndFound.getCreated_at().toString());
-
                             //create user
                             User user = dog.getUser();
                             FBnameList.add(user.getFb_name());
                             FBpicList.add(user.getFb_profile_image());
                         }
                     }
-
                     // NOTE convert List<String> to String[]
                     itemNote = new String[noteList.size()];
                     itemNote = noteList.toArray(itemNote);
@@ -93,7 +88,6 @@ public class SameDogSearchActivity extends AppCompatActivity {
                     // DATE convert List<String> to String[]
                     itemsDate = new String[dateList.size()];
                     itemsDate = dateList.toArray(itemsDate);
-
                     // FB IMG convert List<String> to String[]
                     itemsPicFB = new String[FBpicList.size()];
                     itemsPicFB = FBpicList.toArray(itemsPicFB);
@@ -121,15 +115,12 @@ public class SameDogSearchActivity extends AppCompatActivity {
                              */
 
                             Intent myIntent = new Intent(context, FoundPostDetail.class);
-                            //Cache.getInstance().put("lostAndFound", lostAndFounds[position]);
                             startActivity(myIntent);
                         }
 
                     });
-
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
                 Log.e("error", t.getMessage());

@@ -61,7 +61,7 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        DogServiceImp.getInstance().getAllMyDogs(1,5, new Callback<ResponseFormat>() {
+        DogServiceImp.getInstance().getAllMyDogs(1,30, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
@@ -70,20 +70,16 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
                     String Name = (String) dogs.get(position).get("name");
                     String Breed = (String) dogs.get(position).get("breed");
                     String Note = (String) dogs.get(position).get("note");
-                    //latitude = (double) dogs.get(position).get("latitude");
-                    //longitude = (double) dogs.get(position).get("longitude");
 
                     mImageView = (ImageView) findViewById(R.id.imageUser);
                     TextView name = (TextView) findViewById(R.id.nameUser);
                     TextView breed = (TextView) findViewById(R.id.emailUser);
                     TextView note = (TextView) findViewById(R.id.noticeText);
-                    //TextView age = (TextView) findViewById(R.id.text_details);
 
                     name.setText(Name);
                     breed.setText(Breed);
                     note.setText(Note);
 
-                    //age.setText(Age);
                     String uri = "http://161.246.6.240:10100/server" + pic[position];
                     Log.i("ss",uri);
                     Glide.with(context)
@@ -91,7 +87,6 @@ public class MyDogDetail extends AppCompatActivity implements OnMapReadyCallback
                             .override(700, 700)
                             .centerCrop()
                             .into(mImageView);
-
                 }
                 else{
                     Log.e("Sucess","Failed");

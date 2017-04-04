@@ -48,7 +48,7 @@ public class MyDogFragment extends Fragment {
         /**
          * my dog
          */
-        DogServiceImp.getInstance().getAllMyDogs(1, 7, new Callback<ResponseFormat>() {
+        DogServiceImp.getInstance().getAllMyDogs(1, 30, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
@@ -61,18 +61,15 @@ public class MyDogFragment extends Fragment {
                     final Dog[] dogs = Converter.toPOJO(response.body().getPayload().get("dogs"), Dog[].class);
 
                     for(Dog dog: dogs) {
-                        if(dog.getImages().length < 1)
-                            continue;
-                        stockList.add(dog.getName());
-                        stockList2.add(dog.getBreed());
-                        latList.add(dog.getLatitude());
-                        longList.add(dog.getLongitude());
-                        //if(dog.getImages().length != 0) {
-                        stockUri.add(dog.getImages()[0]);
-                        //}else{ //temporary
-                        //    stockUri.add(dogs[0].getImages()[0]);
-                        //}
-                    }
+
+                            if (dog.getImages().length < 1)
+                                continue;
+                            stockList.add(dog.getName());
+                            stockList2.add(dog.getBreed());
+                            latList.add(dog.getLatitude());
+                            longList.add(dog.getLongitude());
+                            stockUri.add(dog.getImages()[0]);
+                        }
 
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];

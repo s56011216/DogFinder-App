@@ -33,8 +33,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//import static com.siriporn.dogfindertest.MainActivity.context;
-
 public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCallback {
     ImageView picture;
     String[] pic;
@@ -48,15 +46,10 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        //Intent intent = getIntent();
-        //Parcelable mBoard =  intent.getParcelableExtra("test");
 
         LostAndFound lostAndFound = Cache.getInstance().get("lostAndFound");
 
@@ -66,7 +59,6 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
                 public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                     LostAndFound lostAndFound = Converter.toPOJO(response.body().getPayload().get("notification"), LostAndFound.class);
                     picture = (ImageView)findViewById(R.id.picFoundPost);
-
 
                     TextView name = (TextView) findViewById(R.id.nameFB);
                     String fb_name = lostAndFound.getDog().getUser().getFb_name();
@@ -100,7 +92,6 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
                     TextView email = (TextView) findViewById(R.id.EmailText);
                     email.setText(lostAndFound.getDog().getUser().getEmail());
 
-                    //dog pic String[] pic
                     pic = lostAndFound.getDog().getImages();
                     String uri = "http://161.246.6.240:10100/server" + pic[0];
                     Log.i("ss",uri);
@@ -116,12 +107,12 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
 
                 @Override
                 public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                    Log.e("error", "its me");
+                    Log.e("error", "FoundPostDetail");
                 }
             });
-        }else {
+        }
+        else {
             picture = (ImageView)findViewById(R.id.picFoundPost);
-
 
             TextView name = (TextView) findViewById(R.id.nameFB);
             String fb_name = lostAndFound.getDog().getUser().getFb_name();
@@ -170,62 +161,6 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-    /*
-        private static int count = 0;
-        ImageButton button_right,button_left;
-        public void BtnRightClicked(View view){
-            //button_left = (ImageButton) findViewById(R.id.ButtonLeft);
-            //button_right = (ImageButton) findViewById(R.id.ButtonRight);
-            if(count != pic.length-1) {
-                incrementCount();
-            }
-            if(count < pic.length) {
-                String uri = "http://161.246.6.240:10100/server" + pic[count];
-                Glide.with(context)
-                        .load(uri)
-                        .override(100, 100)
-                        .centerCrop()
-                        .into(picture);
-
-                if(count == pic.length-1) {
-                    button_right .setVisibility(View.INVISIBLE);
-                }
-                button_left .setVisibility(View.VISIBLE);
-
-            }else{
-                button_right .setVisibility(View.INVISIBLE);
-            }
-        }
-
-        public void BtnLeftClicked(View view){
-            button_left = (ImageButton) findViewById(R.id.ButtonLeft);
-            button_right = (ImageButton) findViewById(R.id.ButtonRight);
-            if(count != -1) {
-                decrementCount();
-            }
-            if(count >= 0) {
-                String uri = "http://161.246.6.240:10100/server" + pic[count];
-                Glide.with(context)
-                        .load(uri)
-                        .override(700, 700)
-                        .centerCrop()
-                        .into(picture);
-                if(count == 0) {
-
-                    button_left .setVisibility(View.INVISIBLE);
-                }
-                button_right .setVisibility(View.VISIBLE);
-            }else{
-                button_left .setVisibility(View.INVISIBLE);
-            }
-        }
-        public static synchronized void incrementCount() {
-            count++;
-        }
-        public static synchronized void decrementCount() {
-            count--;
-        }
-    */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -248,7 +183,6 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
         }
 
     }
-
 
     private GoogleMap mMap;
 

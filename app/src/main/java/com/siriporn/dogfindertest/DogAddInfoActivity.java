@@ -62,7 +62,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
 
     private Uri mImageCaptureUri;
     private ImageView mImageView;
-    private AlertDialog dialog, dialogSearch;
+    private AlertDialog dialog;
     private Bitmap photo;
     private String name, breed, note;
     private Integer age;
@@ -70,30 +70,12 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
     private Button button ;
     private ImageView button1;
     private TextView breedtext;
-    Dog dog = new Dog();
     private double latitude,longitude;
-
-
-
+    Dog dog = new Dog();
     private static final int PICK_FROM_CAMERA = 1;
     private static final int CROP_FROM_CAMERA = 2;
     private static final int PICK_FROM_FILE = 3;
     int myFile;
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // save file url in bundle as it will be null on scren orientation changes
-        outState.putParcelable("mImageCaptureUri", mImageCaptureUri);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)         {
-        super.onRestoreInstanceState(savedInstanceState);
-        // get the file url
-        mImageCaptureUri = savedInstanceState.getParcelable("mImageCaptureUri");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,27 +114,17 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                         return true;
                     }
                 });
-
-                popup.show(); //showing popup menu
-            }
-        }); //closing the setOnClickListener method
-        //end breed
-
-        button = (Button) findViewById(R.id.captureButton);
-        mImageView = (ImageView) findViewById(R.id.captureView );
-        /*
-        // add search text
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogSearch.show();
+                popup.show();
             }
         });
-        */
+        //end breed dialog
+
         button = (Button) findViewById(R.id.captureButton);
         mImageView = (ImageView) findViewById(R.id.captureView );
 
-        // add image Button
+        button = (Button) findViewById(R.id.captureButton);
+        mImageView = (ImageView) findViewById(R.id.captureView );
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,27 +133,35 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save file url in bundle as it will be null on scren orientation changes
+        outState.putParcelable("mImageCaptureUri", mImageCaptureUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)         {
+        super.onRestoreInstanceState(savedInstanceState);
+        // get the file url
+        mImageCaptureUri = savedInstanceState.getParcelable("mImageCaptureUri");
+    }
+
     private void captureImageInitialization() {
-        /**
-         * a selector dialog to display two image source options
-         */
+
         final String[] items = new String[] { "Take from camera",
                 "Select from gallery" };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.select_dialog_item, items);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         builder.setTitle("Select Image");
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) { // pick from
                 // camera
                 if (item == 0) {
-                    /**
-                     * To take a photo from camera, pass intent action
-                     * ‘MediaStore.ACTION_IMAGE_CAPTURE‘ to open the camera app.
-                     */
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                     /**
                      * Also specify the Uri to save the image on specified path
                      * and file name. Note that this Uri variable also used by
@@ -191,14 +171,12 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                             .getExternalStorageDirectory(), "tmp_avatar_"
                             + String.valueOf(System.currentTimeMillis())
                             + ".jpg"));
-
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
                             mImageCaptureUri);
-
                     try {
                         intent.putExtra("return-data", true);
-
                         startActivityForResult(intent, PICK_FROM_CAMERA);
+
                     } catch (ActivityNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -210,19 +188,19 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                      * automatically display a list of supported applications,
                      * such as image gallery or file manager.
                      */
-                    //Intent intent = new Intent();
+
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
                     //startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
-                    // intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    //intent.setType("image/*");
-                    //intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+
                     startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_FILE);
                 }
             }
         });
-
         dialog = builder.create();
     }
 
@@ -232,9 +210,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
 
         public CropOptionAdapter(Context context, ArrayList<CropOption> options) {
             super(context, R.layout.crop_selector, options);
-
             mOptions = options;
-
             mInflater = LayoutInflater.from(context);
         }
 
@@ -278,7 +254,6 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                  * After taking a picture, do the crop
                  */
                 doCrop();
-
                 break;
 
             case PICK_FROM_FILE:
@@ -286,14 +261,11 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                  * After selecting image from files, save the selected path
                  */
                 mImageCaptureUri = data.getData();
-
                 doCrop();
-
                 break;
 
             case CROP_FROM_CAMERA:
                 Bundle extras = data.getExtras();
-
                 /**
                  * After cropping the image, get the bitmap of the cropped image and
                  * show it on imageview.
@@ -313,22 +285,10 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                     if (DocumentsContract.isDocumentUri(MainActivity.context, mImageCaptureUri)) {
                         file = new File(getPath(MainActivity.context,mImageCaptureUri));
                     }
-//
-
-//
                 }
                 catch (SecurityException e){
                     file = new File(mImageCaptureUri.getPath());
 
-                }
-                if (count == 0) {
-                    files = new ArrayList();
-                }
-                files.add(file);
-                incrementCount();
-                Log.d("Files", "Size: " + files.size());
-                for (int i = 0; i < files.size(); i++) {
-                    Log.d("Files", "FileName:" + files.get(i).getName());
                 }
                 /**
                  * Delete the temporary image
@@ -336,11 +296,6 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                  if (file.exists())
                  file.delete();
                  */
-                if (files.size() == 2) {
-                    button.setEnabled(false);
-                    myFile = files.size();
-                }
-
                 break;
 
         }
@@ -472,7 +427,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void doCrop() {
-        final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
+        final ArrayList<CropOption> cropOptions = new ArrayList<>();
         /**
          * Open image crop app by starting an intent
          * ‘com.android.camera.action.CROP‘.
@@ -485,24 +440,20 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
          */
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(
                 intent, 0);
-
         int size = list.size();
 
         /**
          * If there is no image cropper app, display warning message
          */
         if (size == 0) {
-
             Toast.makeText(this, "Can not find image crop app",
                     Toast.LENGTH_SHORT).show();
-
             return;
         } else {
             /**
              * Specify the image path, crop dimension and scale
              */
             intent.setData(mImageCaptureUri);
-
             intent.putExtra("outputX", 231);
             intent.putExtra("outputY", 231);
             intent.putExtra("aspectX", 1);
@@ -586,10 +537,10 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
         EditText ageText = (EditText) findViewById(R.id.ageText);
         EditText noticeText = (EditText) findViewById(R.id.noticeText);
 
-
         name = nameText.getText().toString();
         age = Integer.parseInt( ageText.getText().toString());
         note = noticeText.getText().toString();
+        breed = breedtext.getText().toString();
 
         dog.setName(name);
         dog.setBreed(breed);

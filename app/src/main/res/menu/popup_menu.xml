@@ -41,4 +41,8 @@
         android:id="@+id/Maltese"
         android:title="Maltese"/>
 
+    <item
+        android:id="@+id/thousand_way"
+        android:title="Thousand Way"/>
+
 </menu>

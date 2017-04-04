@@ -46,7 +46,7 @@ public class NetworkConfigs {
     }
 
     public static Retrofit getRestAdapter() {
-        return new Retrofit.Builder().baseUrl(DEBUG_BASE_URL).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create((new GsonBuilder()).setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())).build();
+        return new Retrofit.Builder().baseUrl(BASE_URL).client(NetworkConfigs.getClient()).addConverterFactory(GsonConverterFactory.create((new GsonBuilder()).setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create())).build();
     }
 
 }

@@ -311,20 +311,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
                     byte[] bitmapdata = bos.toByteArray();
-
                     Toast.makeText(getApplicationContext(),
                             bitmap.getWidth() + "x" + bitmap.getHeight() + "\n" + bitmap.getByteCount() + "\n", Toast.LENGTH_LONG).show();
-
-//                    int a = (int) dipToPixels(context,231);
-//                    //Log.e("dip",a);
-//                    Bitmap newbitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-//                    mImageView.setImageBitmap(Bitmap.createScaledBitmap(newbitmap, 600, 600, true));
-//                    ByteArrayOutputStream aos = new ByteArrayOutputStream();
-//                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, aos);
-//                    byte[] bitmapdata2 = aos.toByteArray();
-//                    Toast.makeText(getApplicationContext(),
-//                            newbitmap.getWidth() + "x" + newbitmap.getHeight() + "\n" + newbitmap.getByteCount() + "\n", Toast.LENGTH_LONG).show();
-
 
                     //write the bytes in file
                     FileOutputStream fos = null;
@@ -552,8 +540,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
              */
             intent.setData(mImageCaptureUri);
 
-            intent.putExtra("outputX", 400);
-            intent.putExtra("outputY", 400);
+            intent.putExtra("outputX", 231);
+            intent.putExtra("outputY", 231);
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             intent.putExtra("scale", true);
@@ -611,7 +599,6 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                 builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-
                         if (mImageCaptureUri != null) {
                             getContentResolver().delete(mImageCaptureUri, null,
                                     null);
@@ -628,7 +615,6 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     Dog dog = new Dog();
-    User user = new User();
     LostAndFound lostAndFound = new LostAndFound();
 
     public void writeFoundPostClicked(View view) {
@@ -745,7 +731,6 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                 });
         dialog.show();
     }
-
 
     private GoogleMap mMap;
 
