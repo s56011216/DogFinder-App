@@ -67,8 +67,8 @@ public class CustomAdapterSameDog extends BaseAdapter {
             Log.i("ss",uri);
             Glide.with(context)
                     .load(uri)
-                    .override(100, 100)
-                    .centerCrop()
+                    .override(231, 231)
+
                     .into(holder.iv);
         }
 

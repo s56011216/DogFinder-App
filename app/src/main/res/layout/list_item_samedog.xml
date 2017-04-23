@@ -1,44 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imgDogAccount"
             android:layout_width="197dp"
             android:layout_height="222dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:src="@drawable/com_facebook_profile_picture_blank_square"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+             />
 
         <TextView
             android:id="@+id/nameDogAccount"
-            android:layout_width="188dp"
-            android:layout_height="42dp"
-            android:text="TextView"
-            android:textSize="24sp"
-            android:layout_alignBottom="@+id/imgDogAccount"
-            android:layout_alignLeft="@+id/imgDogAccount"
-            android:layout_alignStart="@+id/imgDogAccount"
-            android:layout_alignTop="@+id/imgDogAccount"
-            android:textAlignment="center"
-            android:textStyle="normal|bold"
-            android:layout_alignRight="@+id/imgDogAccount"
-            android:layout_alignEnd="@+id/imgDogAccount"
-            app:layout_constraintBottom_toBottomOf="@+id/imgDogAccount"
-            app:layout_constraintRight_toRightOf="@+id/imgDogAccount"
-            app:layout_constraintLeft_toLeftOf="@+id/imgDogAccount"
-            android:background="@android:color/transparent"
-            android:textColor="@color/cardview_light_background"
-            android:paddingBottom="3dp" />
-    </android.support.constraint.ConstraintLayout>
-
-</RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_gravity="bottom"
+            android:textColor="@android:color/white"
+            android:background="#55000000"/>
+</FrameLayout>
