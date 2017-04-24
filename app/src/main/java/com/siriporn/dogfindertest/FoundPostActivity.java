@@ -185,7 +185,6 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
 
                     try {
                         intent.putExtra("return-data", true);
-
                         startActivityForResult(intent, PICK_FROM_CAMERA);
                     } catch (ActivityNotFoundException e) {
                         e.printStackTrace();
@@ -203,9 +202,10 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
                     //startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
-                    // intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    //intent.setType("image/*");
-                    //intent.setAction(Intent.ACTION_GET_CONTENT);
+                    intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+
                     startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_FILE);
                 }
             }
@@ -296,7 +296,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     mImageView.setImageBitmap(photo);
 
                     incrementCount();
-                    f = new File(context.getCacheDir(), "image" + count);
+                    f = new File(context.getCacheDir(), "image" + count + ".jpg");
                     if (!f.exists()) {
                         try {
                             f.createNewFile();

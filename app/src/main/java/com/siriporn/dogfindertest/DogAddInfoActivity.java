@@ -1,6 +1,10 @@
 package com.siriporn.dogfindertest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +62,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.siriporn.dogfindertest.MainActivity.context;
+
 public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Uri mImageCaptureUri;
@@ -66,7 +72,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
     private Bitmap photo;
     private String name, breed, note;
     private Integer age;
-    private File file;
+    private File file, f;
     private Button button ;
     private ImageView button1;
     private TextView breedtext;
@@ -273,31 +279,53 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                 if (extras != null) {
                     photo = extras.getParcelable("data");
                     mImageView.setImageBitmap(photo);
-                }
 
-                final int takeFlags = data.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                // Check for the freshest data.
-                try {
-                    getContentResolver().takePersistableUriPermission(mImageCaptureUri, takeFlags);
+                    incrementCount();
+                    f = new File(context.getCacheDir(), "image" + count + ".jpg");
+                    if (!f.exists()) {
+                        try {
+                            f.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-                    if (DocumentsContract.isDocumentUri(MainActivity.context, mImageCaptureUri)) {
-                        file = new File(getPath(MainActivity.context,mImageCaptureUri));
+                    //Convert bitmap to byte array
+                    //Bitmap bitmap = photo;
+                    Bitmap bitmap =Bitmap.createScaledBitmap(photo, 231, 231, true);
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+                    Toast.makeText(getApplicationContext(),
+                            bitmap.getWidth() + "x" + bitmap.getHeight() + "\n" + bitmap.getByteCount() + "\n", Toast.LENGTH_LONG).show();
+
+                    //write the bytes in file
+                    FileOutputStream fos = null;
+
+                    try {
+                        fos = new FileOutputStream(f);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.write(bitmapdata);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-                catch (SecurityException e){
-                    file = new File(mImageCaptureUri.getPath());
-
-                }
-                /**
-                 * Delete the temporary image
-
-                 if (file.exists())
-                 file.delete();
-                 */
+                file = new File(mImageCaptureUri.getPath());
                 break;
-
         }
     }
 
@@ -562,7 +590,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                     //for(int i = 0; i < 2; i++) {
 
                         //file = files.get(i);
-                        DogServiceImp.getInstance().uploadImage(dog, file, new Callback<ResponseFormat>() {
+                        DogServiceImp.getInstance().uploadImage(dog, f, new Callback<ResponseFormat>() {
                             @Override
                             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                                 if (response.body().isSuccess()) {
