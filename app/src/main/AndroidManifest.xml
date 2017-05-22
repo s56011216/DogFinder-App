@@ -3,15 +3,21 @@
     package="com.siriporn.dogfindertest">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- camera -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".DogFinderApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,24 +28,44 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
 
+        <service
+            android:name=".FCMInstanceIDService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".FCMMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".Login"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity android:name="com.facebook.FacebookActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="MainActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+ATTENTION: This was auto-generated to add Google Play services to your project for
+    App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <meta-data
             android:name="com.google.android.gms.version"
@@ -54,7 +80,7 @@
             android:label="@string/title_activity_my_dog"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SearchBreed"
+            android:name=".FoundDetail"
             android:label="@string/title_activity_search_breed"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -76,7 +102,41 @@
         <activity
             android:name=".MyDogDetail"
             android:label="@string/title_activity_my_dog_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SameDogActivity"
+            android:label="@string/title_activity_same_dog"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FoundPostActivity"
+            android:label="@string/title_activity_found_post"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FoundPostDetail"
+            android:label="@string/title_activity_found_post_detail"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="FoundPostDetail" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LostPostAcitivity"
+            android:label="@string/title_activity_lost_post_acitivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FindPostActivity"
+            android:label="@string/title_activity_find_post"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SameDogSearchActivity"
+            android:label="@string/title_activity_same_dog_search"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ReceptActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

@@ -7,7 +7,6 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -15,16 +14,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:id="@+id/textView3" />
+            android:id="@+id/textView3"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp" />
 
-        <Button
-            android:text="Map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteY="261dp"
-            tools:layout_editor_absoluteX="103dp"
-            android:id="@+id/button2"
-            android:onClick="GotoMapClicked" />
     </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/Airedale_Terrier"
+        android:title="Airedale Terrier"/>
+
+    <item
+        android:id="@+id/Akita"
+        android:title="Akita"/>
+
+    <item
+        android:id="@+id/Alaskan_malamute"
+        android:title="Alaskan malamute"/>
+
+    <item
+        android:id="@+id/Anatolian_shepherd"
+        android:title="Anatolian shepherd"/>
+
+    <item
+        android:id="@+id/Australian_Cattle"
+        android:title="Australian Cattle"/>
+
+    <item
+        android:id="@+id/Beagle"
+        android:title="Beagle"/>
+
+    <item
+        android:id="@+id/Chow"
+        android:title="Chow"/>
+
+    <item
+        android:id="@+id/Golden"
+        android:title="Golden"/>
+
+    <item
+        android:id="@+id/Italian_Greyhound"
+        android:title="Italian Greyhound"/>
+
+    <item
+        android:id="@+id/Maltese"
+        android:title="Maltese"/>
+
+    <item
+        android:id="@+id/thousand_way"
+        android:title="Thousand Way"/>
+
+</menu>

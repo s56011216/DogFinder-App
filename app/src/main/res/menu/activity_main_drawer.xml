@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_my_dog"
             android:icon="@drawable/user"
-            android:title="My Dog Account" />
+            android:title="My Dog" />
         <item
             android:id="@+id/nav_lost"
             android:icon="@drawable/losticon"
@@ -19,24 +19,24 @@
             android:icon="@drawable/findicon"
             android:title="Find My Dog" />
         <item
-            android:id="@+id/nav_adopt"
-            android:icon="@drawable/adopticon"
-            android:title="Adopt" />
-        <item
             android:id="@+id/nav_map"
             android:icon="@drawable/locationicon"
-            android:title="Map" />
+            android:title="Find For Adopting" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/user"
+            android:title="My Profile" />
 
     </group>
 
     <item android:title="Information">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_about"
                 android:icon="@drawable/info"
                 android:title="About Us" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_foundation"
                 android:icon="@drawable/info"
                 android:title="Foundation" />
         </menu>

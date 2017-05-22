@@ -2,6 +2,7 @@ package com.siriporn.dogfindertest;
 
 import android.*;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,11 +34,6 @@ import static android.content.Context.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-
-    LocationManager locationManager;
-
-    LocationListener locationListener;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -61,6 +58,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private GoogleMap mMap;
+
+    LocationManager locationManager;
+
+    LocationListener locationListener;
+    double lat,lon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +73,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -91,69 +92,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
 
+
                 Log.i("Location", location.toString());
 
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+                //------------------------------
+                lat =  location.getLatitude();
+                lon =  location.getLongitude();
+
 
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
-                /*// location info.
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-
-                try {
-
-                    List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-
-                    if (listAddresses != null && listAddresses.size() > 0) {
-
-                        Log.i("PlaceInfo", listAddresses.get(0).toString());
-
-                        String address = "";
-
-                        if (listAddresses.get(0).getSubThoroughfare() != null) {
-
-                            address += listAddresses.get(0).getSubThoroughfare() + " ";
-
-                        }
-
-                        if (listAddresses.get(0).getThoroughfare() != null) {
-
-                            address += listAddresses.get(0).getThoroughfare() + ", ";
-
-                        }
-
-                        if (listAddresses.get(0).getLocality() != null) {
-
-                            address += listAddresses.get(0).getLocality() + ", ";
-
-                        }
-
-                        if (listAddresses.get(0).getPostalCode() != null) {
-
-                            address += listAddresses.get(0).getPostalCode() + ", ";
-
-                        }
-
-                        if (listAddresses.get(0).getCountryName() != null) {
-
-                            address += listAddresses.get(0).getCountryName();
-
-                        }
-                        Log.i("LocationInfo", address);
-                        //Toast.makeText(MapsActivity.this, address, Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-
-                }
-               */
             }
-            //end location info.
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -188,17 +141,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 LatLng userLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                mMap.clear();
 
+                //------------------------------
+                lat =  lastKnownLocation.getLatitude();
+                lon =  lastKnownLocation.getLongitude();
+
+                mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
 
-
             }
-
 
         }
 
-
     }
+
+
+
+
 }

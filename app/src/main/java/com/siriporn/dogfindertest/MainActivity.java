@@ -1,20 +1,19 @@
 package com.siriporn.dogfindertest;
 
-import android.*;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +25,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.facebook.Profile;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.siriporn.dogfindertest.Fragments.MapFragment;
+import com.siriporn.dogfindertest.Fragments.ProfileFragment;
+import com.siriporn.dogfindertest.Fragments.FindFragment;
+import com.siriporn.dogfindertest.Fragments.FoundFragment;
+import com.siriporn.dogfindertest.Fragments.LostFragment;
+import com.siriporn.dogfindertest.Fragments.MyDogFragment;
+import com.siriporn.dogfindertest.Models.ResponseFormat;
+import com.siriporn.dogfindertest.RESTServices.Implement.DeviceServiceImp;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,9 +56,11 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    public static Context context;
     //location user google map
     LocationManager locationManager;
     LocationListener locationListener;
+    private NavigationView navigationView;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -60,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,13 +88,32 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        /**
+         * header menu
+         */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        Profile profile = Profile.getCurrentProfile();
+        View header = navigationView.getHeaderView(0);
+
+        TextView name = (TextView)header.findViewById(R.id.NameFacebook);
+        ImageView pic = (ImageView)header.findViewById(R.id.PicFacebook);
+        name.setText(profile.getName());
+
+        Uri picUri = profile.getProfilePictureUri(200,200);
+        Glide.with(context)
+                .load(picUri)
+                .override(200, 200)
+                .centerCrop()
+                .into(pic);
+
+
+        if (savedInstanceState == null) {
+            navigationView.getMenu().performIdentifierAction(R.id.nav_my_dog, 0);
+        }
+
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         /*//location user google map ---------------------------------------------------
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -128,6 +166,18 @@ public class MainActivity extends AppCompatActivity
 
         }
         */// end user location google map --------------
+        String FCM_Token = FCMInstanceIDService.getFCMToken();
+        DeviceServiceImp.getInstance().updateFCMToken(FCM_Token, new Callback<ResponseFormat>() {
+            @Override
+            public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
+                Log.i("fcm token", "" + response.body().isSuccess());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFormat> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -158,6 +208,12 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.action_logout){
+            return true;
+        }else if(id == R.id.action_user){
+            Intent intent = new Intent(this,FoundPostActivity.class);
+            startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -179,13 +235,14 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FoundFragment()).commit();
         } else if (id == R.id.nav_find) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FindFragment()).commit();
-        } else if (id == R.id.nav_adopt) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new AdoptFragment()).commit();
         } else if (id == R.id.nav_map) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_profile) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ProfileFragment()).commit();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
+        } else if (id == R.id.nav_foundation) {
 
         }
 
@@ -240,4 +297,35 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void AddFoundPostClicked(View view){
+        Intent intent = new Intent(this,FoundPostActivity.class);
+        startActivity(intent);
+    }
+
+    public void AddLostPostClicked(View view){
+        Intent intent = new Intent(this,LostPostAcitivity.class);
+        //Cache.getInstance().put("lostAndFound", "a");
+        startActivity(intent);
+    }
+
+
+    public static Context getContext() {return context;}
+
+    public static void showDialog(String title, String message, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener){
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.getContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes, positiveListener)
+                .setNegativeButton(android.R.string.no, negativeListener)
+                .setIcon(android.R.drawable.ic_dialog_alert);
+        Handler handler = new Handler(MainActivity.getContext().getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.show();
+            }
+        });
+
+    }
 }
+
