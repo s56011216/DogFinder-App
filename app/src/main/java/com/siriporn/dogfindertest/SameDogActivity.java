@@ -38,6 +38,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -82,6 +84,10 @@ public class SameDogActivity extends AppCompatActivity {
                         stockList.add(dog.getName()+" - FOUND");
                         stockUri.add(dog.getImages()[0]);
                     }
+                    Collections.reverse(stockUri);
+                    Collections.reverse(stockList);
+                    Collections.reverse(Arrays.asList(lostAndFounds));
+
 
                     // INFORMATION convert List<String> to String[]
                     String[] items = new String[stockList.size()];
@@ -90,8 +96,8 @@ public class SameDogActivity extends AppCompatActivity {
                     itemsPic = new String[stockUri.size()];
                     itemsPic = stockUri.toArray(itemsPic);
 
-                    GridView gridview = (GridView) findViewById(R.id.gridview);
-                    CustomAdapterSameDog cus = new CustomAdapterSameDog( items, itemsPic);
+                     GridView gridview = (GridView) findViewById(R.id.gridview);
+                    CustomAdapterSameDog cus = new CustomAdapterSameDog(items, itemsPic);
                     runOnUiThread(new Runnable() {
 
                         GridView gridview;
@@ -140,5 +146,7 @@ public class SameDogActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }

@@ -26,6 +26,7 @@ import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class MyDogFragment extends Fragment {
         /**
          * my dog
          */
-        DogServiceImp.getInstance().getAllMyDogs(1, 30, new Callback<ResponseFormat>() {
+         DogServiceImp.getInstance().getAllMyDogs(1, 30, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){

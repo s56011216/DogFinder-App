@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.siriporn.dogfindertest.R;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class CustomAdapterSameDog extends BaseAdapter {
     String itemsPic[];
     LayoutInflater mInflater;
 
-    public CustomAdapterSameDog( String[] items, String[] itemsPic) {
+    public CustomAdapterSameDog(String[] items, String[] itemsPic) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
         this.itemsPic = itemsPic;
@@ -46,9 +47,9 @@ public class CustomAdapterSameDog extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CustomAdapterSameDog.ViewHolder holder;
+        ViewHolder holder;
 
-        if(convertView == null)
+        if(convertView == null )
         {
             convertView = mInflater.inflate(R.layout.list_item_samedog,parent,false);
             holder = new CustomAdapterSameDog.ViewHolder();
@@ -58,19 +59,19 @@ public class CustomAdapterSameDog extends BaseAdapter {
         }
         else
         {
-            holder = (CustomAdapterSameDog.ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
+
+        String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
+        Log.i("ss",uri);
+
+        Glide.with(context)
+                .load(uri)
+                .centerCrop()
+                .override(400, 400)
+                .into(holder.iv);
+
         holder.tv.setText(items[position]);
-
-        if (holder.iv != null) {
-            String uri = "http://161.246.6.240:10100/server" + itemsPic[position].toString();
-            Log.i("ss",uri);
-            Glide.with(context)
-                    .load(uri)
-                    .override(231, 231)
-
-                    .into(holder.iv);
-        }
 
         return convertView;
     }
