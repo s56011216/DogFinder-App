@@ -40,6 +40,7 @@ public class FoundPostDetail extends AppCompatActivity implements OnMapReadyCall
     Context context = DogFinderApplication.getContext();
 
     @Override
+    //Show information of dog which is found when clicked the list
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_found_post_detail);

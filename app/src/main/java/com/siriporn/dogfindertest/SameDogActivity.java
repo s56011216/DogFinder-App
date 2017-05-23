@@ -55,8 +55,6 @@ import static com.siriporn.dogfindertest.MainActivity.context;
 
 public class SameDogActivity extends AppCompatActivity {
     String[] itemsPic;
-    String[] pic;
-    private Uri mImageCaptureUri;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +82,7 @@ public class SameDogActivity extends AppCompatActivity {
                         stockList.add(dog.getName()+" - FOUND");
                         stockUri.add(dog.getImages()[0]);
                     }
+                    //switch order of list
                     Collections.reverse(stockUri);
                     Collections.reverse(stockList);
                     Collections.reverse(Arrays.asList(lostAndFounds));

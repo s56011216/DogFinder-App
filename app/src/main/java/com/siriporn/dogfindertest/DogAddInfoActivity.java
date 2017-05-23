@@ -91,12 +91,12 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
         setSupportActionBar(toolbar);
         captureImageInitialization();
 
-
+        //To show map by using fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //breed
+        //Define breed variable to show popup
         breedtext = (TextView) findViewById(R.id.breedText);
         button1 = (ImageView) findViewById(R.id.searchMydog);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,6 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                 popup.show();
             }
         });
-        //end breed dialog
 
         button = (Button) findViewById(R.id.captureButton);
         mImageView = (ImageView) findViewById(R.id.captureView );
@@ -155,17 +154,19 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void captureImageInitialization() {
-
+        //To show dialog pop up
         final String[] items = new String[] { "Take from camera",
                 "Select from gallery" };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.select_dialog_item, items);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Select Image");
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) { // pick from
-                // camera
+                // Open camera
                 if (item == 0) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     /**
@@ -187,7 +188,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                         e.printStackTrace();
                     }
                 } else {
-                    // pick from file
+                    // Pick from file
                     /**
                      * To select an image from existing files, use
                      * Intent.createChooser to open image chooser. Android will
@@ -198,7 +199,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
-                    //startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
+
                     intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -279,7 +280,6 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                 if (extras != null) {
                     photo = extras.getParcelable("data");
                     mImageView.setImageBitmap(photo);
-
                     incrementCount();
                     f = new File(context.getCacheDir(), "image" + count + ".jpg");
                     if (!f.exists()) {
@@ -291,10 +291,9 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                     }
 
                     //Convert bitmap to byte array
-                    //Bitmap bitmap = photo;
                     Bitmap bitmap =Bitmap.createScaledBitmap(photo, 231, 231, true);
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 , bos);
                     byte[] bitmapdata = bos.toByteArray();
                     Toast.makeText(getApplicationContext(),
                             bitmap.getWidth() + "x" + bitmap.getHeight() + "\n" + bitmap.getByteCount() + "\n", Toast.LENGTH_LONG).show();
@@ -528,6 +527,7 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
                         getApplicationContext(), cropOptions);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
                 builder.setTitle("Choose Crop App");
                 builder.setAdapter(adapter,
                         new DialogInterface.OnClickListener() {
@@ -619,6 +619,8 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
         startActivity(intent);
 
     }
+
+    //GPS and mask pin on the map
     private GoogleMap mMap;
 
     LocationManager locationManager;
@@ -635,11 +637,8 @@ public class DogAddInfoActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onLocationChanged(Location location) {
 
-
                 Log.i("Location", location.toString());
-
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-
                 //------------------------------
                 latitude =  location.getLatitude();
                 longitude =  location.getLongitude();

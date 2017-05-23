@@ -632,10 +632,9 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
         dog.setLongitude(longitude);
 
         lostAndFound.setType(LostAndFound.FOUND);
-//        lostAndFound.setDog(dog);
         lostAndFound.setNote(note);
 
-        //add new dog---------------------
+        //add new dog
         DogServiceImp.getInstance().newDog(dog, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
@@ -647,9 +646,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                     dog.setId(new Double(dog_data.get("dog_id").toString()).intValue());
 
 
-                    //Upload Image to server----------------------
-                    //for (int i = 0; i < 1; i++) {
-                    //file = files.get(i);
+                    //Upload Image to server
                     DogServiceImp.getInstance().uploadImage(dog, f, new Callback<ResponseFormat>() {
                         @Override
                         public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
@@ -671,11 +668,7 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                                     public void onFailure(Call<ResponseFormat> call, Throwable t) {
                                         Log.e("onFailure", "createLostAndFound");
                                     }
-
                                 });
-                                //}
-
-
                             }
                         }
 
@@ -684,7 +677,6 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                             Log.e("error", t.getMessage());
                         }
                     });
-                    //}
                 }
             }
 
@@ -693,9 +685,8 @@ public class FoundPostActivity extends AppCompatActivity implements OnMapReadyCa
                 Log.e("error", t.getMessage());
             }
         });
-        //file = files.get(0);
+
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("BitmapImage", file);
         startActivity(intent);
 
 

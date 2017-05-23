@@ -135,14 +135,9 @@ public class FindPostActivity extends AppCompatActivity {
                      * automatically display a list of supported applications,
                      * such as image gallery or file manager.
                      */
-                    //Intent intent = new Intent();
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
-                    //startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
-                    // intent =  new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    //intent.setType("image/*");
-                    //intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_FILE);
                 }
             }
@@ -255,17 +250,11 @@ public class CropOption {
                 for (int i = 0; i < files.size(); i++) {
                     Log.d("Files", "FileName:" + files.get(i).getName());
                 }
-                /**
-                 * Delete the temporary image
 
-                 if (file.exists())
-                 file.delete();
-                 */
                 if (files.size() == 1) {
                     button.setEnabled(false);
                     myFile = files.size();
                 }
-
                 break;
 
         }

@@ -64,12 +64,9 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //String dd = Cache.getInstance().get("lostAndFound");
         Profile profile = Profile.getCurrentProfile();
         ImageView picture = (ImageView) findViewById(R.id.lostUserPicWritePost);
         TextView name = (TextView) findViewById(R.id.nameFB);
-        TextView note = (TextView) findViewById(R.id.noticeDog);
-        final ImageView search = (ImageView) findViewById(R.id.searchMydog);
         final TextView show_name = (TextView) findViewById(R.id.nameLostPost);
 
         //show pic and FB name
@@ -87,8 +84,7 @@ public class LostPostAcitivity extends AppCompatActivity implements OnMapReadyCa
         latitude = 0.0;
         longitude = 0.0;
 
-        //get note
-        String notes = note.getText().toString();
+        //get all dog page 1 amount 5 dogs
         DogServiceImp.getInstance().getAllMyDogs(1, 5, new Callback<ResponseFormat>() {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
