@@ -16,81 +16,66 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.appevents.AppEventsLogger;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Login extends AppCompatActivity
-    {
+public class Login extends AppCompatActivity {
 
 
-        private AccessTokenTracker accessTokenTracker;
-        private CallbackManager callbackManager;
-        public AccessToken accessToken;
 
-        @Override
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-       //fb ติดตามโทเค็นการเข้าถึง
-
-            try {
-                PackageInfo info = getPackageManager().getPackageInfo(
-                        "com.siriporn.dogfindertest",
-                        PackageManager.GET_SIGNATURES);
-                for (Signature signature : info.signatures) {
-                    MessageDigest md = MessageDigest.getInstance("SHA");
-                    md.update(signature.toByteArray());
-                    Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-
-            } catch (NoSuchAlgorithmException e) {
-
-            }
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-        callbackManager = CallbackManager.Factory.create();
-
-        accessTokenTracker = new AccessTokenTracker() {
+        //fb ติดตามโทเค็นการเข้าถึง
+        Button regisBut = (Button)findViewById(R.id.register);
+        final Intent intent = new Intent(this,RegisterActivity.class);
+        regisBut.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void onCurrentAccessTokenChanged(
-                    AccessToken oldAccessToken,
-                    AccessToken currentAccessToken) {
-                // Set the access token using
-                // currentAccessToken when it's loaded or set.
+            public void onClick(View v) {
+                startActivity(intent);
             }
-        };
-        // If the access token is available already assign it.
-        accessToken = AccessToken.getCurrentAccessToken();
+        });
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.siriporn.dogfindertest",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+
+
     }
 
 
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
 
-        }
 
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
-            accessTokenTracker.stopTracking();
-        }
+    }
 
-    public void TemLoginClicked(View view){
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-        Intent intent = new Intent(this,MainActivity.class);
+    }
+
+    public void TemLoginClicked(View view) {
+
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
     //end ติดตามโทเค็นการเข้าถึง

@@ -53,7 +53,7 @@ public class MyDogFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseFormat> call, Response<ResponseFormat> response) {
                 if(response.body().isSuccess()){
-                    Log.i("Success","OK");
+                    Log.i("MyDogFragmentSuccess","OK");
                     ArrayList<String> stockList = new ArrayList<>();
                     ArrayList<String> stockList2 = new ArrayList<>();
                     ArrayList<String> stockUri = new ArrayList<>();
@@ -117,7 +117,6 @@ public class MyDogFragment extends Fragment {
                             myIntent.putExtra("lat",lat_list);
                             myIntent.putExtra("lon",long_list);
 
-
                             startActivity(myIntent);
                         }
 
@@ -125,13 +124,13 @@ public class MyDogFragment extends Fragment {
 
                 }
                 else{
-                    e("Sucess","Failed");
+                    e("MyDogFragmentSucess","Failed");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                Log.e("Sucess","onFailure");
+                Log.e("MyDogFragmentSucess","onFailure");
             }
         });
 

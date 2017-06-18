@@ -26,7 +26,28 @@ public class User {
     String telephone;
     Date last_login;
 
+    String password;
+    String firstname;
+    String lastname;
+    String address;
+    String facebookName;
+    String lineid;
+
+
+
     public User() {}
+
+
+    public User(String email, String password, String firstname, String lastname,String telephone, String address, String facebookName, String lineid) {
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.telephone = telephone;
+        this.address = address;
+        this.facebookName = facebookName;
+        this.lineid = lineid;
+    }
 
     public User(int id, String fb_id, String fb_name, String fb_token, Date fb_token_exp, String email, Date birth_date, String fb_profile_image) {
         this.id = id;
@@ -38,4 +59,6 @@ public class User {
         this.birth_date = birth_date;
         this.fb_profile_image = fb_profile_image;
     }
+
+
 }

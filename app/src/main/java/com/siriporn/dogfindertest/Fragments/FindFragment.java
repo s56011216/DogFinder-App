@@ -10,22 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.siriporn.dogfindertest.Cache;
 import com.siriporn.dogfindertest.Converter;
-import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterDog;
 import com.siriporn.dogfindertest.CustomAdapter.CustomAdapterFind;
 import com.siriporn.dogfindertest.Models.Dog;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
-import com.siriporn.dogfindertest.MyDogDetail;
 import com.siriporn.dogfindertest.R;
 import com.siriporn.dogfindertest.RESTServices.Implement.DogServiceImp;
 import com.siriporn.dogfindertest.SameDogActivity;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +31,7 @@ import retrofit2.Response;
  */
 
 public class FindFragment extends Fragment {
+
     String[] itemsPic;
     @Nullable
     @Override

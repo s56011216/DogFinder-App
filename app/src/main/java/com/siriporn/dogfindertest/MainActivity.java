@@ -1,6 +1,5 @@
 package com.siriporn.dogfindertest;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,19 +11,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,19 +32,22 @@ import com.facebook.Profile;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.siriporn.dogfindertest.Fragments.MapFragment;
-import com.siriporn.dogfindertest.Fragments.ProfileFragment;
 import com.siriporn.dogfindertest.Fragments.FindFragment;
 import com.siriporn.dogfindertest.Fragments.FoundFragment;
 import com.siriporn.dogfindertest.Fragments.LostFragment;
+import com.siriporn.dogfindertest.Fragments.MapFragment;
 import com.siriporn.dogfindertest.Fragments.MyDogFragment;
+import com.siriporn.dogfindertest.Fragments.ProfileFragment;
 import com.siriporn.dogfindertest.Models.ResponseFormat;
 import com.siriporn.dogfindertest.RESTServices.Implement.DeviceServiceImp;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.R.attr.name;
 
 
 public class MainActivity extends AppCompatActivity
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     LocationListener locationListener;
     private NavigationView navigationView;
 
+    private Button getProfileBut;
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,19 +98,24 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Profile profile = Profile.getCurrentProfile();
+
         View header = navigationView.getHeaderView(0);
 
-        TextView name = (TextView)header.findViewById(R.id.NameFacebook);
-        ImageView pic = (ImageView)header.findViewById(R.id.PicFacebook);
-        name.setText(profile.getName());
 
-        Uri picUri = profile.getProfilePictureUri(200,200);
-        Glide.with(context)
-                .load(picUri)
-                .override(200, 200)
-                .centerCrop()
-                .into(pic);
+        TextView name = (TextView) header.findViewById(R.id.NameFacebook);
+        ImageView pic = (ImageView) header.findViewById(R.id.PicFacebook);
+
+        //fail to get facebook's name
+//        name.setText(profile.getName());
+        name.setText("PawPal Test User");
+
+        //fail to get facebook's picture
+//        Uri picUri = profile.getProfilePictureUri(200,200);
+//        Glide.with(context)
+//                .load(picUri)
+//                .override(200, 200)
+//                .centerCrop()
+//                .into(pic);
 
 
         if (savedInstanceState == null) {
@@ -175,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
-
+                Log.i("fcm token","failed");
             }
         });
     }
@@ -208,10 +217,10 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.action_logout){
+        } else if (id == R.id.action_logout) {
             return true;
-        }else if(id == R.id.action_user){
-            Intent intent = new Intent(this,FoundPostActivity.class);
+        } else if (id == R.id.action_user) {
+            Intent intent = new Intent(this, FoundPostActivity.class);
             startActivity(intent);
             return true;
         }
@@ -287,31 +296,33 @@ public class MainActivity extends AppCompatActivity
         client.disconnect();
     }
 
-    public void AddMyDogClicked(View view){
-        Intent intent = new Intent(this,DogAddInfoActivity.class);
+    public void AddMyDogClicked(View view) {
+        Intent intent = new Intent(this, DogAddInfoActivity.class);
         startActivity(intent);
     }
 
-    public void GotoMapClicked(View view){
-        Intent intent = new Intent(this,MapsActivity.class);
+    public void GotoMapClicked(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
-    public void AddFoundPostClicked(View view){
-        Intent intent = new Intent(this,FoundPostActivity.class);
+    public void AddFoundPostClicked(View view) {
+        Intent intent = new Intent(this, FoundPostActivity.class);
         startActivity(intent);
     }
 
-    public void AddLostPostClicked(View view){
-        Intent intent = new Intent(this,LostPostAcitivity.class);
+    public void AddLostPostClicked(View view) {
+        Intent intent = new Intent(this, LostPostAcitivity.class);
         //Cache.getInstance().put("lostAndFound", "a");
         startActivity(intent);
     }
 
 
-    public static Context getContext() {return context;}
+    public static Context getContext() {
+        return context;
+    }
 
-    public static void showDialog(String title, String message, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener){
+    public static void showDialog(String title, String message, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.getContext())
                 .setTitle(title)
                 .setMessage(message)
