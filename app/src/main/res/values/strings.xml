@@ -25,4 +25,26 @@
     <string name="title_activity_lost_post_acitivity">Lost Post</string>
     <string name="title_activity_find_post">Find Post</string>
     <string name="title_activity_same_dog_search">Result Search</string>
+
+    <string name="activity_register_register">Sign Up!</string>
+    <string name="activity_register_email">E-mail</string>
+    <string name="activity_register_password">รหัสผ่าน  </string>
+    <string name="activity_register_password_alert"> *ต้องเป็นตัวอักษรหรือตัวเลขอย่างน้อย 8-24 ตัวอักษร</string>
+    <string name="activity_register_confirm_password">ยืนยันรหัสผ่าน</string>
+    <string name="activity_register_confirm_password_alert">*กรอกรหัสผ่านต้องตรงกัน</string>
+    <string name="activity_register_name">ชื่อ-นามสกุล</string>
+    <string name="activity_register_tel">เบอร์โทรศัพท์ที่ติดต่อได้</string>
+    <string name="activity_register_tel2">เบอร์โทรศัพท์สำรอง</string>
+    <string name="activity_register_address">ที่อยู่</string>
+    <string name="activity_register_facebook">Facebook</string>
+    <string name="activity_register_lineID">Line ID</string>
+    <string name="activity_register_confirm">ยืนยันข้อมูล</string>
+    <string name="activity_register_cancel">ยกเลิก</string>
+    <string name="activity_register_alert_fill_all">กรุณากรอกข้อมูลให้ครบถ้วน</string>
+    <string name="activity_register_alert_fill_all_title">ข้อมูลไม่ครบถ้วน</string>
+    <string name="activity_register_alert_password_not_match">กรุณากรอกรหัสผ่านใหม่</string>
+    <string name="activity_register_alert_password_not_match_title">รหัสผ่านไม่ตรงกัน</string>
+    <string name="activity_register_alert_regis_success">ยินดีด้วย! ลงทะเบียนสำเร็จ</string>
+    <string name="activity_register_alert_regis_success_title">ลงทะเบียนเรียบร้อย</string>
+
 </resources>

@@ -27,23 +27,23 @@ public class User {
     Date last_login;
 
     String password;
-    String firstname;
-    String lastname;
+    String name;
     String address;
     String facebookName;
     String lineid;
+    String telephone2;
 
 
 
     public User() {}
 
 
-    public User(String email, String password, String firstname, String lastname,String telephone, String address, String facebookName, String lineid) {
+    public User(String email, String password, String name,String telephone,String telephone2, String address, String facebookName, String lineid) {
         this.email = email;
         this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.name = name;
         this.telephone = telephone;
+        this.telephone2 = telephone2;
         this.address = address;
         this.facebookName = facebookName;
         this.lineid = lineid;
