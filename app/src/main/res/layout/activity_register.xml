@@ -20,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
 
             android:orientation="vertical">
 
@@ -78,11 +79,11 @@
                 style="@style/FacebookEdittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                 android:hint="@string/activity_register_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textSize="@dimen/text_size"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+                android:textSize="@dimen/text_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,11 +112,11 @@
                 style="@style/FacebookEdittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                 android:hint="@string/activity_register_confirm_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textSize="@dimen/text_size"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"/>
+                android:textSize="@dimen/text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -213,16 +214,17 @@
                 style="@style/FacebookEdittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_weight="0.5"
                 android:hint="@string/activity_register_lineID"
                 android:maxLines="1"
-                android:layout_marginBottom="16dp"
                 android:textSize="@dimen/text_size" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:gravity="bottom"
                 android:orientation="horizontal"
                 android:weightSum="1">
@@ -234,6 +236,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_weight="0.5"
                     android:background="@drawable/green_button"
+
                     android:onClick="onClickRegister"
                     android:text="@string/activity_register_confirm"
                     android:textColor="@color/black"
@@ -252,6 +255,8 @@
                     android:textSize="@dimen/text_size" />
 
             </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>

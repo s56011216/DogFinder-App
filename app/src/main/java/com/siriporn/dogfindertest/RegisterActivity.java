@@ -73,11 +73,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
         if (isAllFiled) {
-            if (isPasswordRight){
+            if (isPasswordRight) {
                 profile = new User(tEmail, tPassword, tName, tTel, tTel2, tAddress, tFacebook, tLine);
                 dialog.setTitle(res.getString(R.string.activity_register_alert_regis_success_title));
                 dialog.setMessage(res.getString(R.string.activity_register_alert_regis_success));
-            }else{
+            } else {
                 dialog.setTitle(res.getString(R.string.activity_register_alert_password_not_match_title));
                 dialog.setMessage(res.getString(R.string.activity_register_alert_password_not_match));
             }
