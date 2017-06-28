@@ -46,5 +46,22 @@
     <string name="activity_register_alert_password_not_match_title">รหัสผ่านไม่ตรงกัน</string>
     <string name="activity_register_alert_regis_success">ยินดีด้วย! ลงทะเบียนสำเร็จ</string>
     <string name="activity_register_alert_regis_success_title">ลงทะเบียนเรียบร้อย</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">รหัสผ่าน</string>
+    <string name="action_sign_in">เข้าสู่ระบบ</string>
+    <string name="action_sign_in_short">เข้าสู่ระบบ</string>
+    <string name="error_invalid_email">E-mail ไม่ถูกต้อง</string>
+    <string name="error_invalid_password">E-mail สั้นเกินไป</string>
+    <string name="error_incorrect_password">รหัสผ่านไม่ถูกต้อง</string>
+    <string name="error_field_required">ต้องกรอกข้อมูลที่ช่องนี้</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!--Home Fragment-->
+    <string name="fragment_home_pet">สัตว์เลี้ยง</string>
 
 </resources>

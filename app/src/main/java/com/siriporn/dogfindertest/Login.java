@@ -75,9 +75,15 @@ public class Login extends AppCompatActivity {
 
     public void TemLoginClicked(View view) {
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
     //end ติดตามโทเค็นการเข้าถึง
+
+    public void goMenu(View view){
+
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
 
 }

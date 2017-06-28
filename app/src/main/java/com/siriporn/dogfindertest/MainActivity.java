@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.siriporn.dogfindertest.Fragments.FindFragment;
 import com.siriporn.dogfindertest.Fragments.FoundFragment;
+import com.siriporn.dogfindertest.Fragments.HomeFragment;
 import com.siriporn.dogfindertest.Fragments.LostFragment;
 import com.siriporn.dogfindertest.Fragments.MapFragment;
 import com.siriporn.dogfindertest.Fragments.MyDogFragment;
@@ -63,8 +65,9 @@ public class MainActivity extends AppCompatActivity
     LocationManager locationManager;
     LocationListener locationListener;
     private NavigationView navigationView;
-
+    android.app.ActionBar actionBar;
     private Button getProfileBut;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        actionBar = getActionBar();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
 
         if (savedInstanceState == null) {
-            navigationView.getMenu().performIdentifierAction(R.id.nav_my_dog, 0);
+            navigationView.getMenu().performIdentifierAction(R.id.nav_home, 0);
         }
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<ResponseFormat> call, Throwable t) {
-                Log.i("fcm token","failed");
+                Log.i("fcm token", "failed");
             }
         });
     }
@@ -234,8 +238,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
-
-        if (id == R.id.nav_my_dog) {
+        if (id == R.id.nav_home) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
+        } else if (id == R.id.nav_my_dog) {
             // Handle the camera action
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MyDogFragment()).commit();
         } else if (id == R.id.nav_lost) {
