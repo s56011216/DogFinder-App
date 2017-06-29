@@ -1,0 +1,170 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    tools:context="com.siriporn.dogfindertest.Fragments.AddDogFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|center"
+            android:paddingBottom="32dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="เพิ่มรูปถ่ายสัตว์เลี้ยงของคุณ"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_add_dog_img"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <EditText
+
+                android:id="@+id/add_dog_name"
+                style="@style/FacebookEdittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_add_dog_name"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_breed"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <Spinner
+                android:id="@+id/add_dog_breed"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_gender"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <Spinner
+                android:id="@+id/add_dog_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_birthday"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <EditText
+                android:id="@+id/add_dog_birthday"
+                style="@style/FacebookEdittext"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_add_dog_birthday" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_age"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <EditText
+                android:id="@+id/add_dog_age"
+                style="@style/FacebookEdittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_add_dog_age"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_microship"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <EditText
+
+                android:id="@+id/add_dog_microship"
+                style="@style/FacebookEdittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_add_dog_microship"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/fragment_add_dog_bloodtype"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+            <Spinner
+                android:id="@+id/add_dog_bloodtype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fragment_add_dog_add"
+                android:id="@+id/add_dog_add"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="end"/>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</FrameLayout>

@@ -13,7 +13,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">Dog Finder</string>
+    <string name="title_activity_main">PawPal</string>
     <string name="title_activity_mydog2">My Dog</string>
     <string name="title_activity_dog_add_info">Add Dog</string>
     <string name="title_activity_search_breed">Search Breed</string>
@@ -54,7 +54,7 @@
     <string name="action_sign_in">เข้าสู่ระบบ</string>
     <string name="action_sign_in_short">เข้าสู่ระบบ</string>
     <string name="error_invalid_email">E-mail ไม่ถูกต้อง</string>
-    <string name="error_invalid_password">E-mail สั้นเกินไป</string>
+    <string name="error_invalid_password">รหัสผ่านต้องเป็นตัวอักษรหรือตัวเลขอย่างน้อย 8-24 ตัวอักษร</string>
     <string name="error_incorrect_password">รหัสผ่านไม่ถูกต้อง</string>
     <string name="error_field_required">ต้องกรอกข้อมูลที่ช่องนี้</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -64,4 +64,34 @@
     <!--Home Fragment-->
     <string name="fragment_home_pet">สัตว์เลี้ยง</string>
 
+    <!--Add Dog Fragment-->
+    <string name="fragment_add_dog_name">ชื่อสัตว์เลี้ยงของคุณ</string>
+    <string name="fragment_add_dog_breed">พันธุ์</string>
+    <string name="fragment_add_dog_gender">เพศ</string>
+    <string name="fragment_add_dog_sterize">ทำหมัน</string>
+    <string name="fragment_add_dog_birthday">วันเกิด</string>
+    <string name="fragment_add_dog_age">อายุ ( ปี )</string>
+    <string name="fragment_add_dog_microship">รหัสไม่โครชิพ (ถ้ามี)</string>
+    <string name="fragment_add_dog_bloodtype">กรุ๊ปเลือด (ถ้าทราบ)</string>
+    <string name="fragment_add_dog_add">เพิ่มสัตว์เลี้ยง</string>
+    <string-array name="fragment_add_dog_breed_type">
+        <item>Siberian Husky</item>
+        <item>Pug</item>
+        <item>Labrador Retriever</item>
+        <item>Beagle</item>
+        <item>German Shepherd</item>
+        <item>Poodle</item>
+        <item>Bulldog</item>
+    </string-array>
+    <string-array name="fragment_add_dog_gender_type">
+        <item>ตัวผู้</item>
+        <item>ตัวเมีย</item>
+    </string-array>
+    <string-array name="fragment_add_dog_bloodtype_type">
+        <item>ไม่ทราบ</item>
+        <item>DEA</item>
+        <item>A</item>
+        <item>B</item>
+        <item>ZZZ</item>
+    </string-array>
 </resources>

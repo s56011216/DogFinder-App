@@ -31,10 +31,9 @@ public class ListDogAdapter extends RecyclerView.Adapter<ListDogViewHolder> {
         this.name_dog = name_dog;
     }
 
-
     @Override
     public ListDogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_my_dog, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_my_dog, parent, false);
         ListDogViewHolder vh = new ListDogViewHolder(view);
 
         return vh;
@@ -43,20 +42,29 @@ public class ListDogAdapter extends RecyclerView.Adapter<ListDogViewHolder> {
     @Override
     public void onBindViewHolder(ListDogViewHolder holder, final int position) {
         if (position != 0) {
+            //list pets
             holder.dog.setImageResource(img_res[position - 1]);
-
             holder.name_dog.setText(name_dog[position - 1]);
+            holder.item_box.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         } else {
+            //add pets
             holder.dog.setImageResource(R.drawable.circle_add);
             holder.dog.setAlpha(0.5f);
             holder.name_dog.setText("เพิ่มสัตว์เลี้ยง");
-        }
-        holder.item_box.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            holder.item_box.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            }
-        });
+                }
+            });
+        }
+
     }
 
     @Override

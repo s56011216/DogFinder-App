@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.siriporn.dogfindertest.R;
@@ -51,10 +50,10 @@ public class ScheduleHomeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.list_schedule_home, parent, false);
-        dog_img = (CircleImageView)convertView.findViewById(R.id.schedule_home_img);
-        title = (TextView)convertView.findViewById(R.id.schedule_home_title);
-        message = (TextView)convertView.findViewById(R.id.schedule_home_message);
+        convertView = LayoutInflater.from(context).inflate(R.layout.list_item_schedule_home, parent, false);
+        dog_img = (CircleImageView) convertView.findViewById(R.id.schedule_home_img);
+        title = (TextView) convertView.findViewById(R.id.schedule_home_title);
+        message = (TextView) convertView.findViewById(R.id.schedule_home_message);
 
         dog_img.setImageResource(dog_img_resource[position]);
 

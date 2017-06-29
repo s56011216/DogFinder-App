@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment {
 
     ListView schedule_timeline;
     ScheduleHomeAdapter scheduleHomeAdapter;
+
+    FragmentManager fragmentManager ;
 
     int[] img_res = {
             R.drawable.sample_0,
@@ -116,6 +119,9 @@ public class HomeFragment extends Fragment {
         schedule_timeline = (ListView) view.findViewById(R.id.schedule_home);
         scheduleHomeAdapter = new ScheduleHomeAdapter(getActivity(), img_res, name_dog, name_dog);
         schedule_timeline.setAdapter(scheduleHomeAdapter);
+
+        fragmentManager = getActivity().getSupportFragmentManager();
+
         return view;
     }
 

@@ -25,15 +25,13 @@ import java.security.NoSuchAlgorithmException;
 public class Login extends AppCompatActivity {
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //fb ติดตามโทเค็นการเข้าถึง
-        Button regisBut = (Button)findViewById(R.id.register);
-        final Intent intent = new Intent(this,RegisterActivity.class);
+        Button regisBut = (Button) findViewById(R.id.register);
+        final Intent intent = new Intent(this, RegisterActivity.class);
         regisBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,8 +60,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
+        Log.i("LoginActivity", "" + requestCode);
 
     }
 
@@ -80,10 +77,17 @@ public class Login extends AppCompatActivity {
     }
     //end ติดตามโทเค็นการเข้าถึง
 
-    public void goMenu(View view){
+    public void goMenu(View view) {
 
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    public void goAddDog(View view) {
+        Log.i("Login", "goAddDog");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivityForResult(intent, 15);
+
     }
 
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:orientation="vertical">
+
+    <com.siriporn.dogfindertest.Utilty.CircleImageView
+        android:id="@+id/add_dog_img"
+        android:layout_width="75dp"
+        android:layout_height="75dp" />
+</LinearLayout>

@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,13 +27,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.facebook.Profile;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.siriporn.dogfindertest.Fragments.AddDogFragment;
 import com.siriporn.dogfindertest.Fragments.FindFragment;
 import com.siriporn.dogfindertest.Fragments.FoundFragment;
 import com.siriporn.dogfindertest.Fragments.HomeFragment;
@@ -48,8 +45,6 @@ import com.siriporn.dogfindertest.RESTServices.Implement.DeviceServiceImp;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.R.attr.name;
 
 
 public class MainActivity extends AppCompatActivity
@@ -90,7 +85,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getActionBar();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -191,6 +185,8 @@ public class MainActivity extends AppCompatActivity
                 Log.i("fcm token", "failed");
             }
         });
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new AddDogFragment()).commit();
     }
 
     @Override
@@ -200,6 +196,17 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("Main", "onActivityResult");
+
+        if (requestCode == 15) {
+            Log.i("ADDDOG", "REQUESTED");
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new AddDogFragment()).commit();
         }
     }
 
@@ -216,8 +223,6 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -253,7 +258,6 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
         } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new ProfileFragment()).commit();
-
         } else if (id == R.id.nav_about) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MapFragment()).commit();
         } else if (id == R.id.nav_foundation) {
